@@ -2,9 +2,7 @@ var packer = new BinPack();
 var rlist = [];
 
 function Upload() {
-  //nicholas was here
   //Reference the FileUpload element.
-  //fdfsd
   var fileUpload = document.getElementById("fileUpload");
 
   //Validate whether File is valid Excel file.
