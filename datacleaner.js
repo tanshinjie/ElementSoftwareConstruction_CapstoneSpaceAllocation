@@ -2,6 +2,7 @@ var packer = new BinPack();
 var rlist = [];
 
 function Upload() {
+  //nicholas was here
   //Reference the FileUpload element.
   var fileUpload = document.getElementById("fileUpload");
 
