@@ -4,7 +4,7 @@ var rlist = [];
 function Upload() {
   //Reference the FileUpload element.
   var fileUpload = document.getElementById("fileUpload");
-
+// THARUN DID SMTG
   //Validate whether File is valid Excel file.
   var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
   if (regex.test(fileUpload.value.toLowerCase())) {
