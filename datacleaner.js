@@ -91,7 +91,7 @@ function ProcessExcel(data) {
   }
   for (let index = 0; index < dimensions.length; index++) {
     rlist.push(
-      new Rect(undefined, undefined, dimensions[index][0], dimensions[index][1])
+      new Rect(index, undefined, undefined, dimensions[index][0], dimensions[index][1])
     );
   }
 
@@ -102,6 +102,38 @@ function ProcessExcel(data) {
 
 function Run() {
   packer.addAll(rlist);
+  console.log("all boxes\n", rlist);
+  Unpack();
   console.log("Positioned boxes\n", packer.positioned);
   console.log("Unpositioned boxes\n", packer.unpositioned);
+
+}
+
+function Unpack(){
+
+  var tbUnpack = document.getElementById("tbUnpack");
+  tbUnpack.border = 1
+
+  var header = tbUnpack.insertRow(0);
+  var hd1 = header.insertCell(0);
+  var hd2 = header.insertCell(1);
+  hd1.innerHTML = "Positioned Boxes"
+  hd2.innerHTML = "Unpositioned Boxes"
+
+  var unpackSize = 0;
+  (packer.positioned.length > packer.unpositioned.length) ? unpackSize = packer.positioned.length : unpackSize = packer.unpositioned.length;
+
+  for (var i = 0; i < unpackSize; i++){
+
+    var packedBox = tbUnpack.insertRow(-1);
+    var pb1 = packedBox.insertCell(0);
+    var pb2 = packedBox.insertCell(1);
+    if(i < packer.positioned.length)
+        pb1.innerHTML = packer.positioned[i]["index"]
+    
+    if(i < packer.unpositioned.length)
+        pb2.innerHTML = packer.unpositioned[i]["index"]
+  }
+
+
 }

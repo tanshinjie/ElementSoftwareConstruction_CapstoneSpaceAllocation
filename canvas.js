@@ -1,3 +1,26 @@
+var imagetag = document.getElementById("imagetag");
+var imagefile = document.getElementById("imagefile");
+
+imagetag.addEventListener("change", function() {
+    changeImage(this);
+  });
+
+function changeImage(input) {
+var reader;
+
+if (input.files && input.files[0]) {
+    reader = new FileReader();
+
+    reader.onload = function(e) {
+        imagefile.setAttribute('src', e.target.result);
+    
+    }
+
+    reader.readAsDataURL(input.files[0]);
+}
+}
+  
+
 var Paper = can.Control(
     {
         defaults: {
@@ -159,6 +182,8 @@ console.log("Height :" + position.height);
         }
     }
 );
+
+
 
 $(function() {
     var paper = new Paper('#canvas', {});

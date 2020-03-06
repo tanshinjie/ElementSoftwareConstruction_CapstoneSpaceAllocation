@@ -1,6 +1,7 @@
 //______________________________________________________________________________
 // Rect class
-function Rect(x, y, width, height) {
+function Rect(index, x, y, width, height) {
+  this.index = index;
   this.x = x;
   this.y = y;
   this.width = width;
@@ -34,7 +35,7 @@ Rect.prototype.intersects = function(r) {
 
 Rect.prototype.copy = function() {
   // Create a copy of this rectangle.
-  return new Rect(this.x, this.y, this.width, this.height);
+  return new Rect(this.index, this.x, this.y, this.width, this.height);
 };
 
 //______________________________________________________________________________
@@ -55,7 +56,7 @@ function BinPacker(width, height) {
   //       the bin extend the width or height to accommodate it.
 
   // Array of rectangles representing the free space in the bin
-  this.freeRectangles = [new Rect(0, 0, width, height)];
+  this.freeRectangles = [new Rect(0, 0, 0, width, height)];
 
   // Array of rectangles positioned in the bin
   this.positionedRectangles = [];
@@ -64,7 +65,7 @@ function BinPacker(width, height) {
   this.unpositionedRectangles = [];
 }
 
-BinPacker.prototype.insert = function(width, height) {
+BinPacker.prototype.insert = function(index, width, height) {
   // Insert a rectangle into the bin.
   //
   // If the rectangle was successfully positioned, add it to the array of
@@ -77,7 +78,7 @@ BinPacker.prototype.insert = function(width, height) {
 
   // Find where to put the rectangle. Searches the array of free rectangles for
   // an open spot and returns one when it's found.
-  var r = BinPacker.findPosition(width, height, this.freeRectangles);
+  var r = BinPacker.findPosition(index, width, height, this.freeRectangles);
 
   // Unpositioned rectangle (it has no x-property if it's unpositioned)
   if (r.x == undefined) {
@@ -111,12 +112,12 @@ BinPacker.prototype.insert = function(width, height) {
   return { positioned: true, rectangle: r };
 };
 
-BinPacker.findPosition = function(width, height, F) {
+BinPacker.findPosition = function(index, width, height, F) {
   // Decide where to position a rectangle (with side lengths specified by width
   // and height) within the bin. The bin's free space is defined in the array
   // of free rectangles, F.
 
-  var bestRectangle = new Rect(undefined, undefined, width, height);
+  var bestRectangle = new Rect(index, undefined, undefined, width, height);
 
   var bestShortSideFit = Number.MAX_VALUE,
     bestLongSideFit = Number.MAX_VALUE;
@@ -237,7 +238,10 @@ function BinPack() {
   var binWidth = 20,
     binHeight = 20;
 
-  var rectWidth = function(d) {
+  var rectId = function(d){
+    return d.index;
+    },
+  rectWidth = function(d) {
       return d.width;
     },
     rectHeight = function(d) {
@@ -251,7 +255,7 @@ function BinPack() {
   var pack = {};
 
   pack.add = function(d) {
-    var o = binPacker.insert(rectWidth(d), rectHeight(d));
+    var o = binPacker.insert(rectId(d), rectWidth(d), rectHeight(d));
     o.rectangle.datum = d;
     return pack;
   };
@@ -259,7 +263,7 @@ function BinPack() {
   pack.addAll = function(array) {
     if (sort) array.sort(sort);
     array.forEach(function(d, i) {
-      var o = binPacker.insert(rectWidth(d), rectHeight(d));
+      var o = binPacker.insert(rectId(d), rectWidth(d), rectHeight(d));
       o.rectangle.datum = d;
     });
     return pack;

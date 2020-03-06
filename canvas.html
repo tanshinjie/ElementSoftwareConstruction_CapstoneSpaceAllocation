@@ -10,12 +10,16 @@
 </head>
 <body>
   <!-- <div id="canvas" style="width: 600px; height: 600px; border: solid 2px black;"></div> -->
-  <button type="button">Upload Image</button>
+  <input type="file" id="imagetag"></input><br/>
   <button type="button">Upload Excel</button>
   <button type="button">Draw</button>
   <button type="button">Edit</button>
   <button type="button">Run</button>
-  <div id="canvas"></div>
+  <div id="canvas">
+    <div id="image_background" style="pointer-events:none">
+      <img src="" id="imagefile">
+    </div>
+  </div>
 
 </body>
 <script src="canvas.js"></script>
