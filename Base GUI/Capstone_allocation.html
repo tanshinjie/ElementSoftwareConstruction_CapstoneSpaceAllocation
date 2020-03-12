@@ -21,6 +21,7 @@
                 <br>
                 <input type="file" id="uploaded-excel" class="hidden" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
                 <label for="uploaded-excel">Upload Excel</label>
+                <div id="excel-name"></div>
                 <br>
                 <div class =  "btn-group">
                     <button>Draw</button>
@@ -48,7 +49,7 @@
                         GFG.style.height = (currentHeight + 150) + "px";
                     }
         
-                    function  zoomout(){
+                    function zoomout(){
                         var GFG = document.getElementById("our-canvas");
                         var currentHeight =  GFG.clientHeight;
                         GFG.style.height = (currentHeight - 150) + "px";
@@ -108,7 +109,18 @@
                 <!--script to handle uploading of excel file-->
                 <script>
 
-                    //to be completed
+                    var input = document.getElementById("uploaded-excel");
+                    var infoArea = document.getElementById("excel-name");
+
+                    input.addEventListener('change', showFileName);
+
+                    function showFileName(event){
+                        var input = event.srcElement;
+                        var fileName = input.files[0].name;
+                        infoArea.textContent = fileName;
+                    }
+
+
 
                 </script>
 
