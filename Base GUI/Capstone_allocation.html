@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Capstone Allocation Web Application</title>
+        <link rel="stylesheet" href = "Capstone_Allocation.css">
+        <link rel="stylesheet" href="jquery-ui.min.css">
+        <link rel="stylesheet" href="all.css">
+        <script src="jquery.js"></script>
+        <script src="jquery-ui.min.js"></script>
+    </head>
+
+    <body>
+        <header>Capstone Allocation</header>
+
+        <section>
+            <!--Our navigation bar on the left consisting of the different buttons-->
+            <nav>
+                <input type="file" id="uploaded-file" class="hidden" accept="image/*">
+                <label for="uploaded-file">Upload Image</label>
+                <br>
+                <input type="file" id="uploaded-excel" class="hidden" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
+                <label for="uploaded-excel">Upload Excel</label>
+                <br>
+                <div class =  "btn-group">
+                    <button>Draw</button>
+                    <br>
+                    <button>Edit</button>
+                    <br>
+                    <button>Run</button>
+                    <br>
+                    <button id="save-button">Save Image</button>
+                    <br>
+                    <span style="font-size:3em; color: Tomato;"> 
+                        <i class="fas fa-camera"></i>
+
+                    </span>
+                </div>
+                <!--Error message in event of wrong file uploaded-->
+                <p id='error-message'></p>
+            </nav>
+
+            <!--Our canvas, which displays the image that is uploaded, on the right-->
+            <article>
+                <button type="button" class="zoomBtnIn" onclick="zoomin()">Zoom in</button>
+                <button type="button" class="zoomBtnOut" onclick="zoomout()">Zoom out</button>
+
+                <!--script to handle zooming in and out of canvas-->
+                <script type="text/javascript">
+                    function zoomin(){
+                        var GFG = document.getElementById("our-canvas");
+                        var currentHeight = GFG.clientHeight;
+                        GFG.style.height = (currentHeight + 150) + "px";
+                    }
+        
+                    function  zoomout(){
+                        var GFG = document.getElementById("our-canvas");
+                        var currentHeight =  GFG.clientHeight;
+                        GFG.style.height = (currentHeight - 150) + "px";
+                    }
+        
+                </script>
+
+                <canvas id="our-canvas" z-index="1"></canvas>
+                
+                <!--script to enable drag-moving of canvas-->
+                <script>
+                    $("#our-canvas").draggable();
+                </script>
+                <!--script to handle uploading of image  file-->
+                <script>
+                    var canvas = document.getElementById('our-canvas');
+                    var context = canvas.getContext('2d');
+                    var uploadedFile = document.getElementById('uploaded-file');
+
+                    window.addEventListener('DOMContentLoaded', initImageLoader);
+
+                    function initImageLoader(){
+                        uploadedFile.addEventListener('change', handleManualUploadedFiles);
+
+                        function handleManualUploadedFiles(ev) {
+                            var file = ev.target.files[0];
+                            handleFile(file);
+                        }
+                    }
+
+                    function handleFile(file){
+                        var imageType = /image.*/;
+
+                        if(file.type.match(imageType)){
+                            var reader = new FileReader();
+
+                            reader.onloadend = function(event){
+                                var tempImageStore = new Image();
+                                tempImageStore.onload = function(ev){
+                                    canvas.width = ev.target.width;
+                                    canvas.height = ev.target.height;
+                                    context.drawImage(ev.target, 0, 0);
+                                }
+                                tempImageStore.src = event.target.result;
+                            }
+
+                            reader.readAsDataURL(file);
+                        }
+                        else{
+                            var error = document.getElementById('error-message');
+                            error.innerHTML = "Error! You did not upload an image file! (eg .png, .jpg)";
+                        }
+                    }
+
+                </script>
+
+                <!--script to handle uploading of excel file-->
+                <script>
+
+                    //to be completed
+
+                </script>
+
+                <!--script to handle saving of canvas into image-->
+                <script>
+                    var saveButton = document.getElementById("save-button");
+                    var canvas = document.getElementById("our-canvas");
+                    var context = canvas.getContext('2d');
+
+                    saveButton.addEventListener("click", function(){
+                        //for IE / Edge
+                        if(window.navigator.msSaveBlob){
+                            window.navigator.msSaveBlob(canvas.msToBlob(), "canvas-image.png");
+                        }
+                        else{
+                            //for google chrome, firefox & other web browser downloads
+                            var a = document.createElement("a");
+                            document.body.appendChild(a);
+                            a.href = canvas.toDataURL();
+                            a.download = "canvas-image.png"
+                            a.click();
+                            document.body.removeChild(a);
+                        }
+                    })
+
+
+
+
+
+                </script>
+
+            </article>
+
+        </section>
+
+    </body>
+
+</html>
