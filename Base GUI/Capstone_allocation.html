@@ -5,7 +5,7 @@
         <title>Capstone Allocation Web Application</title>
         <link rel="stylesheet" href = "Capstone_Allocation.css">
         <link rel="stylesheet" href="jquery-ui.min.css">
-        <link rel="stylesheet" href="all.css">
+        <link rel="stylesheet" type="text/css" href="file:///C:/Users/Nicholas/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
         <script src="jquery.js"></script>
         <script src="jquery-ui.min.js"></script>
     </head>
@@ -30,11 +30,6 @@
                     <button>Run</button>
                     <br>
                     <button id="save-button">Save Image</button>
-                    <br>
-                    <span style="font-size:3em; color: Tomato;"> 
-                        <i class="fas fa-camera"></i>
-
-                    </span>
                 </div>
                 <!--Error message in event of wrong file uploaded-->
                 <p id='error-message'></p>
@@ -42,8 +37,8 @@
 
             <!--Our canvas, which displays the image that is uploaded, on the right-->
             <article>
-                <button type="button" class="zoomBtnIn" onclick="zoomin()">Zoom in</button>
-                <button type="button" class="zoomBtnOut" onclick="zoomout()">Zoom out</button>
+                <button type="button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i class="fas fa-search-plus"></i></button>
+                <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i class="fas fa-search-minus"></i></button>
 
                 <!--script to handle zooming in and out of canvas-->
                 <script type="text/javascript">
@@ -138,10 +133,6 @@
                             document.body.removeChild(a);
                         }
                     })
-
-
-
-
 
                 </script>
 

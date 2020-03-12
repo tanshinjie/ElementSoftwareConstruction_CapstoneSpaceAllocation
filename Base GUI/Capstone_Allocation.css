@@ -105,24 +105,20 @@ label:hover {
 
 /*zoom buttons*/
 .zoomBtnIn {
-    background-color: red;
-    width: 100px;
-    height: 50px;
+    font-size: xx-large;
     position: fixed;
     top: 675px;
-    left: 1250px;
+    left: 1350px;
     z-index: 2;
+    color:rgb(77, 77, 77);
 }
 
-
 .zoomBtnOut {
-    background-color: red;
-    width: 100px;
-    height: 50px;
+    font-size: xx-large;
     position: fixed;
     top: 675px;
-    left: 1375px;
+    left: 1425px;
     z-index: 2;
-
+    color:rgb(77, 77, 77);
 }
 
