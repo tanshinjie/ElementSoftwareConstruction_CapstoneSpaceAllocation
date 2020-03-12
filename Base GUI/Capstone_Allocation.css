@@ -108,9 +108,12 @@ label:hover {
     font-size: xx-large;
     position: fixed;
     top: 675px;
-    left: 1350px;
+    left: 1370px;
     z-index: 2;
     color:rgb(77, 77, 77);
+    border-radius: 80%;
+    border: black;
+    outline: none;
 }
 
 .zoomBtnOut {
@@ -120,5 +123,8 @@ label:hover {
     left: 1425px;
     z-index: 2;
     color:rgb(77, 77, 77);
+    border-radius: 80%;
+    border: black;
+    outline: none
 }
 
