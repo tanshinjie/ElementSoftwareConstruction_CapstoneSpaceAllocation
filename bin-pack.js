@@ -1,11 +1,11 @@
 //______________________________________________________________________________
 // Rect class
-function Rect(index, x, y, width, height) {
-  this.index = index;
+function Rect(x, y, width, height, tag) {
   this.x = x;
   this.y = y;
   this.width = width;
   this.height = height;
+  this.tag = tag;
 }
 
 Rect.prototype.contains = function(r) {
@@ -35,7 +35,7 @@ Rect.prototype.intersects = function(r) {
 
 Rect.prototype.copy = function() {
   // Create a copy of this rectangle.
-  return new Rect(this.index, this.x, this.y, this.width, this.height);
+  return new Rect(this.x, this.y, this.width, this.height);
 };
 
 //______________________________________________________________________________
@@ -56,7 +56,7 @@ function BinPacker(width, height) {
   //       the bin extend the width or height to accommodate it.
 
   // Array of rectangles representing the free space in the bin
-  this.freeRectangles = [new Rect(0, 0, 0, width, height)];
+  this.freeRectangles = [new Rect(0, 0, width, height)];
 
   // Array of rectangles positioned in the bin
   this.positionedRectangles = [];
@@ -65,7 +65,7 @@ function BinPacker(width, height) {
   this.unpositionedRectangles = [];
 }
 
-BinPacker.prototype.insert = function(index, width, height) {
+BinPacker.prototype.insert = function(width, height) {
   // Insert a rectangle into the bin.
   //
   // If the rectangle was successfully positioned, add it to the array of
@@ -78,7 +78,7 @@ BinPacker.prototype.insert = function(index, width, height) {
 
   // Find where to put the rectangle. Searches the array of free rectangles for
   // an open spot and returns one when it's found.
-  var r = BinPacker.findPosition(index, width, height, this.freeRectangles);
+  var r = BinPacker.findPosition(width, height, this.freeRectangles);
 
   // Unpositioned rectangle (it has no x-property if it's unpositioned)
   if (r.x == undefined) {
@@ -112,12 +112,12 @@ BinPacker.prototype.insert = function(index, width, height) {
   return { positioned: true, rectangle: r };
 };
 
-BinPacker.findPosition = function(index, width, height, F) {
+BinPacker.findPosition = function(width, height, F) {
   // Decide where to position a rectangle (with side lengths specified by width
   // and height) within the bin. The bin's free space is defined in the array
   // of free rectangles, F.
 
-  var bestRectangle = new Rect(index, undefined, undefined, width, height);
+  var bestRectangle = new Rect(undefined, undefined, width, height);
 
   var bestShortSideFit = Number.MAX_VALUE,
     bestLongSideFit = Number.MAX_VALUE;
@@ -146,7 +146,6 @@ BinPacker.findPosition = function(index, width, height, F) {
         // (or top-left if the y-axis is inverted like in browsers)
         bestRectangle.x = f.x;
         bestRectangle.y = f.y;
-
         bestShortSideFit = shortSideFit;
         bestLongSideFit = longSideFit;
       }
@@ -234,14 +233,11 @@ BinPacker.pruneRectangles = function(F) {
   }
 };
 
-function BinPack(binWidth, binHeight) {
-  var binWidth = binWidth,
-    binHeight = binHeight;
+function BinPack() {
+  var binWidth = 20,
+    binHeight = 20;
 
-  var rectId = function(d){
-    return d.index;
-    },
-  rectWidth = function(d) {
+  var rectWidth = function(d) {
       return d.width;
     },
     rectHeight = function(d) {
@@ -251,22 +247,24 @@ function BinPack(binWidth, binHeight) {
   var sort = false;
 
   var binPacker = new BinPacker(binWidth, binHeight);
-  console.log(binPacker);
 
   var pack = {};
 
   pack.add = function(d) {
-    var o = binPacker.insert(rectId(d), rectWidth(d), rectHeight(d));
+    var o = binPacker.insert(rectWidth(d), rectHeight(d));
     o.rectangle.datum = d;
     return pack;
   };
 
+  //let readyToPack = ArrayMaker(rlist);
   pack.addAll = function(array) {
-    if (sort) array.sort(sort);
-    array.forEach(function(d, i) {
-      var o = binPacker.insert(rectId(d), rectWidth(d), rectHeight(d));
+    readyToPack = ArrayMaker(array);
+    if (sort) readyToPack.sort(sort);
+    readyToPack.forEach(function(d, i) {
+      var o = binPacker.insert(rectWidth(d), rectHeight(d));
       o.rectangle.datum = d;
     });
+   
     return pack;
   };
 
@@ -313,3 +311,146 @@ function BinPack(binWidth, binHeight) {
 
 // module.exports.Rect = Rect;
 // module.exports.BinPack = BinPack;
+
+function Area(width, height){
+  let area = width * height;
+  return area;
+}
+
+
+
+function ArrayMaker(rlist){
+  let currentTag;
+  let currentList;
+  let bigList = [];
+  let toBePacked = [];
+  let tempArea = 0; 
+
+  let max = 0;
+  rlist.forEach(element => {
+    if(element.tag >= max){
+        max = element.tag;
+    }
+});
+//console.log(max);
+
+for(let i = 0; i < max; i++){
+  bigList[i] = [];
+}
+
+
+
+for(let i = 0; i < rlist.length; i++){
+  bigList[rlist[i].tag-1].push(rlist[i]);
+}
+
+// for(let i=0; i<max; i++){
+//   for(let j=0; i < rlist[j].length; j++){
+//     if((tempArea += bigList[i][j]) < BinArea(20, 20)){
+//       tempArea += bigList[i][j];
+//       toBePacked.push(bigList[i][j])
+//     }
+//   }
+// }
+// for(let i = 0; i < max; i++){
+let i = 0;
+let j = -1;
+
+while(tempArea < (Area(20,20) * 0.8)){
+    //i = i%max;
+    if(i == (max-1)){
+      i = 0;
+    }
+    if(i == 0){
+      j++;
+    }
+    if(j < bigList[i].length){
+      if((tempArea + Area(bigList[i][j].width, bigList[i][j].height) < Area(20,20))){
+        toBePacked.push(bigList[i][j]);
+        tempArea += Area(bigList[i][j].width, bigList[i][j].height);
+      }
+    }
+    i++;
+  }
+// }
+//var packer = new BinPack();
+//console.log(toBePacked);
+//console.log(packer.positioned);
+return toBePacked;
+
+
+  }
+
+  function Checker() {
+    //var packer = new BinPack();
+    // let top_right = [];
+    // let top_left = [];
+    // let bottom_right = [];
+    // let bottom_left =[];
+    // let kickOut = [];
+    // for(let i = 0; i < packer.positioned.length; i++){
+    //   top_right[i] = [];
+    //   top_left[i] = [];
+    //   bottom_left[i] = [];
+    //   bottom_right[i] = [];
+    // }
+
+    // for(let i = 0; i < packer.positioned.length; i++){
+    //     top_left[i][0] = packer.positionedRectangles[i].x;
+    //     top_left[i][1] = packer.positioned[i].y;
+    //     top_right[i][0] = packer.positioned[i].x + packer.positioned[i].width;
+    //     top_right[i][1] = packer.positioned[i].y
+    //     bottom_left[i][0] = packer.positioned[i].x;
+    //     bottom_left[i][1] = packer.positioned[i].y + packer.positioned[i].height;
+    //     bottom_right[i][0] = packer.positioned[i].width + packer.positioned[i].width ;
+    //     bottom_right[i][1] = packer.positioned[i].height + packer.positioned[i].height;
+    // }
+  
+    // let check;
+    // let kennaCaught = [];
+    // for(let i = 0; i < packer.positioned.length; i++){
+    //   for(let j = 0; i < packer.positioned.length; j++){
+    //     if(packer.positioned[i].tag == packer.positioned[j].tag){
+    //       if ((packer.positioned[i].y + 1) < (packer.positioned[j].y + packer.positioned[j].height + 1)
+    //       || (packer.positioned[i].y + packer.positioned[i].height + 1) > (packer.positioned[j].y + 1)) {
+    //               check = 0;
+    
+    //       }
+    //       else if (packer.positionedRectangles[i].x + packer.positioned[i].width+1 < packer.positioned[j].x+1
+    //         || (packer.positioned[i].x + 1) > (packer.positioned[i].x + packer.positioned[i].width +1)) {
+    //               check = 0; 
+    //       }
+    //       else check = 1;
+          
+    //       if(check == 1) { 
+    //         kennaCaught.push(packer.positioned[i]) 
+            
+    //         //null;
+          
+    //       }
+    //       else{
+    //         kennaCaught.push(1);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // console.log("caught\n", kennaCaught);
+
+
+
+    
+    // if (this.topRight.getY() < other.bottomLeft.getY() 
+    //   || this.bottomLeft.getY() > other.topRight.getY()) {
+    //     return false;
+    // }
+    // if (this.topRight.getX() < other.bottomLeft.getX() 
+    //   || this.bottomLeft.getX() > other.topRight.getX()) {
+    //     return false;
+    // }
+    // return true;
+    }
+  
+
+ 
+
