@@ -49,10 +49,12 @@ function ProcessExcel(data) {
   //Fetch the name of First Sheet.
   var firstSheet = workbook.SheetNames[0];
 
-  //Read all rows from First Sheet into an JSON array.
+  /////////////////////
   var excelRows = XLSX.utils.sheet_to_row_object_array(
     workbook.Sheets[firstSheet]
   );
+
+  console.log(excelRows);
 
   //Create a HTML Table element.
   var table = document.createElement("table");
@@ -69,8 +71,13 @@ function ProcessExcel(data) {
   headerCell = document.createElement("TH");
   headerCell.innerHTML = "Space";
   row.appendChild(headerCell);
-  dimensions = [];
 
+  headerCell = document.createElement("TH");
+  headerCell.innerHTML = "Tag";
+  row.appendChild(headerCell);
+
+  dimensions = [];
+  tags = [];
   //Add the data rows from Excel file.
   for (var i = 1; i < excelRows.length; i++) {
     //Add the data row.
@@ -84,6 +91,9 @@ function ProcessExcel(data) {
     cell = row.insertCell(-1);
     cell.innerHTML = excelRows[i][spaceNeeded];
 
+    cell = row.insertCell(-1);
+    cell.innerHTML = excelRows[i].Tag;
+
     var dimension = excelRows[i][spaceNeeded];
     if (dimension != undefined) {
       d = dimension.split("x");
@@ -92,20 +102,87 @@ function ProcessExcel(data) {
       }
       dimensions.push(d);
     }
+
+    var tag = excelRows[i].Tag;
+    //console.log(tag);
+    tags.push(tag);
+    //console.log(tags);
   }
+
   for (let index = 0; index < dimensions.length; index++) {
     rlist.push(
       new Rect(
-        index,
         undefined,
         undefined,
         dimensions[index][0],
-        dimensions[index][1]
+        dimensions[index][1],
+        tags[index]
       )
     );
   }
+
   var dvExcel = document.getElementById("dvExcel");
   dvExcel.innerHTML = "";
+  // dvExcel.appendChild(table);
+
+  ////////////////////
+  //Read all rows from First Sheet into an JSON array.
+  // var excelRows = XLSX.utils.sheet_to_row_object_array(
+  //   workbook.Sheets[firstSheet]
+  // );
+
+  // //Create a HTML Table element.
+  // var table = document.createElement("table");
+  // table.border = "1";
+
+  // //Add the header row.
+  // var row = table.insertRow(-1);
+
+  // //Add the header cells.
+  // var headerCell = document.createElement("TH");
+  // headerCell.innerHTML = "Exhibit";
+  // row.appendChild(headerCell);
+
+  // headerCell = document.createElement("TH");
+  // headerCell.innerHTML = "Space";
+  // row.appendChild(headerCell);
+  // dimensions = [];
+
+  // //Add the data rows from Excel file.
+  // for (var i = 1; i < excelRows.length; i++) {
+  //   //Add the data row.
+  //   var row = table.insertRow(-1);
+
+  //   //Add the data cells.
+  //   var cell = row.insertCell(-1);
+  //   cell.innerHTML = excelRows[i].Exhibit;
+
+  //   spaceNeeded = "Showcase Space Needed: L x W x H";
+  //   cell = row.insertCell(-1);
+  //   cell.innerHTML = excelRows[i][spaceNeeded];
+
+  //   var dimension = excelRows[i][spaceNeeded];
+  //   if (dimension != undefined) {
+  //     d = dimension.split("x");
+  //     for (let index = 0; index < d.length; index++) {
+  //       d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
+  //     }
+  //     dimensions.push(d);
+  //   }
+  // }
+  // for (let index = 0; index < dimensions.length; index++) {
+  //   rlist.push(
+  //     new Rect(
+  //       index,
+  //       undefined,
+  //       undefined,
+  //       dimensions[index][0],
+  //       dimensions[index][1]
+  //     )
+  //   );
+  // }
+  // var dvExcel = document.getElementById("dvExcel");
+  // dvExcel.innerHTML = "";
   // dvExcel.appendChild(table);
 }
 
@@ -140,6 +217,13 @@ function List(group, positioned) {
 }
 
 function Run() {
+  // cWidth = 500;
+  // cHeight = 500;
+  // let packer = new BinPack(cWidth / scale, cHeight / scale);
+  // packer.addAll(rlist);
+  // console.log(packer.positioned);
+  // console.log(packer.unpositioned);
+
   let packer;
   unpositioned = rlist;
   containers = document.querySelectorAll(".container");
@@ -149,8 +233,9 @@ function Run() {
     packer = new BinPack(cWidth / scale, cHeight / scale);
     packer.addAll(unpositioned);
     unpositioned = packer.unpositioned;
+    console.log(unpositioned);
     positioned = packer.positioned;
-    List(positioned, true);
+    // List(positioned, true);
     console.log("Positioned boxes\n", packer.positioned);
     packer.positioned.forEach(element => {
       div = document.createElement("div");
@@ -166,29 +251,7 @@ function Run() {
       numberOfBox++;
     });
   });
-  List(unpositioned, false);
-
-  // var rlist = [];
-  // for (i = 0; i < 10; i++) {
-  //   randomWidth = Math.floor(Math.random() * 10);
-  //   randomHeight = Math.floor(Math.random() * 10);
-  //   randomWidth = randomWidth < 2 ? 2 : randomWidth;
-  //   randomHeight = randomHeight < 2 ? 2 : randomHeight;
-  //   rlist.push(new Rect(undefined, undefined, randomWidth, randomHeight));
-  // }
-  // packer.addAll(rlist);
-  // packer.positioned.forEach((element, index) => {
-  //   div = document.createElement("div");
-  //   div.id = index;
-  //   div.style.left = element.x * scale + "px";
-  //   div.style.top = element.y * scale + "px";
-  //   div.style.width = element.width * scale + "px";
-  //   div.style.height = element.height * scale + "px";
-  //   div.style.position = "absolute";
-  //   div.style.backgroundColor = getRandomColor();
-  //   document.getElementById("container").appendChild(div);
-  // });
-  console.log("Unpositioned boxes\n", packer.unpositioned);
+  // List(unpositioned, false);
 }
 
 function getRandomColor() {
@@ -199,3 +262,25 @@ function getRandomColor() {
   }
   return color;
 }
+
+// console.log("Unpositioned boxes\n", packer.unpositioned);
+// var rlist = [];
+// for (i = 0; i < 10; i++) {
+//   randomWidth = Math.floor(Math.random() * 10);
+//   randomHeight = Math.floor(Math.random() * 10);
+//   randomWidth = randomWidth < 2 ? 2 : randomWidth;
+//   randomHeight = randomHeight < 2 ? 2 : randomHeight;
+//   rlist.push(new Rect(undefined, undefined, randomWidth, randomHeight));
+// }
+// packer.addAll(rlist);
+// packer.positioned.forEach((element, index) => {
+//   div = document.createElement("div");
+//   div.id = index;
+//   div.style.left = element.x * scale + "px";
+//   div.style.top = element.y * scale + "px";
+//   div.style.width = element.width * scale + "px";
+//   div.style.height = element.height * scale + "px";
+//   div.style.position = "absolute";
+//   div.style.backgroundColor = getRandomColor();
+//   document.getElementById("container").appendChild(div);
+// });

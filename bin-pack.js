@@ -259,7 +259,7 @@ function BinPack(binWidth, binHeight) {
 
   //let readyToPack = ArrayMaker(rlist);
   pack.addAll = function(array) {
-    readyToPack = ArrayMaker(array);
+    readyToPack = ArrayMaker(array, binWidth, binHeight);
     if (sort) readyToPack.sort(sort);
     readyToPack.forEach(function(d, i) {
       var o = binPacker.insert(rectWidth(d), rectHeight(d));
@@ -318,7 +318,7 @@ function Area(width, height) {
   return area;
 }
 
-function ArrayMaker(rlist) {
+function ArrayMaker(rlist, width, height) {
   let currentTag;
   let currentList;
   let bigList = [];
@@ -353,7 +353,7 @@ function ArrayMaker(rlist) {
   let i = 0;
   let j = -1;
 
-  while (tempArea < Area(20, 20) * 0.8) {
+  while (tempArea < Area(width, height) * 0.8) {
     //i = i%max;
     if (i == max - 1) {
       i = 0;
@@ -361,10 +361,11 @@ function ArrayMaker(rlist) {
     if (i == 0) {
       j++;
     }
+    console.log(bigList[i]);
     if (j < bigList[i].length) {
       if (
         tempArea + Area(bigList[i][j].width, bigList[i][j].height) <
-        Area(20, 20)
+        Area(width, height)
       ) {
         toBePacked.push(bigList[i][j]);
         tempArea += Area(bigList[i][j].width, bigList[i][j].height);
@@ -374,7 +375,7 @@ function ArrayMaker(rlist) {
   }
   // }
   //var packer = new BinPack();
-  //console.log(toBePacked);
+  console.log(toBePacked);
   //console.log(packer.positioned);
   return toBePacked;
 }

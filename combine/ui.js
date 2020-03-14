@@ -193,7 +193,8 @@ function drawMouseUp(e) {
       resizersDiv.appendChild(div);
     });
     ab.appendChild(resizersDiv);
-    ab.id = "bin-" + numberOfBin;
+    ab.setAttribute("name", "bin-" + numberOfBin);
+    // ab.name = "bin-" + numberOfBin;
     numberOfBin++;
     // 如果长宽均小于 3px，移除 box
     if (ab.offsetWidth < 3 || ab.offsetHeight < 3) {
