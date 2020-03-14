@@ -1,0 +1,13 @@
+.draggable  {
+    width: 100px;
+    height: 100px;
+    background-color: crimson;
+}
+
+.container {
+    width: 500px;
+    height: 500px;
+    border: 2px solid black;
+    overflow: hidden;
+
+}

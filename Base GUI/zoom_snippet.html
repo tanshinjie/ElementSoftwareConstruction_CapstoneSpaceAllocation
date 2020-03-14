@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Testing zoom functionality</title>
+    </head>
+
+    <body>
+        <img src="banner2.jpg" id="image">
+        <br>
+        <button type="button" onclick="zoomin()">zoom in</button>
+        <button type="button" onclick="zoomout()">zoom out</button>
+
+        <script type="text/javascript">
+            function zoomin(){
+                var GFG = document.getElementById("image");
+                var currentHeight = GFG.clientHeight;
+                GFG.style.height = (currentHeight + 40) + "px";
+            }
+
+            function  zoomout(){
+                var GFG = document.getElementById("image");
+                var currentHeight =  GFG.clientHeight;
+                GFG.style.height = (currentHeight - 40) + "px";
+            }
+
+        </script>
+
+
+
+
+
+    </body>
+
+
+
+
+
+
+
+
+</html>

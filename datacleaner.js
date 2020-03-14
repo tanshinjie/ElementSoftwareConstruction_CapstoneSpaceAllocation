@@ -95,7 +95,13 @@ function ProcessExcel(data) {
   }
   for (let index = 0; index < dimensions.length; index++) {
     rlist.push(
-      new Rect(undefined, undefined, dimensions[index][0], dimensions[index][1])
+      new Rect(
+        index,
+        undefined,
+        undefined,
+        dimensions[index][0],
+        dimensions[index][1]
+      )
     );
   }
   var dvExcel = document.getElementById("dvExcel");
