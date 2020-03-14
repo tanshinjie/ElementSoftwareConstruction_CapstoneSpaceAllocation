@@ -233,9 +233,9 @@ BinPacker.pruneRectangles = function(F) {
   }
 };
 
-function BinPack() {
-  var binWidth = 20,
-    binHeight = 20;
+function BinPack(binWidth, binHeight) {
+  var binWidth = binWidth,
+    binHeight = binHeight;
 
   var rectWidth = function(d) {
       return d.width;
@@ -247,6 +247,7 @@ function BinPack() {
   var sort = false;
 
   var binPacker = new BinPacker(binWidth, binHeight);
+  console.log(binPacker);
 
   var pack = {};
 

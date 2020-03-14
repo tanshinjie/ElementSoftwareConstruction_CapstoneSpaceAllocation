@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="rotate.js"></script> -->
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="jquery.ui.rotatable.css">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/godswearhats/jquery-ui-rotatable@1.1/jquery.ui.rotatable.css">
+    <script src="https://cdn.jsdelivr.net/gh/godswearhats/jquery-ui-rotatable@1.1/jquery.ui.rotatable.min.js"></script>
+
+</head>
+
+<body>
+    <div id="example" style="width: 100px; height: 100px; color: black;"></div>
+    <div class='resizable' style="top: 100px; left: 100px;">
+        <div class='resizers'>
+            <div class='resizer top-left'></div>
+            <div class='resizer top-right'></div>
+            <div class='resizer bottom-left'></div>
+            <div class='resizer bottom-right'></div>
+            <div class='resizer top'></div>
+        </div>
+    </div>
+    <div class="draggable_wp">
+        <div class="el"></div>
+        <div class="handle"></div>
+    </div>
+</body>
+
+<script>
+    $(function () {
+        var dragging = false, target_wp, orientation;
+        $('.resizable .resizers .resizer.top').mousedown(function (e) {
+            var h_x = e.pageX, h_y = e.pageY; // clicked point
+            e.preventDefault();
+            e.stopPropagation();
+            dragging = true;
+            target_wp = $(e.target).closest('.resizable');
+            if (!target_wp.data("origin"))
+                target_wp.data("origin", {
+                    left: target_wp.offset().left + 50,
+                    top: target_wp.offset().top + 100
+                });
+            var o_x = target_wp.data("origin").left,
+                o_y = target_wp.data("origin").top; // origin point
+            console.log(o_x, o_y);
+            console.log(parseFloat(target_wp[0].style.transform.replace(/[^0-9\.]/g, ""), 10));
+            orientation = parseFloat(target_wp[0].style.transform.replace(/[^0-9\.]/g, ""), 10)
+
+
+            $(document).mousemove(function (e) {
+                if (dragging) {
+                    var s_x = e.pageX, s_y = e.pageY; // start rotate point
+                    if (s_x !== o_x && s_y !== o_y) { //start rotate
+                        var s_rad = Math.atan2(s_y - o_y, s_x - o_x); // current to origin
+                        s_rad -= Math.atan2(h_y - o_y, h_x - o_x); // handle to origin
+                        var degree = (s_rad * (360 / (2 * Math.PI)));
+                        target_wp.css('-moz-transform', 'rotate(' + degree + 'deg)');
+                        target_wp.css('-moz-transform-origin', '50% 50%');
+                        target_wp.css('-webkit-transform', 'rotate(' + degree + 'deg)');
+                        target_wp.css('-webkit-transform-origin', '50% 50%');
+                        target_wp.css('-o-transform', 'rotate(' + degree + 'deg)');
+                        target_wp.css('-o-transform-origin', '50% 50%');
+                        target_wp.css('-ms-transform', 'rotate(' + degree + 'deg)');
+                        target_wp.css('-ms-transform-origin', '50% 50%');
+                    }
+                }
+            })
+            $(document).mouseup(function () {
+                dragging = false
+            })
+        })// end mousemove
+    })
+</script>
+
+</html>

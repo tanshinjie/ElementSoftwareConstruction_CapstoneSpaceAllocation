@@ -1,0 +1,3 @@
+Code refactoring with id conflict from "moving-box" "active-box" and name
+Rotate box
+Delete box 

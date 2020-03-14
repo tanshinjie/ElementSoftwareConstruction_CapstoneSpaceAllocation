@@ -1,0 +1,82 @@
+.box {
+  background: #f00;
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  opacity: 0.5;
+  cursor: move;
+}
+body,
+html {
+  background: gray;
+}
+.resizable {
+  background: white;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+}
+.resizable .resizers {
+  width: 100%;
+  height: 100%;
+  border: 3px solid #4286f4;
+  box-sizing: border-box;
+}
+.resizable .resizers .resizer {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%; /* magic to turn square into circle */
+  background: white;
+  border: 3px solid #4286f4;
+  position: absolute;
+}
+
+.resizable .resizers .resizer.top-left {
+  left: -5px;
+  top: -5px;
+  cursor: nwse-resize;
+}
+.resizable .resizers .resizer.top-right {
+  right: -5px;
+  top: -5px;
+  cursor: nesw-resize;
+}
+.resizable .resizers .resizer.bottom-left {
+  left: -5px;
+  bottom: -5px;
+  cursor: nesw-resize;
+}
+.resizable .resizers .resizer.bottom-right {
+  right: -5px;
+  bottom: -5px;
+  cursor: nwse-resize;
+}
+
+.resizable .resizers .resizer.top {
+  top: -10px;
+  position: relative;
+  cursor: e-resize;
+  margin: 0 auto;
+}
+
+/* .resizable .resizers .resizer.right {
+  right: -5px;
+  top: -5px;
+  cursor: n-resize;
+}
+.resizable .resizers .resizer.bottom {
+  left: -5px;
+  bottom: -5px;
+  cursor: w-resize;
+}
+.resizable .resizers .resizer.left {
+  right: -5px;
+  bottom: -5px;
+  cursor: n-resize;
+} */
+
+.restrict {
+  background: red;
+  width: 100px;
+  height: 100px;
+}
