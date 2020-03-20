@@ -1,4 +1,4 @@
-// var packer = new BinPack(10, 10);
+// sdgervrelvbre;
 var rlist = [];
 var positioned = [];
 var unpositioned = [];
