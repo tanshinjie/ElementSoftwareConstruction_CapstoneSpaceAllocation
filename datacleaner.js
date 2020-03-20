@@ -70,7 +70,7 @@ function ProcessExcel(data) {
   row.appendChild(headerCell);
 
   headerCell = document.createElement("TH");
-  headerCell.innerHTML = "Space";
+  headerCell.innerHTML = "Project";
   row.appendChild(headerCell);
 
   headerCell = document.createElement("TH");
@@ -79,6 +79,7 @@ function ProcessExcel(data) {
 
   dimensions = [];
   tags = [];
+  projIDs = [];
   //Add the data rows from Excel file.
   for (var i = 1; i < excelRows.length; i++) {
     //Add the data row.
@@ -88,26 +89,31 @@ function ProcessExcel(data) {
     var cell = row.insertCell(-1);
     cell.innerHTML = excelRows[i].Exhibit;
 
-    spaceNeeded = "Showcase Space Needed: L x W x H";
+    var projName = "__EMPTY";
     cell = row.insertCell(-1);
-    cell.innerHTML = excelRows[i][spaceNeeded];
+    cell.innerHTML = excelRows[i][projName];
 
     cell = row.insertCell(-1);
     cell.innerHTML = excelRows[i].Tag;
 
+    // cell = row.insertCell(-1);
+    // cell.innerHTML = excelRows[i][projID];
+
+    spaceNeeded = "Showcase Space Needed: L x W x H";
     var dimension = excelRows[i][spaceNeeded];
     if (dimension != undefined) {
       d = dimension.split("x");
       for (let index = 0; index < d.length; index++) {
-        d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
+        // d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
+        d[index] = parseFloat(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
       }
       dimensions.push(d);
     }
 
     var tag = excelRows[i].Tag;
-    //console.log(tag);
+
     tags.push(tag);
-    //console.log(tags);
+    projIDs.push(excelRows[i].Exhibit);
   }
 
   for (let index = 0; index < dimensions.length; index++) {
@@ -117,17 +123,18 @@ function ProcessExcel(data) {
         undefined,
         dimensions[index][0],
         dimensions[index][1],
-        tags[index]
+        tags[index],
+        projIDs[index]
       )
     );
   }
 
-  // var dvExcel = document.getElementById("dvExcel");
-  // dvExcel.innerHTML = "";
-  // dvExcel.appendChild(table);
+  var dvExcel = document.getElementById("dvExcel");
+  dvExcel.innerHTML = "";
+  dvExcel.appendChild(table);
 
   ////////////////////
-  //Read all rows from First Sheet into an JSON array.
+  // Read all rows from First Sheet into an JSON array.
   // var excelRows = XLSX.utils.sheet_to_row_object_array(
   //   workbook.Sheets[firstSheet]
   // );
@@ -145,7 +152,7 @@ function ProcessExcel(data) {
   // row.appendChild(headerCell);
 
   // headerCell = document.createElement("TH");
-  // headerCell.innerHTML = "Space";
+  // headerCell.innerHTML = "Project";
   // row.appendChild(headerCell);
   // dimensions = [];
 
@@ -249,8 +256,10 @@ function Run() {
       div.style.width = element.width * scale + "px";
       div.style.height = element.height * scale + "px";
       div.style.position = "absolute";
-      div.style.backgroundColor = getRandomColor();
-      div.style.opacity = "0.5";
+      div.style.backgroundColor = getColor(element.datum.tag);
+      div.style.opacity = "1";
+      div.style.border = "1px solid black";
+      div.innerHTML = element.datum.projID;
       container.appendChild(div);
       numberOfBox++;
     });
@@ -265,6 +274,20 @@ function getRandomColor() {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+}
+function getColor(tag) {
+  switch (parseInt(tag)) {
+    case 1:
+      return "#FF5733";
+    case 2:
+      return "#74FF33";
+    case 3:
+      return "#33E6ff";
+    case 4:
+      return "#334CFF";
+    case 5:
+      return "#DD33FF";
+  }
 }
 
 // console.log("Unpositioned boxes\n", packer.unpositioned);
