@@ -20,7 +20,7 @@ function resize() {
     }
   } else {
     editing = 1;
-    btn.innerHTML = "Editting...";
+    btn.innerHTML = "Editing...";
     bins = document.querySelectorAll(".box");
     for (let index = 0; index < bins.length; index++) {
       bins[index].className = "resizable";
@@ -139,8 +139,8 @@ var startX, startY, diffX, diffY;
 var drawing = 0;
 function draw() {
   btn = document.getElementById("drawBtn");
-  if (editing) {
-    editing = 0;
+  if (drawing) {
+    drawing = 0;
     btn.innerHTML = "Draw";
     document
       .getElementById("drawZone")
@@ -151,8 +151,9 @@ function draw() {
     document
       .getElementById("drawZone")
       .removeEventListener("mouseup", drawMouseUp);
+    $("#our-canvas").draggable("enable");
   } else {
-    editing = 1;
+    drawing = 1;
     btn.innerHTML = "Drawing...";
     document
       .getElementById("drawZone")
@@ -163,14 +164,13 @@ function draw() {
     document
       .getElementById("drawZone")
       .addEventListener("mouseup", drawMouseUp);
-    btn = document.getElementById("drawBtn");
+    $("#our-canvas").draggable("disable");
   }
 }
 function drawMouseDown(e) {
-  startX = e.clientX;
-  startY = e.clientY;
+  startX = e.pageX;
+  startY = e.pageY;
   // 如果鼠标在 box 上被按下
-  console.log(e.target);
 
   if (e.target.className.match(/box/)) {
     // 允许拖动

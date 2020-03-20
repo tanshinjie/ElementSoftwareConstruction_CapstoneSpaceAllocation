@@ -1,3 +1,2 @@
-Disable create bin outside of container div
 Rotate box
 Delete box (wentao)

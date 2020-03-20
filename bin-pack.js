@@ -1,11 +1,12 @@
 //______________________________________________________________________________
 // Rect class
-function Rect(x, y, width, height, tag) {
+function Rect(x, y, width, height, tag, projID) {
   this.x = x;
   this.y = y;
   this.width = width;
   this.height = height;
   this.tag = tag;
+  this.projID = projID;
 }
 
 Rect.prototype.contains = function(r) {

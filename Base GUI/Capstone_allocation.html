@@ -10,7 +10,6 @@
         href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
-
     <script src="../bin-pack.js"></script>
     <script src="../datacleaner.js"></script>
     <script src="../combine/ui.js"></script>
@@ -19,7 +18,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
 </head>
 
-<body>
+<body onload="setup()">
     <header>Capstone Allocation</header>
     <section>
         <nav>
@@ -43,18 +42,23 @@
             <p id='error-message'></p>
         </nav>
 
-        <article id="drawZone" style="position: relative;">
-            <button type=" button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
-                    class="fas fa-search-plus"></i></button>
-            <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
-                    class="fas fa-search-minus"></i></button>
+        <article id="drawZone">
+            <div id="buttonContainer" style="position: absolute; right: 0;">
+                <button type=" button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
+                        class="fas fa-search-plus"></i></button>
+                <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
+                        class="fas fa-search-minus"></i></button>
+            </div>
             <canvas id="our-canvas" z-index="1"></canvas>
         </article>
     </section>
-
+    <div id="dvExcel">dvExcel</div>
 </body>
 
 <script type="text/javascript">
+    function setup() {
+        Upload();
+    }
     // script to handle zooming in and out of canvas
     function zoomin() {
         var GFG = document.getElementById("our-canvas");
@@ -66,10 +70,6 @@
         var GFG = document.getElementById("our-canvas");
         var currentHeight = GFG.clientHeight;
         GFG.style.height = (currentHeight - 150) + "px";
-    }
-
-    function test() {
-        console.log("Hello");
     }
 
     // script to enable drag-moving of canvas
