@@ -107,8 +107,11 @@ label:hover {
 .zoomBtnIn {
   font-size: xx-large;
   position: fixed;
-  top: 675px;
-  left: 1370px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* top: 675px; */
+  /* left: 1370px; */
   z-index: 2;
   color: rgb(77, 77, 77);
   border-radius: 80%;
@@ -119,8 +122,12 @@ label:hover {
 .zoomBtnOut {
   font-size: xx-large;
   position: fixed;
-  top: 675px;
-  left: 1425px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 50px;
+  /* top: 675px;
+  left: 1425px; */
   z-index: 2;
   color: rgb(77, 77, 77);
   border-radius: 80%;
