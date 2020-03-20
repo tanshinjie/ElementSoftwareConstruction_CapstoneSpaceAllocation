@@ -259,15 +259,24 @@ function BinPack(binWidth, binHeight) {
 
   //let readyToPack = ArrayMaker(rlist);
   pack.addAll = function(array) {
-    // readyToPack = ArrayMaker(array, binWidth, binHeight);
-    readyToPack = array;
+ 
+  let values = ArrayMaker(array, binWidth, binHeight);
+  let readyToPack = values[0];
+  let updatedList = values[1];
+
+    // for(let i = 0; i < bins.length; i++){
+    //   for(let j=0; j < readyToPack.length; j++){
+        
+    //   }
+    // }
     if (sort) readyToPack.sort(sort);
     readyToPack.forEach(function(d, i) {
       var o = binPacker.insert(rectWidth(d), rectHeight(d));
       o.rectangle.datum = d;
     });
 
-    return pack;
+    return [pack,updatedList];
+
   };
 
   pack.binWidth = function(_) {
@@ -319,12 +328,28 @@ function Area(width, height) {
   return area;
 }
 
+function sorter(rlist){
+  // let bins = [{
+  //   width:5,
+  //   height: 7,
+  //   array : []
+  // }];
+  // for(let i; i < bins.length; i++){
+  //   bins[i].array = ArrayMaker(rlist, bins[i].width, bins[i].height);
+  //   rlist = rlist.filter(val => !bins.includes(val));
+  //   console.log(rlist);
+  // }
+}
+
 function ArrayMaker(rlist, width, height) {
-  let currentTag;
-  let currentList;
+  // let currentTag;
+  // let currentList;
   let bigList = [];
   let toBePacked = [];
   let tempArea = 0;
+  let splicedBigList = [];
+  
+
 
   let max = 0;
   rlist.forEach(element => {
@@ -336,10 +361,12 @@ function ArrayMaker(rlist, width, height) {
 
   for (let i = 0; i < max; i++) {
     bigList[i] = [];
+    splicedBigList[i] = [];
   }
 
   for (let i = 0; i < rlist.length; i++) {
     bigList[rlist[i].tag - 1].push(rlist[i]);
+    splicedBigList[rlist[i].tag - 1].push(rlist[i]);
   }
 
   // for(let i=0; i<max; i++){
@@ -353,6 +380,8 @@ function ArrayMaker(rlist, width, height) {
   // for(let i = 0; i < max; i++){
   let i = 0;
   let j = -1;
+  
+  
 
   while (tempArea < Area(width, height) * 0.8) {
     //i = i%max;
@@ -362,7 +391,7 @@ function ArrayMaker(rlist, width, height) {
     if (i == 0) {
       j++;
     }
-    console.log(bigList[i]);
+    // console.log(bigList[i]);
     if (j < bigList[i].length) {
       if (
         tempArea + Area(bigList[i][j].width, bigList[i][j].height) <
@@ -370,15 +399,28 @@ function ArrayMaker(rlist, width, height) {
       ) {
         toBePacked.push(bigList[i][j]);
         tempArea += Area(bigList[i][j].width, bigList[i][j].height);
+        //splicedBigList[i].splice(j,1)
+        //splicedBigList[i] = bigList[i].slice(j,1)
+        //splicedBigList = splicedBigList.filter(val => !bins.includes(val));
+        //console.log(splicedBigList);
+        // console.log(bigList[i]);
+        for(let z = 0; z < rlist.length; z++){
+          if(rlist[z] == bigList[i][j]){
+              rlist.splice(z,1)
+          }
+        }
       }
     }
     i++;
   }
   // }
   //var packer = new BinPack();
-  console.log(toBePacked);
+  // console.log(toBePacked);
   //console.log(packer.positioned);
-  return toBePacked;
+  //console.log(splicedBiglist);
+  console.log(rlist)
+  return [toBePacked, rlist];
+
 }
 
 function Checker() {

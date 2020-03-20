@@ -1,4 +1,4 @@
-// var packer = new BinPack(10, 10);
+//var packer = new BinPack(10, 10);
 var rlist = [];
 var positioned = [];
 var unpositioned = [];
@@ -7,8 +7,7 @@ var numberOfBox = 0;
 
 function Upload() {
   //Reference the FileUpload element.
-  // var fileUpload = document.getElementById("fileUpload");
-  var fileUpload = document.getElementById("uploaded-excel");
+  var fileUpload = document.getElementById("fileUpload");
   // THARUN DID SMTG
   //Validate whether File is valid Excel file.
   var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
@@ -122,8 +121,8 @@ function ProcessExcel(data) {
     );
   }
 
-  // var dvExcel = document.getElementById("dvExcel");
-  // dvExcel.innerHTML = "";
+  var dvExcel = document.getElementById("dvExcel");
+  dvExcel.innerHTML = "";
   // dvExcel.appendChild(table);
 
   ////////////////////
@@ -224,20 +223,23 @@ function Run() {
   // packer.addAll(rlist);
   // console.log(packer.positioned);
   // console.log(packer.unpositioned);
+
+    // for(let i; i < bins.length; i++){
+  //   bins[i].array = ArrayMaker(rlist, bins[i].width, bins[i].height);
+  //   rlist = rlist.filter(val => !bins.includes(val));
+  //   console.log(rlist);
+  // }
   let packer;
-  let containers = [];
-  unpositioned = rlist;
-  bins = document.getElementsByClassName("box");
-  for (const bin of bins) {
-    containers.push(bin);
-  }
+  //unpositioned = rlist;
+  let updatedList = rlist;
+  containers = document.querySelectorAll(".container");
   containers.forEach(container => {
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
     packer = new BinPack(cWidth / scale, cHeight / scale);
-    console.log(unpositioned);
-    packer.addAll(unpositioned);
-    unpositioned = packer.unpositioned;
+    let values = packer.addAll(updatedList);
+    updatedList = values[1];
+    //console.log(unpositioned);
     positioned = packer.positioned;
     // List(positioned, true);
     console.log("Positioned boxes\n", packer.positioned);
@@ -255,8 +257,9 @@ function Run() {
       numberOfBox++;
     });
   });
-  // List(unpositioned, false);
 }
+  // List(unpositioned, false);
+
 
 function getRandomColor() {
   var letters = "0123456789ABCDEF";
