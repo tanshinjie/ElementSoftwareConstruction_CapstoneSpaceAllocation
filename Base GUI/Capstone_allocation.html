@@ -1,157 +1,154 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Capstone Allocation Web Application</title>
-        <link rel="stylesheet" href = "Capstone_Allocation.css">
-        <link rel="stylesheet" href="jquery-ui.min.css">
-        <link rel="stylesheet" type="text/css" href="file:///C:/Users/Nicholas/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
-        <script src="jquery.js"></script>
-        <script src="jquery-ui.min.js"></script>
-    </head>
 
-    <body>
-        <header>Capstone Allocation</header>
+<head>
+    <meta charset="utf-8">
+    <title>Capstone Allocation Web Application</title>
+    <link rel="stylesheet" href="Capstone_Allocation.css">
+    <link rel="stylesheet" href="jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.min.js"></script>
 
-        <section>
-            <!--Our navigation bar on the left consisting of the different buttons-->
-            <nav>
-                <input type="file" id="uploaded-file" class="hidden" accept="image/*">
-                <label for="uploaded-file">Upload Image</label>
+    <script src="../bin-pack.js"></script>
+    <script src="../datacleaner.js"></script>
+    <script src="../combine/ui.js"></script>
+    <link rel="stylesheet" href="../combine/style.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+</head>
+
+<body>
+    <header>Capstone Allocation</header>
+    <section>
+        <nav>
+            <input type="file" id="uploaded-file" class="hidden" accept="image/*">
+            <label for="uploaded-file">Upload Image</label>
+            <br>
+            <input type="file" id="uploaded-excel" class="hidden"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
+            <label for="uploaded-excel" id="upload" onclick="Upload()">Upload Excel</label>
+            <div id="excel-name"></div>
+            <br>
+            <div class="btn-group">
+                <button id="drawBtn" onclick="draw()">Draw</button>
                 <br>
-                <input type="file" id="uploaded-excel" class="hidden" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
-                <label for="uploaded-excel">Upload Excel</label>
-                <div id="excel-name"></div>
+                <button id="editBtn" onclick="resize()">Edit</button>
                 <br>
-                <div class =  "btn-group">
-                    <button>Draw</button>
-                    <br>
-                    <button>Edit</button>
-                    <br>
-                    <button>Run</button>
-                    <br>
-                    <button id="save-button">Save Image</button>
-                </div>
-                <!--Error message in event of wrong file uploaded-->
-                <p id='error-message'></p>
-            </nav>
+                <button id="runBtn" onclick="Run()">Run</button>
+                <br>
+                <button id="save-button">Save Image</button>
+            </div>
+            <p id='error-message'></p>
+        </nav>
 
-            <!--Our canvas, which displays the image that is uploaded, on the right-->
-            <article>
-                <button type="button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i class="fas fa-search-plus"></i></button>
-                <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i class="fas fa-search-minus"></i></button>
+        <article id="drawZone">
+            <button type="button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
+                    class="fas fa-search-plus"></i></button>
+            <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
+                    class="fas fa-search-minus"></i></button>
+            <canvas id="our-canvas" z-index="1"></canvas>
+        </article>
 
-                <!--script to handle zooming in and out of canvas-->
-                <script type="text/javascript">
-                    function zoomin(){
-                        var GFG = document.getElementById("our-canvas");
-                        var currentHeight = GFG.clientHeight;
-                        GFG.style.height = (currentHeight + 150) + "px";
-                    }
-        
-                    function zoomout(){
-                        var GFG = document.getElementById("our-canvas");
-                        var currentHeight =  GFG.clientHeight;
-                        GFG.style.height = (currentHeight - 150) + "px";
-                    }
-        
-                </script>
+    </section>
 
-                <canvas id="our-canvas" z-index="1"></canvas>
-                
-                <!--script to enable drag-moving of canvas-->
-                <script>
-                    $("#our-canvas").draggable();
-                </script>
-                <!--script to handle uploading of image  file-->
-                <script>
-                    var canvas = document.getElementById('our-canvas');
-                    var context = canvas.getContext('2d');
-                    var uploadedFile = document.getElementById('uploaded-file');
+</body>
 
-                    window.addEventListener('DOMContentLoaded', initImageLoader);
+<script type="text/javascript">
+    // script to handle zooming in and out of canvas
+    function zoomin() {
+        var GFG = document.getElementById("our-canvas");
+        var currentHeight = GFG.clientHeight;
+        GFG.style.height = (currentHeight + 150) + "px";
+    }
 
-                    function initImageLoader(){
-                        uploadedFile.addEventListener('change', handleManualUploadedFiles);
+    function zoomout() {
+        var GFG = document.getElementById("our-canvas");
+        var currentHeight = GFG.clientHeight;
+        GFG.style.height = (currentHeight - 150) + "px";
+    }
 
-                        function handleManualUploadedFiles(ev) {
-                            var file = ev.target.files[0];
-                            handleFile(file);
-                        }
-                    }
+    function test() {
+        console.log("Hello");
+    }
 
-                    function handleFile(file){
-                        var imageType = /image.*/;
+    // script to enable drag-moving of canvas
+    $("#our-canvas").draggable();
+    // script to handle uploading of image file
+    var canvas = document.getElementById('our-canvas');
+    var context = canvas.getContext('2d');
 
-                        if(file.type.match(imageType)){
-                            var reader = new FileReader();
+    window.addEventListener('DOMContentLoaded', initImageLoader);
 
-                            reader.onloadend = function(event){
-                                var tempImageStore = new Image();
-                                tempImageStore.onload = function(ev){
-                                    canvas.width = ev.target.width;
-                                    canvas.height = ev.target.height;
-                                    context.drawImage(ev.target, 0, 0);
-                                }
-                                tempImageStore.src = event.target.result;
-                            }
+    var uploadedFile = document.getElementById('uploaded-file');
 
-                            reader.readAsDataURL(file);
-                        }
-                        else{
-                            var error = document.getElementById('error-message');
-                            error.innerHTML = "Error! You did not upload an image file! (eg .png, .jpg)";
-                        }
-                    }
+    function initImageLoader() {
+        uploadedFile.addEventListener('change', handleManualUploadedFiles);
 
-                </script>
+        function handleManualUploadedFiles(ev) {
+            var file = ev.target.files[0];
+            handleFile(file);
+        }
+    }
 
-                <!--script to handle uploading of excel file-->
-                <script>
+    function handleFile(file) {
+        var imageType = /image.*/;
 
-                    var input = document.getElementById("uploaded-excel");
-                    var infoArea = document.getElementById("excel-name");
+        if (file.type.match(imageType)) {
+            var reader = new FileReader();
 
-                    input.addEventListener('change', showFileName);
+            reader.onloadend = function (event) {
+                var tempImageStore = new Image();
+                tempImageStore.onload = function (ev) {
+                    canvas.width = ev.target.width;
+                    canvas.height = ev.target.height;
+                    context.drawImage(ev.target, 0, 0);
+                }
+                tempImageStore.src = event.target.result;
+            }
 
-                    function showFileName(event){
-                        var input = event.srcElement;
-                        var fileName = input.files[0].name;
-                        infoArea.textContent = fileName;
-                    }
+            reader.readAsDataURL(file);
+        }
+        else {
+            var error = document.getElementById('error-message');
+            error.innerHTML = "Error! You did not upload an image file! (eg .png, .jpg)";
+        }
+    }
 
+    // script to handle uploading of excel file
+    var input = document.getElementById("uploaded-excel");
+    var infoArea = document.getElementById("excel-name");
 
+    input.addEventListener('change', showFileName);
 
-                </script>
+    function showFileName(event) {
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+    }
 
-                <!--script to handle saving of canvas into image-->
-                <script>
-                    var saveButton = document.getElementById("save-button");
-                    var canvas = document.getElementById("our-canvas");
-                    var context = canvas.getContext('2d');
+    // script to handle saving of canvas into image 
+    var saveButton = document.getElementById("save-button");
+    var canvas = document.getElementById("our-canvas");
+    var context = canvas.getContext('2d');
 
-                    saveButton.addEventListener("click", function(){
-                        //for IE / Edge
-                        if(window.navigator.msSaveBlob){
-                            window.navigator.msSaveBlob(canvas.msToBlob(), "canvas-image.png");
-                        }
-                        else{
-                            //for google chrome, firefox & other web browser downloads
-                            var a = document.createElement("a");
-                            document.body.appendChild(a);
-                            a.href = canvas.toDataURL();
-                            a.download = "canvas-image.png"
-                            a.click();
-                            document.body.removeChild(a);
-                        }
-                    })
+    saveButton.addEventListener("click", function () {
+        //for IE / Edge
+        if (window.navigator.msSaveBlob) {
+            window.navigator.msSaveBlob(canvas.msToBlob(), "canvas-image.png");
+        }
+        else {
+            //for google chrome, firefox & other web browser downloads
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.href = canvas.toDataURL();
+            a.download = "canvas-image.png"
+            a.click();
+            document.body.removeChild(a);
+        }
+    })
 
-                </script>
-
-            </article>
-
-        </section>
-
-    </body>
+</script>
 
 </html>

@@ -14,7 +14,7 @@ window.onload = function() {
   addEventListener("mousemove", function(e) {
     if (drag) {
       orientation = Math.atan2(
-        e.pageY - original_top_x,
+        e.pageY - original_top_y,
         e.pageX - original_top_x
       );
       parentBin.style.transform = "rotate(" + orientation + "rad)";
@@ -36,53 +36,54 @@ window.onload = function() {
     console.log(getPixelsByAngle(centerX, centerY, width, height, orientation));
     drag = false;
   });
-  function getPixelsByAngle(x, y, width, height, angle) {
-    var radians = (angle * Math.PI) / 180;
-    return [
-      //upper left
-      [
-        x +
-          width / 2 +
-          (width / -2) * Math.cos(radians) -
-          (height / -2) * Math.sin(radians),
-        y +
-          height / 2 +
-          (width / -2) * Math.sin(radians) +
-          (height / -2) * Math.cos(radians)
-      ],
-      //upper right
-      [
-        x +
-          width / 2 +
-          (width / 2) * Math.cos(radians) -
-          (height / -2) * Math.sin(radians),
-        y +
-          height / 2 +
-          (width / 2) * Math.sin(radians) +
-          (height / -2) * Math.cos(radians)
-      ],
-      //bottom right
-      [
-        x +
-          width / 2 +
-          (width / 2) * Math.cos(radians) -
-          (height / 2) * Math.sin(radians),
-        y +
-          height / 2 +
-          (width / 2) * Math.sin(radians) +
-          (height / 2) * Math.cos(radians)
-      ],
-      //bottom left
-      [
-        x +
-          width / 2 +
-          (width / -2) * Math.cos(radians) -
-          (height / 2) * Math.sin(radians),
-        y +
-          height / 2 +
-          (width / -2) * Math.sin(radians) +
-          (height / 2) * Math.cos(radians)
-      ]
-    ];
-  }
+
+  // function getPixelsByAngle(x, y, width, height, angle) {
+  //   var radians = (angle * Math.PI) / 180;
+  //   return [
+  //     //upper left
+  //     [
+  //       x +
+  //         width / 2 +
+  //         (width / -2) * Math.cos(radians) -
+  //         (height / -2) * Math.sin(radians),
+  //       y +
+  //         height / 2 +
+  //         (width / -2) * Math.sin(radians) +
+  //         (height / -2) * Math.cos(radians)
+  //     ],
+  //     //upper right
+  //     [
+  //       x +
+  //         width / 2 +
+  //         (width / 2) * Math.cos(radians) -
+  //         (height / -2) * Math.sin(radians),
+  //       y +
+  //         height / 2 +
+  //         (width / 2) * Math.sin(radians) +
+  //         (height / -2) * Math.cos(radians)
+  //     ],
+  //     //bottom right
+  //     [
+  //       x +
+  //         width / 2 +
+  //         (width / 2) * Math.cos(radians) -
+  //         (height / 2) * Math.sin(radians),
+  //       y +
+  //         height / 2 +
+  //         (width / 2) * Math.sin(radians) +
+  //         (height / 2) * Math.cos(radians)
+  //     ],
+  //     //bottom left
+  //     [
+  //       x +
+  //         width / 2 +
+  //         (width / -2) * Math.cos(radians) -
+  //         (height / 2) * Math.sin(radians),
+  //       y +
+  //         height / 2 +
+  //         (width / -2) * Math.sin(radians) +
+  //         (height / 2) * Math.cos(radians)
+  //     ]
+  //   ];
+  // }
 };

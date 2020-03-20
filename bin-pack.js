@@ -259,7 +259,8 @@ function BinPack(binWidth, binHeight) {
 
   //let readyToPack = ArrayMaker(rlist);
   pack.addAll = function(array) {
-    readyToPack = ArrayMaker(array, binWidth, binHeight);
+    // readyToPack = ArrayMaker(array, binWidth, binHeight);
+    readyToPack = array;
     if (sort) readyToPack.sort(sort);
     readyToPack.forEach(function(d, i) {
       var o = binPacker.insert(rectWidth(d), rectHeight(d));

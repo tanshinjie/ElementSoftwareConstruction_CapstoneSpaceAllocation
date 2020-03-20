@@ -1,137 +1,136 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-    font-family: Arial, Helvetica, sans-serif;
+body {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /*style the header*/
 header {
-    background-image: url("banner.jpg");
-    padding: 30px;
-    text-align: center;
-    font-size: 30px;
-    color: white;
-    background-size: cover;
+  background-image: url("banner.jpg");
+  padding: 30px;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  background-size: cover;
 }
 
 /* create navigation bar (containing buttons) that will float to the left of the canvas */
 nav {
-    float: left;
-    width: 8%;
-    background-color: #eee8e8;
+  float: left;
+  width: 8%;
+  background-color: #eee8e8;
 }
 
 /*style non buttons inside navigation bar*/
 .non-button {
-    background-color: #4CAF50; /* Green background */
-    border: 1px solid green; /* Green border */
-    color: white; /* White text */
-    padding: 10px 24px; /* Some padding */
-    width: 100%; /* Set a width if needed */
-    display: block; /* Make the buttons appear below each other */ 
-    text-align: center;
-    font-size: 14px;
+  background-color: #4caf50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  text-align: center;
+  font-size: 14px;
 }
 
 /*style the list of buttons inside navigation bar*/
 .btn-group button {
-    background-color: #4CAF50; /* Green background */
-    border: 1px solid green; /* Green border */
-    color: white; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 100%; /* Set a width if needed */
-    display: block; /* Make the buttons appear below each other */
-    font-size: 14px;
+  background-color: #4caf50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  font-size: 14px;
 }
 
 .btn-group button:not(:last-child) {
-    border-bottom: none; /* Prevent double borders */
-  }
-  
-  /* Add a background color on hover */
-  .btn-group button:hover {
-    background-color: #3e8e41;
-  }
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
 
 /*create article box (containing canvas)*/
 article {
-    float: left;
-    width: 92%;
-    height: 650px;
-    overflow: hidden;
-    border: 1px solid grey;
+  float: left;
+  width: 92%;
+  height: 650px;
+  overflow: hidden;
+  border: 1px solid grey;
 }
 
 /*clears floats after the columns*/
 section:after {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /*Responsive Layout - makes two columns/boxes stack on top of each other instead of next to each other on small screens */
 @media (max-width: 800px) {
-    nav, article {
-      width: 100%;
-      height: auto;
-    }
+  nav,
+  article {
+    width: 100%;
+    height: auto;
   }
+}
 
 /*to hide certain elements*/
 .hidden {
-    display: none
+  display: none;
 }
 
 /*style the label that hides the buttons*/
 label {
-    background-color: #4CAF50; /* Green background */
-    border: 1px solid green; /* Green border */
-    color: white; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 100%; /* Set a width if needed */
-    display: block; /* Make the buttons appear below each other */
-    font-size: 14px;
-    text-align: center;
-    
+  background-color: #4caf50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  font-size: 14px;
+  text-align: center;
 }
 
 label:hover {
-    background-color: #3e8e41;
+  background-color: #3e8e41;
 }
 
 /*zoom buttons*/
 .zoomBtnIn {
-    font-size: xx-large;
-    position: fixed;
-    top: 675px;
-    left: 1370px;
-    z-index: 2;
-    color:rgb(77, 77, 77);
-    border-radius: 80%;
-    border: black;
-    outline: none;
+  font-size: xx-large;
+  position: fixed;
+  top: 675px;
+  left: 1370px;
+  z-index: 2;
+  color: rgb(77, 77, 77);
+  border-radius: 80%;
+  border: black;
+  outline: none;
 }
 
 .zoomBtnOut {
-    font-size: xx-large;
-    position: fixed;
-    top: 675px;
-    left: 1425px;
-    z-index: 2;
-    color:rgb(77, 77, 77);
-    border-radius: 80%;
-    border: black;
-    outline: none
+  font-size: xx-large;
+  position: fixed;
+  top: 675px;
+  left: 1425px;
+  z-index: 2;
+  color: rgb(77, 77, 77);
+  border-radius: 80%;
+  border: black;
+  outline: none;
 }
 
 /*style the excel Name field*/
 #excel-name {
-    overflow: hidden;
-    font-size: 10px;
-    padding: 2px;
+  overflow: hidden;
+  font-size: 10px;
+  padding: 2px;
 }
-

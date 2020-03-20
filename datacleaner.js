@@ -1,4 +1,4 @@
-var packer = new BinPack(10, 10);
+// var packer = new BinPack(10, 10);
 var rlist = [];
 var positioned = [];
 var unpositioned = [];
@@ -7,7 +7,8 @@ var numberOfBox = 0;
 
 function Upload() {
   //Reference the FileUpload element.
-  var fileUpload = document.getElementById("fileUpload");
+  // var fileUpload = document.getElementById("fileUpload");
+  var fileUpload = document.getElementById("uploaded-excel");
   // THARUN DID SMTG
   //Validate whether File is valid Excel file.
   var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
@@ -121,8 +122,8 @@ function ProcessExcel(data) {
     );
   }
 
-  var dvExcel = document.getElementById("dvExcel");
-  dvExcel.innerHTML = "";
+  // var dvExcel = document.getElementById("dvExcel");
+  // dvExcel.innerHTML = "";
   // dvExcel.appendChild(table);
 
   ////////////////////
@@ -223,17 +224,20 @@ function Run() {
   // packer.addAll(rlist);
   // console.log(packer.positioned);
   // console.log(packer.unpositioned);
-
   let packer;
+  let containers = [];
   unpositioned = rlist;
-  containers = document.querySelectorAll(".container");
+  bins = document.getElementsByClassName("box");
+  for (const bin of bins) {
+    containers.push(bin);
+  }
   containers.forEach(container => {
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
     packer = new BinPack(cWidth / scale, cHeight / scale);
+    console.log(unpositioned);
     packer.addAll(unpositioned);
     unpositioned = packer.unpositioned;
-    console.log(unpositioned);
     positioned = packer.positioned;
     // List(positioned, true);
     console.log("Positioned boxes\n", packer.positioned);

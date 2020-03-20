@@ -1,15 +1,12 @@
 .box {
-  background: #f00;
+  border: 2px solid black;
   width: 0px;
   height: 0px;
   position: absolute;
   opacity: 0.5;
   cursor: move;
 }
-body,
-html {
-  background: gray;
-}
+
 .resizable {
   background: white;
   width: 100px;
@@ -52,7 +49,7 @@ html {
   cursor: nwse-resize;
 }
 
-.resizable .resizers .resizer.top {
+.resizable .resizers .resizer.rotate {
   top: -10px;
   position: relative;
   cursor: e-resize;
