@@ -233,7 +233,8 @@ function Run() {
   // console.log(packer.unpositioned);
   let packer;
   let containers = [];
-  unpositioned = rlist;
+  // unpositioned = rlist;
+  let updatedList = rlist;
   bins = document.getElementsByClassName("box");
   for (const bin of bins) {
     containers.push(bin);
@@ -241,10 +242,13 @@ function Run() {
   containers.forEach(container => {
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
+    // packer = new BinPack(cWidth / scale, cHeight / scale);
+    // console.log(unpositioned);
+    // packer.addAll(unpositioned);
+    // unpositioned = packer.unpositioned;
     packer = new BinPack(cWidth / scale, cHeight / scale);
-    console.log(unpositioned);
-    packer.addAll(unpositioned);
-    unpositioned = packer.unpositioned;
+    let values = packer.addAll(updatedList);
+    updatedList = values[1];
     positioned = packer.positioned;
     // List(positioned, true);
     console.log("Positioned boxes\n", packer.positioned);
