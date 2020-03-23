@@ -1,32 +1,86 @@
 var editing = 0;
 var numberOfBin = 0;
 function resize() {
-  document
-    .getElementById("drawZone")
-    .removeEventListener("mousedown", drawMouseDown);
-  document
-    .getElementById("drawZone")
-    .removeEventListener("mouseup", drawMouseUp);
-  document
-    .getElementById("drawZone")
-    .removeEventListener("mousemomve", drawMouseMove);
+  // document
+  //   .getElementById("drawZone")
+  //   .removeEventListener("mousedown", drawMouseDown);
+  // document
+  //   .getElementById("drawZone")
+  //   .removeEventListener("mouseup", drawMouseUp);
+  // document
+  //   .getElementById("drawZone")
+  //   .removeEventListener("mousemomve", drawMouseMove);
   btn = document.getElementById("editBtn");
   if (editing) {
     editing = 0;
     btn.innerHTML = "Edit";
-    resizables = document.querySelectorAll(".resizable");
-    for (let index = 0; index < resizables.length; index++) {
-      resizables[index].className = "box";
+    controlBoxes = document.querySelectorAll(".moveable-control-box");
+    for (let index = 0; index < controlBoxes.length; index++) {
+      const element = controlBoxes[index];
+      document.body.removeChild(element);
     }
+    boxes = document.querySelectorAll(".box");
+    for (let index = 0; index < boxes.length; index++) {
+      const element = boxes[index];
+      $(element).draggable("enable");
+      element.style.backgroundColor = null;
+      element.style.opacity = null;
+    }
+
+    // resizables = document.querySelectorAll(".resizable");
+    // for (let index = 0; index < resizables.length; index++) {
+    //   resizables[index].className = "box";
+    // }
   } else {
+    let currentSelected;
     editing = 1;
     btn.innerHTML = "Editing...";
-    bins = document.querySelectorAll(".box");
-    for (let index = 0; index < bins.length; index++) {
-      bins[index].className = "resizable";
+    boxes = document.querySelectorAll(".box");
+    let moveables = [];
+    for (let index = 0; index < boxes.length; index++) {
+      const element = boxes[index];
+      element.style.backgroundColor = "#F0ADFE";
+      element.style.opacity = 0.5;
+      $(element).draggable("disable");
+      moveables.push(Rotate(element));
     }
-    makeResizableDiv(".resizable");
+    document
+      .getElementById("drawZone")
+      .addEventListener("mousedown", function(e) {
+        console.log(e.target);
+        currentSelected = e.target;
+      });
+
+    document
+      .getElementById("drawZone")
+      .addEventListener("keydown", function(e) {
+        if (e.keyCode == 46 && currentSelected != null) {
+          console.log("delete", currentSelected.getAttribute("name"));
+          // console.log(currentSelected.parentNode);
+          document.getElementById("drawZone").removeChild(currentSelected);
+        }
+      });
+
+    // for (let index = 0; index < controlBoxes.length; index++) {
+    //   const element = controlBoxes[index];
+    //   element.appendChild(boxes[index]);
+    //   console.log(element);
+
+    // $(element).draggable();
+    // console.log(1);
+    // }
+    // for (let index = 0; index < boxes.length; index++) {
+    //   const element = boxes[index];
+    //   $(element).draggable();
+    // }
+
+    // bins = document.querySelectorAll(".box");
+    // for (let index = 0; index < bins.length; index++) {
+    //   bins[index].className = "resizable";
+    // }
+    // makeResizableDiv(".resizable");
   }
+
   /*Make resizable div by Hung Nguyen*/
   function makeResizableDiv(div) {
     const elements = document.querySelectorAll(div);
@@ -172,18 +226,19 @@ function drawMouseDown(e) {
   startY = e.pageY;
   // 如果鼠标在 box 上被按下
 
-  if (e.target.className.match(/box/)) {
-    // 允许拖动
-    dragging = true;
-    // 设置当前 box 的 id 为 moving_box
-    if (document.getElementById("moving_box") !== null) {
-      document.getElementById("moving_box").removeAttribute("id");
-    }
-    e.target.id = "moving_box";
-    // 计算坐标差值
-    diffX = startX - e.target.offsetLeft;
-    diffY = startY - e.target.offsetTop;
-  } else {
+  // if (e.target.className.match(/box/)) {
+  //   // 允许拖动
+  //   dragging = true;
+  //   // 设置当前 box 的 id 为 moving_box
+  //   if (document.getElementById("moving_box") !== null) {
+  //     document.getElementById("moving_box").removeAttribute("id");
+  //   }
+  //   e.target.id = "moving_box";
+  //   // 计算坐标差值
+  //   diffX = startX - e.target.offsetLeft;
+  //   diffY = startY - e.target.offsetTop;
+  // } else
+  {
     // 在页面创建 box
     var active_box = document.createElement("div");
     active_box.id = "active_box";
@@ -215,22 +270,29 @@ function drawMouseUp(e) {
   if (document.getElementById("active_box") !== null) {
     var ab = document.getElementById("active_box");
     ab.removeAttribute("id");
-    resizersDiv = document.createElement("div");
-    resizersDiv.className = "resizers";
-    resizerLabels = [
-      "resizer top-left",
-      "resizer top-right",
-      "resizer bottom-left",
-      "resizer bottom-right",
-      "resizer rotate"
-    ];
-    resizerLabels.forEach(resizerLabel => {
-      div = document.createElement("div");
-      div.className = resizerLabel;
-      resizersDiv.appendChild(div);
-    });
-    ab.appendChild(resizersDiv);
+    // resizersDiv = document.createElement("div");
+    // resizersDiv.className = "resizers";
+    // resizerLabels = [
+    //   "resizer top-left",
+    //   "resizer top-right",
+    //   "resizer bottom-left",
+    //   "resizer bottom-right",
+    //   "resizer rotate"
+    // ];
+    // resizerLabels = [
+    //   "resizer top-left",
+    //   "resizer top-right",
+    //   "resizer bottom-left",
+    //   "resizer bottom-right"
+    // ];
+    // resizerLabels.forEach(resizerLabel => {
+    //   div = document.createElement("div");
+    //   div.className = resizerLabel;
+    //   resizersDiv.appendChild(div);
+    // });
+    // ab.appendChild(resizersDiv);
     ab.setAttribute("name", "bin-" + numberOfBin);
+    $(ab).draggable();
     numberOfBin++;
     // 如果长宽均小于 3px，移除 box
     if (ab.offsetWidth < 5 || ab.offsetHeight < 5) {
@@ -241,5 +303,6 @@ function drawMouseUp(e) {
   // if (document.getElementById("moving_box") !== null) {
   // document.getElementById("moving_box").removeAttribute("id");
   // }
+
   console.log("numberOfBin", numberOfBin);
 }
