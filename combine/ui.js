@@ -240,27 +240,24 @@ function draw() {
   }
 }
 function drawMouseDown(e) {
-  startX = e.clientX;
-  startY = e.clientY;
-  console.log(startX);
-  console.log(startY);
-
-  // 如果鼠标在 box 上被按下
+  startX = e.pageX;
+  startY = e.pageY;
+  // if click on the box
 
   // if (e.target.className.match(/box/)) {
-  //   // 允许拖动
+  //   // allow dragging
   //   dragging = true;
-  //   // 设置当前 box 的 id 为 moving_box
+  //   // set current box's id to be moving_box
   //   if (document.getElementById("moving_box") !== null) {
   //     document.getElementById("moving_box").removeAttribute("id");
   //   }
   //   e.target.id = "moving_box";
-  //   // 计算坐标差值
+  //   // calculate difference in coordinates
   //   diffX = startX - e.target.offsetLeft;
   //   diffY = startY - e.target.offsetTop;
   // } else
   {
-    // 在页面创建 box
+    // create box in website
     var active_box = document.createElement("div");
     active_box.id = "active_box";
     active_box.className = "box";
@@ -273,14 +270,14 @@ function drawMouseDown(e) {
   }
 }
 function drawMouseMove(e) {
-  // 更新 box 尺寸
+  // update box dimension
   if (document.getElementById("active_box") !== null) {
     var ab = document.getElementById("active_box");
     ab.style.width = e.pageX - startX + "px";
     ab.style.height = e.pageY - startY + "px";
   }
 
-  // 移动，更新 box 坐标
+  // move and update box coordinates
   if (document.getElementById("moving_box") !== null && dragging) {
     var mb = document.getElementById("moving_box");
     mb.style.top = e.pageY - diffY + "px";
@@ -288,7 +285,7 @@ function drawMouseMove(e) {
   }
 }
 function drawMouseUp(e) {
-  // 禁止拖动
+  // forbid dragging
   dragging = false;
   if (document.getElementById("active_box") !== null) {
     var ab = document.getElementById("active_box");
@@ -317,7 +314,7 @@ function drawMouseUp(e) {
     ab.setAttribute("name", "bin-" + numberOfBin);
     $(ab).draggable();
     numberOfBin++;
-    // 如果长宽均小于 3px，移除 box
+    // if height and weight less than 5px remove box
     if (ab.offsetWidth < 5 || ab.offsetHeight < 5) {
       numberOfBin--;
       document.getElementById("container").removeChild(ab);
