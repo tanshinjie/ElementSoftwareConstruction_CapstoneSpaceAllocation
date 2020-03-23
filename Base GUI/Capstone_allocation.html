@@ -52,7 +52,7 @@
                 <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
                         class="fas fa-search-minus"></i></button>
             </div>
-            <div id="container" style="width: 100%; height: auto; background-color: aqua; overflow: visible;">
+            <div id="container" style="width: 100%; height: 100%; background-color: aqua; overflow: visible;">
                 <canvas id="our-canvas" z-index="1"></canvas>
             </div>
             <script src="../rotate_daybrush/rotate.js"></script>
@@ -76,7 +76,7 @@
     }
 
     // script to enable drag-moving of canvas
-    // $("#container").draggable();
+    $("#container").draggable();
     // script to handle uploading of image file
     var canvas = document.getElementById('our-canvas');
     var context = canvas.getContext('2d');

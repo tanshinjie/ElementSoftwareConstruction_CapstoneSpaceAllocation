@@ -112,6 +112,16 @@ function Rotate(bin) {
     .on("dragEnd", ({ target, isDrag, clientX, clientY }) => {
       console.log("onDragEnd", target, isDrag);
     });
+  return moveable;
+}
 
+function UnRotate(bin) {
+  console.log("unrotate");
+
+  moveable = new Moveable(document.body, {
+    // If you want to use a group, set multiple targets(type: Array<HTMLElement | SVGElement>).
+    target: bin,
+    draggable: false
+  });
   return moveable;
 }

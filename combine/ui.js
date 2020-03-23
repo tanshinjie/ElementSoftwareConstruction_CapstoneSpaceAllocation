@@ -12,54 +12,70 @@ function resize() {
   //   .removeEventListener("mousemomve", drawMouseMove);
   btn = document.getElementById("editBtn");
   if (editing) {
+    $("#container").draggable("enable");
     editing = 0;
     btn.innerHTML = "Edit";
-    controlBoxes = document.querySelectorAll(".moveable-control-box");
-    for (let index = 0; index < controlBoxes.length; index++) {
-      const element = controlBoxes[index];
-      document.body.removeChild(element);
-    }
     boxes = document.querySelectorAll(".box");
+    // for (let index = 0; index < boxes.length; index++) {
+    //   var element = boxes[index];
+    //   // $(element).draggable("enable");
+    //   element.style.backgroundColor = null;
+    //   element.style.opacity = null;
+    // }
     for (let index = 0; index < boxes.length; index++) {
-      const element = boxes[index];
-      $(element).draggable("enable");
+      var element = boxes[index];
+      let div = document.createElement("div");
+      div.style.left = element.style.left;
+      div.style.top = element.style.top;
+      div.style.width = element.style.width;
+      div.style.height = element.style.height;
+      // div.style.position = element.style.position;
+      div.className = element.className;
+      div.style.border = "2px solid black";
+      div.style.zIndex = element.style.zIndex;
+      div.setAttribute("name", element.getAttribute("name"));
+      element.parentNode.removeChild(element);
+      document.getElementById("container").appendChild(div);
       element.style.backgroundColor = null;
       element.style.opacity = null;
     }
-
+    controlBoxes = document.querySelectorAll(".moveable-control-box");
+    console.log(controlBoxes);
+    for (let index = 0; index < controlBoxes.length; index++) {
+      const element = controlBoxes[index];
+      element.parentNode.removeChild(element);
+      // document.body.removeChild(element);
+    }
     // resizables = document.querySelectorAll(".resizable");
     // for (let index = 0; index < resizables.length; index++) {
     //   resizables[index].className = "box";
     // }
   } else {
-    let currentSelected;
+    // let currentSelected;
+    $("#container").draggable("disable");
     editing = 1;
     btn.innerHTML = "Editing...";
     boxes = document.querySelectorAll(".box");
-    let moveables = [];
+
     for (let index = 0; index < boxes.length; index++) {
       const element = boxes[index];
       element.style.backgroundColor = "#F0ADFE";
       element.style.opacity = 0.5;
-      $(element).draggable("disable");
-      moveables.push(Rotate(element));
+      Rotate(element);
+      // $(element).draggable("disable");
     }
     document
       .getElementById("drawZone")
       .addEventListener("mousedown", function(e) {
-        console.log(e.target);
         currentSelected = e.target;
       });
-
-    document
-      .getElementById("drawZone")
-      .addEventListener("keydown", function(e) {
-        if (e.keyCode == 46 && currentSelected != null) {
-          console.log("delete", currentSelected.getAttribute("name"));
-          // console.log(currentSelected.parentNode);
-          document.getElementById("drawZone").removeChild(currentSelected);
-        }
-      });
+    document.addEventListener("keydown", function(e) {
+      if (e.keyCode == 46 && currentSelected != null) {
+        console.log("delete", currentSelected.getAttribute("name"));
+        // console.log(currentSelected.parentNode);
+        document.getElementById("drawZone").removeChild(currentSelected);
+      }
+    });
 
     // for (let index = 0; index < controlBoxes.length; index++) {
     //   const element = controlBoxes[index];
@@ -189,59 +205,65 @@ function resize() {
 }
 
 var dragging = false;
-var startX, startY, diffX, diffY;
+let startX, startY, diffX, diffY, rect;
 var drawing = 0;
 function draw() {
   btn = document.getElementById("drawBtn");
   if (drawing) {
+    $("#container").draggable("enable");
     drawing = 0;
     btn.innerHTML = "Draw";
     document
-      .getElementById("container")
+      .getElementById("drawZone")
       .removeEventListener("mousedown", drawMouseDown);
     document
-      .getElementById("container")
+      .getElementById("drawZone")
       .removeEventListener("mousemove", drawMouseMove);
     document
-      .getElementById("container")
+      .getElementById("drawZone")
       .removeEventListener("mouseup", drawMouseUp);
     // $("#our-canvas").draggable(true);
 
-    var childs = document.getElementsByClassName(
-      "ui-draggable ui-draggable-handle"
-    );
-    var i;
+    // var childs = document.getElementsByClassName(
+    //   "ui-draggable ui-draggable-handle"
+    // );
+    // var i;
 
-    for (i = 0; i < childs.length; i++) {
-      childs[i].draggable("true");
-    }
+    // for (i = 0; i < childs.length; i++) {
+    //   childs[i].draggable("true");
+    // }
   } else {
+    $("#container").draggable("disable");
     drawing = 1;
     btn.innerHTML = "Drawing...";
     document
-      .getElementById("container")
+      .getElementById("drawZone")
       .addEventListener("mousedown", drawMouseDown);
     document
-      .getElementById("container")
+      .getElementById("drawZone")
       .addEventListener("mousemove", drawMouseMove);
     document
-      .getElementById("container")
+      .getElementById("drawZone")
       .addEventListener("mouseup", drawMouseUp);
     // $("#our-canvas").draggable(false);
 
-    var childs = document.getElementsByClassName(
-      "ui-draggable ui-draggable-handle"
-    );
-    var i;
+    // var childs = document.getElementsByClassName(
+    //   "ui-draggable ui-draggable-handle"
+    // );
+    // var i;
 
-    for (i = 0; i < childs.length; i++) {
-      childs[i].draggable("false");
-    }
+    // for (i = 0; i < childs.length; i++) {
+    //   childs[i].draggable("false");
+    // }
   }
 }
 function drawMouseDown(e) {
-  startX = e.pageX;
-  startY = e.pageY;
+  rect = document.getElementById("container").getBoundingClientRect();
+  console.log(rect);
+
+  startX = e.pageX - rect.x;
+  startY = e.pageY - rect.y;
+
   // if click on the box
 
   // if (e.target.className.match(/box/)) {
@@ -273,8 +295,8 @@ function drawMouseMove(e) {
   // update box dimension
   if (document.getElementById("active_box") !== null) {
     var ab = document.getElementById("active_box");
-    ab.style.width = e.pageX - startX + "px";
-    ab.style.height = e.pageY - startY + "px";
+    ab.style.width = e.pageX - startX - rect.x + "px";
+    ab.style.height = e.pageY - startY - rect.y + "px";
   }
 
   // move and update box coordinates
@@ -312,7 +334,6 @@ function drawMouseUp(e) {
     // });
     // ab.appendChild(resizersDiv);
     ab.setAttribute("name", "bin-" + numberOfBin);
-    $(ab).draggable();
     numberOfBin++;
     // if height and weight less than 5px remove box
     if (ab.offsetWidth < 5 || ab.offsetHeight < 5) {
