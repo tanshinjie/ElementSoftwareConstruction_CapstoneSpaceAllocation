@@ -237,6 +237,7 @@ function Run() {
   let updatedList = rlist;
   bins = document.getElementsByClassName("box");
   for (const bin of bins) {
+    bin.innerHTML = null;
     containers.push(bin);
   }
   containers.forEach(container => {
