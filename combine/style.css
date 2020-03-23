@@ -49,12 +49,12 @@
   cursor: nwse-resize;
 }
 
-.resizable .resizers .resizer.rotate {
+/* .resizable .resizers .resizer.rotate {
   top: -10px;
   position: relative;
   cursor: e-resize;
   margin: 0 auto;
-}
+} */
 
 /* .resizable .resizers .resizer.right {
   right: -5px;
