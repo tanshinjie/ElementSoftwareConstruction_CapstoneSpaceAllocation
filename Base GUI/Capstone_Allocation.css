@@ -57,7 +57,15 @@ nav {
 }
 
 /*create article box (containing canvas)*/
-article {
+/* article {
+  float: left;
+  width: 92%;
+  height: 650px;
+  overflow: hidden;
+  border: 1px solid grey;
+} */
+
+#drawZone {
   float: left;
   width: 92%;
   height: 650px;

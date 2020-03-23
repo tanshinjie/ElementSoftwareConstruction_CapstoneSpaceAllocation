@@ -16,9 +16,12 @@
     <link rel="stylesheet" href="../combine/style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+
+    <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
+    <script src="https://daybrush.com/scenejs/release/latest/dist/scene.js"></script>
 </head>
 
-<body onload="setup()">
+<body>
     <header>Capstone Allocation</header>
     <section>
         <nav>
@@ -49,16 +52,16 @@
                 <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
                         class="fas fa-search-minus"></i></button>
             </div>
-            <canvas id="our-canvas" z-index="1"></canvas>
+            <div id="container" style="width: 100%; height: auto; background-color: aqua; overflow: visible;">
+                <canvas id="our-canvas" z-index="1"></canvas>
+            </div>
+            <script src="../rotate_daybrush/rotate.js"></script>
         </article>
     </section>
     <div id="dvExcel">dvExcel</div>
 </body>
 
 <script type="text/javascript">
-    function setup() {
-        Upload();
-    }
     // script to handle zooming in and out of canvas
     function zoomin() {
         var GFG = document.getElementById("our-canvas");
@@ -73,7 +76,7 @@
     }
 
     // script to enable drag-moving of canvas
-    $("#our-canvas").draggable();
+    // $("#container").draggable();
     // script to handle uploading of image file
     var canvas = document.getElementById('our-canvas');
     var context = canvas.getContext('2d');
