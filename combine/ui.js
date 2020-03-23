@@ -197,33 +197,54 @@ function draw() {
     drawing = 0;
     btn.innerHTML = "Draw";
     document
-      .getElementById("drawZone")
+      .getElementById("container")
       .removeEventListener("mousedown", drawMouseDown);
     document
-      .getElementById("drawZone")
+      .getElementById("container")
       .removeEventListener("mousemove", drawMouseMove);
     document
-      .getElementById("drawZone")
+      .getElementById("container")
       .removeEventListener("mouseup", drawMouseUp);
-    $("#our-canvas").draggable("enable");
+    // $("#our-canvas").draggable(true);
+
+    var childs = document.getElementsByClassName(
+      "ui-draggable ui-draggable-handle"
+    );
+    var i;
+
+    for (i = 0; i < childs.length; i++) {
+      childs[i].draggable("true");
+    }
   } else {
     drawing = 1;
     btn.innerHTML = "Drawing...";
     document
-      .getElementById("drawZone")
+      .getElementById("container")
       .addEventListener("mousedown", drawMouseDown);
     document
-      .getElementById("drawZone")
+      .getElementById("container")
       .addEventListener("mousemove", drawMouseMove);
     document
-      .getElementById("drawZone")
+      .getElementById("container")
       .addEventListener("mouseup", drawMouseUp);
-    $("#our-canvas").draggable("disable");
+    // $("#our-canvas").draggable(false);
+
+    var childs = document.getElementsByClassName(
+      "ui-draggable ui-draggable-handle"
+    );
+    var i;
+
+    for (i = 0; i < childs.length; i++) {
+      childs[i].draggable("false");
+    }
   }
 }
 function drawMouseDown(e) {
-  startX = e.pageX;
-  startY = e.pageY;
+  startX = e.clientX;
+  startY = e.clientY;
+  console.log(startX);
+  console.log(startY);
+
   // 如果鼠标在 box 上被按下
 
   // if (e.target.className.match(/box/)) {
@@ -245,7 +266,9 @@ function drawMouseDown(e) {
     active_box.className = "box";
     active_box.style.top = startY + "px";
     active_box.style.left = startX + "px";
-    document.getElementById("drawZone").appendChild(active_box);
+    active_box.style.position = "absolute";
+    active_box.style.zIndex = 1000;
+    document.getElementById("container").appendChild(active_box);
     active_box = null;
   }
 }
@@ -297,7 +320,7 @@ function drawMouseUp(e) {
     // 如果长宽均小于 3px，移除 box
     if (ab.offsetWidth < 5 || ab.offsetHeight < 5) {
       numberOfBin--;
-      document.getElementById("drawZone").removeChild(ab);
+      document.getElementById("container").removeChild(ab);
     }
   }
   // if (document.getElementById("moving_box") !== null) {
