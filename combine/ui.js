@@ -12,6 +12,7 @@ function resize() {
     .removeEventListener("mousemomve", drawMouseMove);
   btn = document.getElementById("editBtn");
   if (editing) {
+    $("#drawZone").draggable('enable');
     editing = 0;
     btn.innerHTML = "Edit";
     resizables = document.querySelectorAll(".resizable");
@@ -19,8 +20,9 @@ function resize() {
       resizables[index].className = "box";
     }
   } else {
+    $("#drawZone").draggable('disable');
     editing = 1;
-    btn.innerHTML = "Editting...";
+    btn.innerHTML = "Editing...";
     bins = document.querySelectorAll(".box");
     for (let index = 0; index < bins.length; index++) {
       bins[index].className = "resizable";
@@ -138,9 +140,11 @@ var dragging = false;
 var startX, startY, diffX, diffY;
 var drawing = 0;
 function draw() {
+
   btn = document.getElementById("drawBtn");
-  if (editing) {
-    editing = 0;
+  if (drawing) {
+    $("#drawZone").draggable('enable');
+    drawing = 0;
     btn.innerHTML = "Draw";
     document
       .getElementById("drawZone")
@@ -152,7 +156,8 @@ function draw() {
       .getElementById("drawZone")
       .removeEventListener("mouseup", drawMouseUp);
   } else {
-    editing = 1;
+    $("#drawZone").draggable('disable');
+    drawing = 1;
     btn.innerHTML = "Drawing...";
     document
       .getElementById("drawZone")
@@ -164,6 +169,7 @@ function draw() {
       .getElementById("drawZone")
       .addEventListener("mouseup", drawMouseUp);
     btn = document.getElementById("drawBtn");
+
   }
 }
 function drawMouseDown(e) {

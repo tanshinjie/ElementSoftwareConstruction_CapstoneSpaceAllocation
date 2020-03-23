@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+        href="file:///C:/Users/Nicholas/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
+    <script src="html2canvas.min.js"></script>
 
     <script src="../bin-pack.js"></script>
     <script src="../datacleaner.js"></script>
@@ -43,12 +44,17 @@
             <p id='error-message'></p>
         </nav>
 
-        <article id="drawZone" style="position: relative;">
-            <button type=" button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
-                    class="fas fa-search-plus"></i></button>
-            <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
-                    class="fas fa-search-minus"></i></button>
-            <canvas id="our-canvas" z-index="1"></canvas>
+        <!--Our canvas, which displays the image that is uploaded, on the right-->
+        <article>
+                
+            <!--zoom in/out buttons-->
+            <button type="button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i class="fas fa-search-plus"></i></button>
+            <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i class="fas fa-search-minus"></i></button>
+
+            <!--overall container that holds the canvas and also all created divs-->
+            <div id="drawZone">
+                <canvas id="our-canvas" z-index="1" style="position: absolute;"></canvas>
+            </div>
         </article>
     </section>
 
@@ -68,12 +74,9 @@
         GFG.style.height = (currentHeight - 150) + "px";
     }
 
-    function test() {
-        console.log("Hello");
-    }
 
     // script to enable drag-moving of canvas
-    $("#our-canvas").draggable();
+    $("#drawZone").draggable();
     // script to handle uploading of image file
     var canvas = document.getElementById('our-canvas');
     var context = canvas.getContext('2d');
@@ -127,26 +130,33 @@
         infoArea.textContent = fileName;
     }
 
-    // script to handle saving of canvas into image 
+    //script to handle saving of overall drawZone
     var saveButton = document.getElementById("save-button");
-    var canvas = document.getElementById("our-canvas");
-    var context = canvas.getContext('2d');
+    var myCanvas = document.getElementById("our-canvas");
 
-    saveButton.addEventListener("click", function () {
-        //for IE / Edge
-        if (window.navigator.msSaveBlob) {
-            window.navigator.msSaveBlob(canvas.msToBlob(), "canvas-image.png");
-        }
-        else {
-            //for google chrome, firefox & other web browser downloads
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.href = canvas.toDataURL();
-            a.download = "canvas-image.png"
-            a.click();
-            document.body.removeChild(a);
-        }
-    })
+    saveButton.addEventListener("click", function(){
+
+        //resize canvas before saving image
+        myCanvas.style.height = 3521 + "px";
+
+        //screenshot divs and canvas before downloading as image file
+        html2canvas(document.querySelector("#drawZone"),{width:5000, height:5000}).then(canvas => {
+            //for IE / Edge
+            if(window.navigator.msSaveBlob){
+                window.navigator.msSaveBlob(canvas.msToBlob(), "canvas-image.png");
+            }
+            else{
+                //for google chrome, firefox & other web browser downloads
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.href = canvas.toDataURL();
+                a.download = "canvas-image.png"
+                a.click();
+                document.body.removeChild(a);
+            }
+        });
+                        
+    });
 
 </script>
 
