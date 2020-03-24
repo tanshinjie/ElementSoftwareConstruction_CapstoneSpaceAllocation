@@ -29,6 +29,7 @@ function resize() {
       div.style.top = element.style.top;
       div.style.width = element.style.width;
       div.style.height = element.style.height;
+      div.style.transform = element.style.tansform;
       // div.style.position = element.style.position;
       div.className = element.className;
       div.style.border = "2px solid black";
