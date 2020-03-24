@@ -248,7 +248,7 @@ function BinPack(binWidth, binHeight) {
   var sort = false;
 
   var binPacker = new BinPacker(binWidth, binHeight);
-  console.log(binPacker);
+  // console.log(binPacker);
 
   var pack = {};
 
@@ -375,7 +375,8 @@ function ArrayMaker(rlist, width, height) {
   let i = 0;
   let j = -1;
 
-  while (tempArea < Area(width, height) * 0.8) {
+  console.log(tempArea);
+  while (tempArea < Area(width, height) * 0.9) {
     //i = i%max;
     if (i == max - 1) {
       i = 0;
@@ -400,7 +401,7 @@ function ArrayMaker(rlist, width, height) {
     }
     i++;
   }
-  console.log(rlist);
+  // console.log(rlist);
   return [toBePacked, rlist];
 }
 // function ArrayMaker(rlist, width, height) {
