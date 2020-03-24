@@ -1,5 +1,19 @@
-function Rotate(bin) {
+function Rotate(bin, binsinboxes) {
 
+if(binsinboxes){
+  moveable = new Moveable(document.body, {
+    // If you want to use a group, set multiple targets(type: Array<HTMLElement | SVGElement>).
+    target: bin,
+    rotatable: true,
+    scalable: false,
+    draggable: true,
+    keepRatio: true,
+    throttleScale: 0,
+    throttleDrag: 0,
+    throttleRotate: 0,
+    origin: true,  });
+
+}else{
   moveable = new Moveable(document.body, {
     // If you want to use a group, set multiple targets(type: Array<HTMLElement | SVGElement>).
     target: bin,
@@ -11,6 +25,8 @@ function Rotate(bin) {
     throttleDrag: 0,
     throttleRotate: 0,
     origin: true,  });
+
+}
 
   moveable
     .on("rotateStart", ({ target, clientX, clientY }) => {

@@ -1,5 +1,7 @@
 var editing = 0;
 var numberOfBin = 0;
+var boxesinbins = 0;
+var boxesInBins = 0;
 function resize() {
   // document
   //   .getElementById("drawZone")
@@ -30,6 +32,9 @@ function resize() {
       div.style.width = element.style.width;
       div.style.height = element.style.height;
       div.style.transform = element.style.transform;
+      while(element.childNodes.length>0){
+        div.appendChild(element.childNodes[0]);
+      }
       // div.style.position = element.style.position;
       div.className = element.className;
       div.style.border = "2px solid black";
@@ -62,7 +67,8 @@ function resize() {
       const element = boxes[index];
       element.style.backgroundColor = "#F0ADFE";
       element.style.opacity = 0.5;
-      Rotate(element);
+      console.log(boxesinbins);
+      Rotate(element, boxesInBins);
       // $(element).draggable("disable");
     }
     document
