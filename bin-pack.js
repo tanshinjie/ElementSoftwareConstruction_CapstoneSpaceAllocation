@@ -346,6 +346,8 @@ function ArrayMaker(rlist, width, height) {
   let splicedBigList = [];
 
   let max = 0;
+  let totalLength = rlist.length;
+  let counter = 0;
   rlist.forEach(element => {
     if (element.tag >= max) {
       max = element.tag;
@@ -376,7 +378,7 @@ function ArrayMaker(rlist, width, height) {
   let j = -1;
 
   console.log(tempArea);
-  while (tempArea < Area(width, height) * 0.9) {
+  while (tempArea < Area(width, height) * 0.9 && counter == totalLength) {
     //i = i%max;
     if (i == max - 1) {
       i = 0;
@@ -400,6 +402,7 @@ function ArrayMaker(rlist, width, height) {
       }
     }
     i++;
+    counter++;
   }
   // console.log(rlist);
   return [toBePacked, rlist];
