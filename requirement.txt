@@ -1,0 +1,3 @@
+upon finish editing, rerun packing algo from fresh array 
+can both draw and edit
+edit hard too see when there are boxes

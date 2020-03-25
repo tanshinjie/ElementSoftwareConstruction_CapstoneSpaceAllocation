@@ -274,6 +274,7 @@ function BinPack(binWidth, binHeight) {
     let values = ArrayMaker(array, binWidth, binHeight);
     let readyToPack = values[0];
     let updatedList = values[1];
+    let z = values[2];
 
     // for(let i = 0; i < bins.length; i++){
     //   for(let j=0; j < readyToPack.length; j++){
@@ -286,7 +287,7 @@ function BinPack(binWidth, binHeight) {
       o.rectangle.datum = d;
     });
 
-    return [pack, updatedList];
+    return [pack, updatedList, z];
   };
 
   pack.binWidth = function(_) {
@@ -338,6 +339,7 @@ function Area(width, height) {
   return area;
 }
 function ArrayMaker(rlist, width, height) {
+  this.z = 0;
   // let currentTag;
   // let currentList;
   let bigList = [];
@@ -376,37 +378,72 @@ function ArrayMaker(rlist, width, height) {
   // for(let i = 0; i < max; i++){
   let i = 0;
   let j = -1;
+  let z;
 
-  console.log(tempArea);
-  while (tempArea < Area(width, height) * 0.9 && counter == totalLength) {
-    //i = i%max;
-    if (i == max - 1) {
-      i = 0;
+  while (tempArea <= Area(width, height) * 0.9) {
+    if (counter == totalLength) {
+      return [toBePacked, rlist, z];
     }
-    if (i == 0) {
-      j++;
-    }
-    // console.log(bigList[i]);
-    if (j < bigList[i].length) {
-      if (
-        tempArea + Area(bigList[i][j].width, bigList[i][j].height) <
-        Area(width, height)
-      ) {
-        toBePacked.push(bigList[i][j]);
-        tempArea += Area(bigList[i][j].width, bigList[i][j].height);
-        for (let z = 0; z < rlist.length; z++) {
-          if (rlist[z] == bigList[i][j]) {
-            rlist.splice(z, 1);
+    if (bigList.length != 1) {
+      z = "if";
+      if (i == max - 1) {
+        i = 0;
+      }
+      if (i == 0) {
+        j++;
+      }
+      if (j < bigList[i].length) {
+        if (
+          tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
+          Area(width, height) * 0.9
+        ) {
+          toBePacked.push(bigList[i][j]);
+          tempArea += Area(bigList[i][j].width, bigList[i][j].height);
+          for (let z = 0; z < rlist.length; z++) {
+            if (rlist[z] == bigList[i][j]) {
+              rlist.splice(z, 1);
+            }
           }
         }
       }
+      i++;
+      counter++;
+    } else {
+      // if (i == max - 1) {
+      //   i = 0;
+      // }
+      z = "else";
+      if (i == 0) {
+        j++;
+      }
+      // console.log("j", j);
+      // console.log(bigList[i][j]);
+
+      if (j < bigList[i].length) {
+        if (
+          tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
+          Area(width, height) * 0.9
+        ) {
+          toBePacked.push(bigList[i][j]);
+
+          tempArea += Area(bigList[i][j].width, bigList[i][j].height);
+          for (let z = 0; z < rlist.length; z++) {
+            if (rlist[z] == bigList[i][j]) {
+              rlist.splice(z, 1);
+            }
+          }
+        }
+      }
+      // i++;
+      counter++;
     }
-    i++;
-    counter++;
   }
   // console.log(rlist);
-  return [toBePacked, rlist];
+  //console.log("tobepacked", toBePacked);
+
+  //return [toBePacked, rlist];
 }
+
 // function ArrayMaker(rlist, width, height) {
 //   let currentTag;
 //   let currentList;
