@@ -65,8 +65,8 @@ function resize() {
 
     for (let index = 0; index < boxes.length; index++) {
       const element = boxes[index];
-      element.style.backgroundColor = "#F0ADFE";
-      element.style.opacity = 0.5;
+      element.style.backgroundColor = "#0C97C9";
+      // element.style.opacity = 0.5;
       console.log(boxesinbins);
       Rotate(element, boxesInBins);
       // $(element).draggable("disable");
@@ -206,7 +206,7 @@ function resize() {
       }
       function stopResize() {
         window.removeEventListener("mousemove", resize);
-      }
+      } 
     }
   }
 }
