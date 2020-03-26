@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Capstone Allocation Web Application</title>
+    <link rel="stylesheet" href="Capstone_Allocation.css">
+    <link rel="stylesheet" href="jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+    <!-- <script src="jquery.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <script src="../bin-pack.js"></script>
+    <script src="../datacleaner.js"></script>
+    <script src="../combine/ui.js"></script>
+    <script src="html2canvas.min.js"></script>
+    <link rel="stylesheet" href="../combine/style.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+
+    <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
+    <script src="https://daybrush.com/scenejs/release/latest/dist/scene.js"></script> -->
+</head>
+
+<body>
+    <header>Capstone Allocation</header>
+    <section>
+        <nav>
+            <input type="file" id="uploaded-file" class="hidden" accept="image/*">
+            <label onclick = "testbutton()">Upload Image</label>
+            <br>
+            <input type="file" id="uploaded-excel" class="hidden"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
+            <label id="upload" onclick="testbutton()">Upload Excel</label>
+            <div id="excel-name"></div>
+            <br>
+            <div class="btn-group">
+                <button id="drawBtn" onclick="testbutton()">Draw</button>
+                <br>
+                <button id="editBtn" onclick="testbutton()">Edit</button>
+                <br>
+                <button id="runBtn" onclick="testbutton()">Run</button>
+                <br>
+                <button id="save-button" onclick="testbutton()">Save Image</button>
+            </div>
+            <p id='error-message'></p>
+        </nav>
+
+        <article id="drawZone">
+            <div id="buttonContainer" style="position: absolute; right: 0;">
+                <button type=" button" class="zoomBtnIn" onclick="testbutton()" id="zoomIn"><i
+                        class="fas fa-search-plus"></i></button>
+                <button type="button" class="zoomBtnOut" onclick="testbutton()" id="zoomOut"><i
+                        class="fas fa-search-minus"></i></button>
+            </div>
+            <div id="container" style="width: 100%; height: 100%; background-color: aqua; overflow: visible;">
+                <canvas id="our-canvas" z-index="1"></canvas>
+            </div>
+            <!-- <script src="../rotate_daybrush/rotate.js"></script> -->
+        </article>
+    </section>
+    <div id="dvExcel">dvExcel</div>
+</body>
+<script>
+    function testbutton(){
+        alert("This button can be clicked");
+    }
+</script>
+<!-- <script type="text/javascript">
+
+    //default: all buttons other than "Upload Image" and "Upload Excel" will be disabled
+    document.getElementById("save-button").disabled = true;
+    document.getElementById("drawBtn").disabled = true;
+    document.getElementById("editBtn").disabled = true;
+    document.getElementById("runBtn").disabled = true;
+
+    //Boolean to check whether both image and excel have been uploaded
+    var checkImage = false;
+    var checkExcel = false;
+
+    // script to handle zooming in and out of canvas
+    function zoomin() {
+        // var GFG = document.getElementById("our-canvas");
+        // var currentHeight = GFG.clientHeight;
+        // GFG.style.height = (currentHeight + 150) + "px";
+        // let canvas = document.querySelector("#our-canvas")
+        // console.log(canvas.width * 1.2);
+        // canvas.width = canvas.width * 1.2 + "px";
+        // canvas.height = canvas.height * 1.2 + "px";
+        let bins = document.querySelectorAll(".box")
+        for (let index = 0; index < bins.length; index++) {
+            const bin = bins[index];
+            bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            if (bin.hasChildNodes()) {
+                for (let index = 0; index < bin.childNodes.length; index++) {
+                    const box = bin.childNodes[index];
+                    box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                    box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                    box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                    box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                }
+            }
+        }
+        $("#our-canvas").width($("#our-canvas").width() * 1.2)
+        $("#our-canvas").height($("#our-canvas").height() * 1.2)
+    }
+
+    function zoomout() {
+        // var GFG = document.getElementById("our-canvas");
+        // var currentHeight = GFG.clientHeight;
+        // GFG.style.height = (currentHeight - 150) + "px";
+        let bins = document.querySelectorAll(".box")
+        for (let index = 0; index < bins.length; index++) {
+            const bin = bins[index];
+            bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            if (bin.hasChildNodes()) {
+                for (let index = 0; index < bin.childNodes.length; index++) {
+                    const box = bin.childNodes[index];
+                    box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                    box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                    box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                    box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                }
+            }
+        }
+        $("#our-canvas").width($("#our-canvas").width() / 1.2)
+        $("#our-canvas").height($("#our-canvas").height() / 1.2)
+    }
+
+    // script to handle uploading of image file
+    var canvas = document.getElementById('our-canvas');
+    var context = canvas.getContext('2d');
+
+    window.addEventListener('DOMContentLoaded', initImageLoader);
+
+    var uploadedFile = document.getElementById('uploaded-file');
+
+    function initImageLoader() {
+        uploadedFile.addEventListener('change', handleManualUploadedFiles);
+
+        function handleManualUploadedFiles(ev) {
+            var file = ev.target.files[0];
+            handleFile(file);
+        }
+    }
+
+    function handleFile(file) {
+        var imageType = /image.*/;
+
+        if (file.type.match(imageType)) {
+            var reader = new FileReader();
+
+            reader.onloadend = function (event) {
+                var tempImageStore = new Image();
+                tempImageStore.onload = function (ev) {
+                    canvas.width = ev.target.width;
+                    canvas.height = ev.target.height;
+                    context.drawImage(ev.target, 0, 0);
+                }
+                tempImageStore.src = event.target.result;
+                // script to enable drag-moving of canvas
+                $("#container").draggable();
+                checkImage = true;
+
+                if (checkExcel) {
+                    document.getElementById("save-button").disabled = false;
+                    document.getElementById("drawBtn").disabled = false;
+                    document.getElementById("editBtn").disabled = false;
+                    document.getElementById("runBtn").disabled = false;
+                }
+            }
+
+            reader.readAsDataURL(file);
+        }
+        else {
+            var error = document.getElementById('error-message');
+            error.innerHTML = "Error! You did not upload an image file! (eg .png, .jpg)";
+        }
+    }
+
+    // script to handle uploading of excel file
+    var input = document.getElementById("uploaded-excel");
+    var infoArea = document.getElementById("excel-name");
+
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+        Upload();
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+        checkExcel = true;
+
+        if (checkImage) {
+            document.getElementById("save-button").disabled = false;
+            document.getElementById("drawBtn").disabled = false;
+            document.getElementById("editBtn").disabled = false;
+            document.getElementById("runBtn").disabled = false;
+        }
+
+    }
+
+    //script to handle saving of overall container
+    var saveButton = document.getElementById("save-button");
+    //var myCanvas = document.getElementById("our-canvas");
+
+    saveButton.addEventListener("click", function () {
+
+        //resize canvas before saving image
+        //myCanvas.style.height = 3521 + "px";
+        $('#container').css({ transform: 'scale(1)' });
+
+
+        //screenshot divs and canvas before downloading as image file
+        html2canvas(document.querySelector("#container"), { width: 5000, height: 5000 }).then(canvas => {
+            //for IE / Edge
+            if (window.navigator.msSaveBlob) {
+                window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation.png");
+            }
+            else {
+                //for google chrome, firefox & other web browser downloads
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.href = canvas.toDataURL();
+                a.download = "Capstone_Allocation.png"
+                a.click();
+                document.body.removeChild(a);
+            }
+        });
+
+    });
+
+
+</script> -->
+
+</html>
