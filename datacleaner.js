@@ -21,7 +21,7 @@ function Upload() {
       if (reader.readAsBinaryString) {
         reader.onload = function(e) {
           ProcessExcel(e.target.result);
-        };  
+        };
         reader.readAsBinaryString(fileUpload.files[0]);
       } else {
         //For IE Browser.

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="file:///C:/Users/Nicholas/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+        href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
@@ -31,12 +31,12 @@
             <br>
             <input type="file" id="uploaded-excel" class="hidden"
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
-            <label for="uploaded-excel" id="upload" onclick="Upload()">Upload Excel</label>
+            <label for="uploaded-excel" id="upload">Upload Excel</label>
             <div id="excel-name"></div>
-            <br>    
+            <br>
             <div class="btn-group">
                 <button id="drawBtn" onclick="draw()">Draw</button>
-                <br>    
+                <br>
                 <button id="editBtn" onclick="resize()">Edit</button>
                 <br>
                 <button id="runBtn" onclick="Run()">Run</button>
@@ -164,12 +164,12 @@
                 $("#container").draggable();
                 checkImage = true;
 
-                if(checkExcel){
+                if (checkExcel) {
                     document.getElementById("save-button").disabled = false;
                     document.getElementById("drawBtn").disabled = false;
                     document.getElementById("editBtn").disabled = false;
-                    document.getElementById("runBtn").disabled = false; 
-        }
+                    document.getElementById("runBtn").disabled = false;
+                }
             }
 
             reader.readAsDataURL(file);
@@ -187,16 +187,17 @@
     input.addEventListener('change', showFileName);
 
     function showFileName(event) {
+        Upload();
         var input = event.srcElement;
         var fileName = input.files[0].name;
         infoArea.textContent = fileName;
         checkExcel = true;
 
-        if(checkImage){
+        if (checkImage) {
             document.getElementById("save-button").disabled = false;
             document.getElementById("drawBtn").disabled = false;
             document.getElementById("editBtn").disabled = false;
-            document.getElementById("runBtn").disabled = false; 
+            document.getElementById("runBtn").disabled = false;
         }
 
     }
@@ -205,20 +206,20 @@
     var saveButton = document.getElementById("save-button");
     //var myCanvas = document.getElementById("our-canvas");
 
-    saveButton.addEventListener("click", function(){
+    saveButton.addEventListener("click", function () {
 
         //resize canvas before saving image
         //myCanvas.style.height = 3521 + "px";
-        $('#container').css({transform: 'scale(1)'});
+        $('#container').css({ transform: 'scale(1)' });
 
 
         //screenshot divs and canvas before downloading as image file
-        html2canvas(document.querySelector("#container"),{width:5000, height:5000}).then(canvas => {
+        html2canvas(document.querySelector("#container"), { width: 5000, height: 5000 }).then(canvas => {
             //for IE / Edge
-            if(window.navigator.msSaveBlob){
+            if (window.navigator.msSaveBlob) {
                 window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation.png");
             }
-            else{
+            else {
                 //for google chrome, firefox & other web browser downloads
                 var a = document.createElement("a");
                 document.body.appendChild(a);
@@ -228,7 +229,7 @@
                 document.body.removeChild(a);
             }
         });
-                        
+
     });
 
 

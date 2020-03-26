@@ -32,7 +32,7 @@ function resize() {
       div.style.width = element.style.width;
       div.style.height = element.style.height;
       div.style.transform = element.style.transform;
-      while(element.childNodes.length>0){
+      while (element.childNodes.length > 0) {
         div.appendChild(element.childNodes[0]);
       }
       // div.style.position = element.style.position;
@@ -68,12 +68,11 @@ function resize() {
       const element = boxes[index];
       element.style.backgroundColor = "#0C97C9";
       // element.style.opacity = 0.5;
-      console.log(element.childNodes)
-      if(element.childNodes.length > 0){
-        boxesinbins = 1
-      }
-      else{
-        boxesinbins = 0
+      console.log(element.childNodes);
+      if (element.childNodes.length > 0) {
+        boxesinbins = 1;
+      } else {
+        boxesinbins = 0;
       }
       Rotate(element, boxesinbins);
       // $(element).draggable("disable");
@@ -213,7 +212,7 @@ function resize() {
       }
       function stopResize() {
         window.removeEventListener("mousemove", resize);
-      } 
+      }
     }
   }
 }
@@ -275,7 +274,7 @@ function draw() {
 }
 function drawMouseDown(e) {
   rect = document.getElementById("container").getBoundingClientRect();
-  console.log(rect);
+  // console.log(rect);
 
   startX = e.pageX - rect.x;
   startY = e.pageY - rect.y;
