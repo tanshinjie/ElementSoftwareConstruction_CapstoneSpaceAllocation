@@ -269,7 +269,6 @@ function Run() {
       numberOfBox++;
     });
   });
-  boxesInBins = 1;
   // List(unpositioned, false);
 }
 

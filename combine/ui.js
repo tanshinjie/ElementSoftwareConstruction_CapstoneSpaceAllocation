@@ -1,7 +1,6 @@
 var editing = 0;
 var numberOfBin = 0;
 var boxesinbins = 0;
-var boxesInBins = 0;
 function resize() {
   // document
   //   .getElementById("drawZone")
@@ -67,8 +66,14 @@ function resize() {
       const element = boxes[index];
       element.style.backgroundColor = "#0C97C9";
       // element.style.opacity = 0.5;
-      console.log(boxesinbins);
-      Rotate(element, boxesInBins);
+      console.log(element.childNodes)
+      if(element.childNodes.length > 0){
+        boxesinbins = 1
+      }
+      else{
+        boxesinbins = 0
+      }
+      Rotate(element, boxesinbins);
       // $(element).draggable("disable");
     }
     document
