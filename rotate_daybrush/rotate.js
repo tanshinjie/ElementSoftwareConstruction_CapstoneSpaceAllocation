@@ -19,13 +19,14 @@ function Rotate(bin, binsinboxes) {
     rotatable: true,
     draggable: true,
     keepRatio: true,
-    // throttleScale: 0,
-    // throttleDrag: 0,
-    // throttleRotate: 0,
+    throttleScale: 0,
+    throttleDrag: 0,
+    throttleRotate: 0,
+    throttleDragRotate: 0,
     origin: true,
     snappable: true,
-    snapThreshold: 1,
-    bounds:{left: 0, top:0, bottom: 648, right:1410},
+    snapThreshold: 0,
+    bounds:{left: 0, top:0, bottom: document.getElementById("our-canvas").offsetHeight, right:document.getElementById("our-canvas").offsetWidth},
     });
 
 
