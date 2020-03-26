@@ -64,15 +64,57 @@
 <script type="text/javascript">
     // script to handle zooming in and out of canvas
     function zoomin() {
-        var GFG = document.getElementById("our-canvas");
-        var currentHeight = GFG.clientHeight;
-        GFG.style.height = (currentHeight + 150) + "px";
+        // var GFG = document.getElementById("our-canvas");
+        // var currentHeight = GFG.clientHeight;
+        // GFG.style.height = (currentHeight + 150) + "px";
+        // let canvas = document.querySelector("#our-canvas")
+        // console.log(canvas.width * 1.2);
+        // canvas.width = canvas.width * 1.2 + "px";
+        // canvas.height = canvas.height * 1.2 + "px";
+        let bins = document.querySelectorAll(".box")
+        for (let index = 0; index < bins.length; index++) {
+            const bin = bins[index];
+            bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+            if (bin.hasChildNodes()) {
+                for (let index = 0; index < bin.childNodes.length; index++) {
+                    const box = bin.childNodes[index];
+                    box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                    box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                    box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                    box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+                }
+            }
+        }
+        $("#our-canvas").width($("#our-canvas").width() * 1.2)
+        $("#our-canvas").height($("#our-canvas").height() * 1.2)
     }
 
     function zoomout() {
-        var GFG = document.getElementById("our-canvas");
-        var currentHeight = GFG.clientHeight;
-        GFG.style.height = (currentHeight - 150) + "px";
+        // var GFG = document.getElementById("our-canvas");
+        // var currentHeight = GFG.clientHeight;
+        // GFG.style.height = (currentHeight - 150) + "px";
+        let bins = document.querySelectorAll(".box")
+        for (let index = 0; index < bins.length; index++) {
+            const bin = bins[index];
+            bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+            if (bin.hasChildNodes()) {
+                for (let index = 0; index < bin.childNodes.length; index++) {
+                    const box = bin.childNodes[index];
+                    box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                    box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                    box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                    box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+                }
+            }
+        }
+        $("#our-canvas").width($("#our-canvas").width() / 1.2)
+        $("#our-canvas").height($("#our-canvas").height() / 1.2)
     }
 
     // script to enable drag-moving of canvas
