@@ -9,6 +9,7 @@ function Upload() {
   //Reference the FileUpload element.
   // var fileUpload = document.getElementById("fileUpload");
   var fileUpload = document.getElementById("uploaded-excel");
+
   // THARUN DID SMTG
   //Validate whether File is valid Excel file.
   var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
@@ -20,7 +21,7 @@ function Upload() {
       if (reader.readAsBinaryString) {
         reader.onload = function(e) {
           ProcessExcel(e.target.result);
-        };
+        };  
         reader.readAsBinaryString(fileUpload.files[0]);
       } else {
         //For IE Browser.

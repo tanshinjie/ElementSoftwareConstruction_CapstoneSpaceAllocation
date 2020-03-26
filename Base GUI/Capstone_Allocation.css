@@ -35,6 +35,22 @@ nav {
   font-size: 14px;
 }
 
+.deactivated button {
+  background-color:lightgrey; /* Green background */
+  border: 1px solid grey; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: not-allowed; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  font-size: 14px;
+  
+}
+
+.deactivated button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
 /*style the list of buttons inside navigation bar*/
 .btn-group button {
   background-color: #4caf50; /* Green background */
@@ -55,6 +71,19 @@ nav {
 .btn-group button:hover {
   background-color: #3e8e41;
 }
+
+.btn-group button:disabled {
+  background-color:lightgrey; /* Green background */
+  border: 1px solid grey; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: not-allowed; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  font-size: 14px;
+  
+}
+
 
 /*create article box (containing canvas)*/
 /* article {
