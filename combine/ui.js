@@ -14,6 +14,7 @@ function resize() {
   btn = document.getElementById("editBtn");
   if (editing) {
     $("#container").draggable("enable");
+    document.getElementById("drawBtn").disabled = false;
     editing = 0;
     btn.innerHTML = "Edit";
     boxes = document.querySelectorAll(".box");
@@ -58,6 +59,7 @@ function resize() {
   } else {
     // let currentSelected;
     $("#container").draggable("disable");
+    document.getElementById("drawBtn").disabled = true;
     editing = 1;
     btn.innerHTML = "Editing...";
     boxes = document.querySelectorAll(".box");
@@ -223,6 +225,7 @@ function draw() {
   btn = document.getElementById("drawBtn");
   if (drawing) {
     $("#container").draggable("enable");
+    document.getElementById("editBtn").disabled = false;
     drawing = 0;
     btn.innerHTML = "Draw";
     document
@@ -246,6 +249,7 @@ function draw() {
     // }
   } else {
     $("#container").draggable("disable");
+    document.getElementById("editBtn").disabled = true;
     drawing = 1;
     btn.innerHTML = "Drawing...";
     document
