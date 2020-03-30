@@ -37,6 +37,9 @@ function initMoveable(moveableObject, bin, binsinboxes) {
   } else {
     moveableObject.moveable.scalable = true;
   }
+  if (moveableObject.frame.rotate != 0) {
+    moveableObject.moveable.scalable = false;
+  }
   moveableObject.moveable
     .on("rotateStart", ({ set }) => {
       frame = moveableObject.frame;
