@@ -80,8 +80,17 @@
     var checkImage = false;
     var checkExcel = false;
 
+    let zoomLevel = 1
     // script to handle zooming in and out of canvas
     function zoomin() {
+        if (zoomLevel < 1.5) {
+            zoomLevel = zoomLevel + 0.1
+            document.getElementById("container").style.transform = "scale(" + zoomLevel + "," + zoomLevel + ")"
+            document.getElementById("container").style.transformOrigin = "0 0 0"
+
+        } else {
+            console.log("maximum zoom");
+        }
         // var GFG = document.getElementById("our-canvas");
         // var currentHeight = GFG.clientHeight;
         // GFG.style.height = (currentHeight + 150) + "px";
@@ -89,50 +98,57 @@
         // console.log(canvas.width * 1.2);
         // canvas.width = canvas.width * 1.2 + "px";
         // canvas.height = canvas.height * 1.2 + "px";
-        let bins = document.querySelectorAll(".box")
-        for (let index = 0; index < bins.length; index++) {
-            const bin = bins[index];
-            bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-            bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-            bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-            bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-            if (bin.hasChildNodes()) {
-                for (let index = 0; index < bin.childNodes.length; index++) {
-                    const box = bin.childNodes[index];
-                    box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-                    box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-                    box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-                    box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
-                }
-            }
-        }
-        $("#our-canvas").width($("#our-canvas").width() * 1.2)
-        $("#our-canvas").height($("#our-canvas").height() * 1.2)
+        // let bins = document.querySelectorAll(".box")
+        // for (let index = 0; index < bins.length; index++) {
+        //     const bin = bins[index];
+        //     bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //     bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //     bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //     bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //     if (bin.hasChildNodes()) {
+        //         for (let index = 0; index < bin.childNodes.length; index++) {
+        //             const box = bin.childNodes[index];
+        //             box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //             box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //             box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //             box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) * 1.2 + "px";
+        //         }
+        //     }
+        // }
+        // $("#our-canvas").width($("#our-canvas").width() * 1.2)
+        // $("#our-canvas").height($("#our-canvas").height() * 1.2)
     }
 
     function zoomout() {
+        if (0.5 < zoomLevel) {
+            zoomLevel = zoomLevel - 0.1
+            document.getElementById("container").style.transform = "scale(" + zoomLevel + "," + zoomLevel + ")"
+            document.getElementById("container").style.transformOrigin = "0 0 0"
+        } else {
+            console.log("minimum zoom");
+        }
         // var GFG = document.getElementById("our-canvas");
         // var currentHeight = GFG.clientHeight;
         // GFG.style.height = (currentHeight - 150) + "px";
-        let bins = document.querySelectorAll(".box")
-        for (let index = 0; index < bins.length; index++) {
-            const bin = bins[index];
-            bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-            bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-            bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-            bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-            if (bin.hasChildNodes()) {
-                for (let index = 0; index < bin.childNodes.length; index++) {
-                    const box = bin.childNodes[index];
-                    box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-                    box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-                    box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-                    box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
-                }
-            }
-        }
-        $("#our-canvas").width($("#our-canvas").width() / 1.2)
-        $("#our-canvas").height($("#our-canvas").height() / 1.2)
+        // let bins = document.querySelectorAll(".box")
+        // for (let index = 0; index < bins.length; index++) {
+        //     const bin = bins[index];
+        //     bin.style.width = parseInt(bin.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //     bin.style.height = parseInt(bin.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //     bin.style.left = parseInt(bin.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //     bin.style.top = parseInt(bin.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //     if (bin.hasChildNodes()) {
+        //         for (let index = 0; index < bin.childNodes.length; index++) {
+        //             const box = bin.childNodes[index];
+        //             box.style.width = parseInt(box.style.width.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //             box.style.height = parseInt(box.style.height.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //             box.style.left = parseInt(box.style.left.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //             box.style.top = parseInt(box.style.top.replace(/[^0-9\.]/g, ""), 10) / 1.2 + "px";
+        //         }
+        //     }
+        // }
+        // $("#our-canvas").width($("#our-canvas").width() / 1.2)
+        // $("#our-canvas").height($("#our-canvas").height() / 1.2)
     }
 
     // script to handle uploading of image file
@@ -238,7 +254,20 @@
 
     });
 
-
+    let numOfBox = 0
+    function createNewBin() {
+        let active_box = document.createElement("div");
+        active_box.className = "box";
+        active_box.style.width = 200 + "px";
+        active_box.style.height = 200 + "px";
+        active_box.style.top = 200 + "px";
+        active_box.style.left = 200 + "px";
+        active_box.style.position = "absolute";
+        active_box.style.zIndex = 1000;
+        active_box.setAttribute("name", "bin-" + numOfBox)
+        document.getElementById("container").appendChild(active_box);
+        numOfBox++;
+    }
 </script>
 
 </html>
