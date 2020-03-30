@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
+    <script src="https://daybrush.com/scenejs/release/latest/dist/scene.js"></script>
+    <title>Document</title>
+    <style>
+        #container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            left: 200px;
+            top: 200px;
+            background-color: aqua;
+        }
+
+        #childDiv1 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            left: 20px;
+            top: 20px;
+            background-color: red;
+        }
+
+        #childDiv2 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            left: 50px;
+            top: 50px;
+            background-color: red;
+        }
+    </style>
+</head>
+<button onclick="scaleUp()">
+    Zoom In
+</button>
+<button onclick="scaleDown()">
+    Zoom In
+</button>
+<button onclick="edit()">
+    Edit
+</button>
+<button onclick="cancelEdit()">Cancel</button>
+
+<body>
+    <div id="container">
+        <div class="bin" id="childDiv1" name="bin-0"></div>
+        <div class="bin" id="childDiv2" name="bin-1"></div>
+        <script>
+            let moveableObjectList = []
+            let moveable = null
+            let frame = null
+            let name = null
+            let moveableObject = {
+                moveable,
+                frame,
+                name
+            }
+            moveableObjectList.push(moveableObject)
+            moveableObject = {
+                moveable,
+                frame,
+                name
+            }
+            moveableObjectList.push(moveableObject)
+        </script>
+    </div>
+
+</body>
+<script>
+    function scaleUp() {
+        let pDiv = document.getElementById("container")
+        let c1Div = document.getElementById("childDiv1")
+        let c2Div = document.getElementById("childDiv2")
+        pDiv.style.transform = "scale(1.5)"
+    }
+    function scaleDown() {
+        let pDiv = document.getElementById("parentDiv")
+        let c1Div = document.getElementById("childDiv1")
+        let c2Div = document.getElementById("childDiv2")
+        pDiv.style.transform = "scale(1)"
+    }
+
+    function edit() {
+        let bins = document.querySelectorAll(".bin")
+        for (let index = 0; index < bins.length; index++) {
+            const bin = bins[index];
+            let m = initMoveable(moveableObjectList[index], bin);
+            moveableObjectList[index] = m
+        }
+    }
+    function cancelEdit() {
+        // for (let index = 0; index < moveableObjectList.length; index++) {
+        //     const element = moveableObjectList[index];
+        // }
+        console.log(moveableObjectList);
+        controlBoxes = document.querySelectorAll(".moveable-control-box");
+        for (let index = 0; index < controlBoxes.length; index++) {
+            const element = controlBoxes[index];
+            element.parentNode.removeChild(element);
+        }
+    }
+</script>
+
+</html>
+<script>
+    function initMoveable(moveableObject, bin) {
+        if (moveableObject.frame == null) {
+            console.log("new");
+            moveableObject.frame = {
+                translate: [0, 0],
+                scale: [1, 1],
+                rotate: 0
+            }
+            moveableObject.name = bin.getAttribute("name")
+        }
+        else {
+            console.log("old");
+        }
+        frame = moveableObject.frame
+        console.log(frame.translate);
+        moveableObject.moveable = new Moveable(document.getElementById("container"), {
+            target: bin,
+            rotatable: true,
+            draggable: true,
+            scalable: true,
+            keepRatio: false,
+            throttleScale: 0,
+            throttleDrag: 0,
+            throttleRotate: 0,
+            throttleDragRotate: 0,
+            origin: true,
+            snapThreshold: 0,
+            snappable: true,
+            bounds: {
+                left: 0,
+                top: 0,
+                bottom: document.getElementById("container").offsetHeight,
+                right: document.getElementById("container").offsetWidth
+            }
+        });
+        moveableObject.moveable
+            .on("rotateStart", ({ set }) => {
+                frame = moveableObject.frame
+                set(frame.rotate);
+            })
+            .on("rotate", ({ target, beforeRotate }) => {
+                frame.rotate = beforeRotate;
+                editor(target);
+            })
+            .on("dragStart", ({ set }) => {
+                frame = moveableObject.frame
+                set(frame.translate);
+            })
+            .on("drag", ({ target, beforeTranslate }) => {
+                frame.translate = beforeTranslate;
+                editor(target);
+            })
+            .on("scaleStart", ({ set, dragStart }) => {
+                frame = moveableObject.frame
+                set(frame.scale);
+                dragStart && dragStart.set(frame.translate);
+            })
+            .on("scale", ({ target, drag, scale }) => {
+                frame.scale = scale;
+                frame.translate = drag.beforeTranslate;
+                editor(target);
+            });
+        function editor(target) {
+            const { translate, scale, rotate } = frame;
+            target.style.transform = `translate(${translate[0]}px, ${translate[1]}px) scale(${scale[0]}, ${scale[1]}) rotate(${rotate}deg)`;
+        }
+        return moveableObject
+    }
+
+
+    function initMoveableNew(bin, binsinboxes, name) {
+        let frame = {
+            translate: [0, 0],
+            scale: [1, 1],
+            rotate: 0
+        };
+        console.log("initMoveableNew");
+        let moveable = new Moveable(document.getElementById("container"), {
+            target: bin,
+            rotatable: true,
+            draggable: true,
+            scalable: true,
+            keepRatio: false,
+            throttleScale: 0,
+            throttleDrag: 0,
+            throttleRotate: 0,
+            throttleDragRotate: 0,
+            origin: true,
+            snapThreshold: 0,
+            snappable: true,
+            bounds: {
+                left: 0,
+                top: 0,
+                bottom: document.getElementById("container").offsetHeight,
+                right: document.getElementById("container").offsetWidth
+            }
+        });
+        if (binsinboxes) {
+            moveable.scalable = false;
+        } else {
+            moveable.scalable = true;
+        }
+        moveable
+            .on("rotateStart", ({ set }) => {
+                set(frame.rotate);
+            })
+            .on("rotate", ({ target, beforeRotate }) => {
+                frame.rotate = beforeRotate;
+                editor(target);
+            })
+            .on("dragStart", ({ set }) => {
+                set(frame.translate);
+            })
+            .on("drag", ({ target, beforeTranslate }) => {
+                frame.translate = beforeTranslate;
+                editor(target);
+            })
+            .on("scaleStart", ({ set, dragStart }) => {
+                set(frame.scale);
+                dragStart && dragStart.set(frame.translate);
+            })
+            .on("scale", ({ target, drag, scale }) => {
+                console.log("scale");
+                frame.scale = scale;
+                frame.translate = drag.beforeTranslate;
+                editor(target);
+            });
+        function editor(target) {
+            const { translate, scale, rotate } = frame;
+            moveableObject.frame = frame;
+            console.log(frame);
+            target.style.transform = `translate(${translate[0]}px, ${translate[1]}px) scale(${scale[0]}, ${scale[1]}) rotate(${rotate}deg)`;
+        }
+        moveableObject = {
+            moveable,
+            frame,
+            name
+        };
+        return moveableObject;
+    }
+
+
+    function initMoveableOld(bin, binsinboxes, name, frame) {
+        console.log("initMoveableOld");
+        let moveable = new Moveable(document.getElementById("container"), {
+            target: bin,
+            rotatable: true,
+            draggable: true,
+            scalable: true,
+            keepRatio: false,
+            throttleScale: 0,
+            throttleDrag: 0,
+            throttleRotate: 0,
+            throttleDragRotate: 0,
+            origin: true,
+            snapThreshold: 0,
+            snappable: true,
+            bounds: {
+                left: 0,
+                top: 0,
+                bottom: document.getElementById("container").offsetHeight,
+                right: document.getElementById("container").offsetWidth
+            }
+        });
+        if (binsinboxes) {
+            moveable.scalable = false;
+        } else {
+            moveable.scalable = true;
+        }
+        moveable
+            .on("rotateStart", ({ set }) => {
+                set(frame.rotate);
+            })
+            .on("rotate", ({ target, beforeRotate }) => {
+                frame.rotate = beforeRotate;
+                editor(target);
+            })
+            .on("dragStart", ({ set }) => {
+                set(frame.translate);
+            })
+            .on("drag", ({ target, beforeTranslate }) => {
+                frame.translate = beforeTranslate;
+                editor(target);
+            })
+            .on("scaleStart", ({ set, dragStart }) => {
+                set(frame.scale);
+                dragStart && dragStart.set(frame.translate);
+            })
+            .on("scale", ({ target, drag, scale }) => {
+                console.log("scale");
+                frame.scale = scale;
+                frame.translate = drag.beforeTranslate;
+                editor(target);
+            });
+        function editor(target) {
+            const { translate, scale, rotate } = frame;
+            moveableObject.frame = frame;
+            console.log(frame);
+            target.style.transform = `translate(${translate[0]}px, ${translate[1]}px) scale(${scale[0]}, ${scale[1]}) rotate(${rotate}deg)`;
+        }
+        moveableObject = {
+            moveable,
+            frame,
+            name
+        };
+        return moveableObject;
+    }
+
+// m2 = initMoveable(document.getElementById("childDiv2"), 0, "bin-1")
+    // m2 = initMoveable(document.getElementById("childDiv2"), 0, "bin-1")
+// Rotate(document.getElementById("childDiv1"))
+// Rotate(document.getElementById("childDiv2"))
+// moveable = new Moveable(document.getElementById("parentDiv"), {
+// target: document.getElementById("childDiv1"),
+// draggable: true,
+// resizable: true,
+// rotatable: true,
+// throttleDrag: 0,
+// throttleRotate: 0,
+// throttleDragRotate: 0,
+// });
+// moveable
+// .on("resize", ({ target, width, height }) => {
+// console.log("resize");
+// target.style.width = `${width}px`;
+// target.style.height = `${height}px`;
+// })
+// .on("drag", ({ target, transform }) => {
+// console.log("drag");
+
+// target.style.transform = transform;
+// })
+// .on("rotate", ({ target, transform, dist }) => {
+// console.log("rotate");
+// target.style.transform = transform;
+// beforeTransform = transform;
+// console.log(transform.substr(20, 25));
+// })
+</script>

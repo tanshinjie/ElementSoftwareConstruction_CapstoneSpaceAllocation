@@ -1,8 +1,13 @@
 var editing = 0;
 var numberOfBin = 0;
 var boxesinbins = 0;
-let moveableObjectsList = [];
+let moveableObjectList = [];
+let moveableObject;
+let moveable = null;
+let frame = null;
+let name = null;
 function resize() {
+  console.log(moveableObjectList);
   // document
   //   .getElementById("drawZone")
   //   .removeEventListener("mousedown", drawMouseDown);
@@ -47,11 +52,9 @@ function resize() {
       element.style.opacity = null;
     }
     controlBoxes = document.querySelectorAll(".moveable-control-box");
-    console.log(controlBoxes);
     for (let index = 0; index < controlBoxes.length; index++) {
       const element = controlBoxes[index];
       element.parentNode.removeChild(element);
-      // document.body.removeChild(element);
     }
     // resizables = document.querySelectorAll(".resizable");
     // for (let index = 0; index < resizables.length; index++) {
@@ -75,20 +78,32 @@ function resize() {
       } else {
         boxesinbins = 0;
       }
-      moveableObjectsList.push(
-        initMoveable(element, boxesinbins, element.getAttribute("name"))
-      );
+      initMoveable(moveableObjectList[index], element, boxesinbins);
       // Rotate(element, boxesinbins);
       // $(element).draggable("disable");
     }
     document
-      .getElementById("drawZone")
+      .getElementById("container")
       .addEventListener("mousedown", function(e) {
-        currentSelected = e.target;
+        if (e.target.className == "box") {
+          currentSelected = e.target;
+        }
       });
     document.addEventListener("keydown", function(e) {
       if (e.keyCode == 46 && currentSelected != null) {
         console.log("delete", currentSelected.getAttribute("name"));
+        let removeIndex;
+        console.log(moveableObjectList.length);
+        for (let index = 0; index < moveableObjectList.length; index++) {
+          const element = moveableObjectList[index];
+          console.log(element.name);
+          if (element.name == currentSelected.getAttribute("name")) {
+            removeIndex = index;
+          }
+        }
+        console.log(removeIndex);
+        moveableObjectList.splice(removeIndex, 1);
+        console.log(moveableObjectList);
         document.getElementById("container").removeChild(currentSelected);
       }
     });
@@ -352,6 +367,7 @@ function drawMouseUp(e) {
     // });
     // ab.appendChild(resizersDiv);
     ab.setAttribute("name", "bin-" + numberOfBin);
+    name = "bin-" + numberOfBin;
     numberOfBin++;
     // if height and weight less than 5px remove box
     if (ab.offsetWidth < 5 || ab.offsetHeight < 5) {
@@ -359,9 +375,14 @@ function drawMouseUp(e) {
       document.getElementById("container").removeChild(ab);
     }
   }
+  moveableObject = {
+    moveable,
+    frame,
+    name
+  };
+  moveableObjectList.push(moveableObject);
   // if (document.getElementById("moving_box") !== null) {
   // document.getElementById("moving_box").removeAttribute("id");
   // }
-
   console.log("numberOfBin", numberOfBin);
 }

@@ -1,22 +1,29 @@
-function initMoveable(bin, binsinboxes, name) {
-  let frame = {
-    translate: [0, 0],
-    scale: [1, 1],
-    rotate: 0
-  };
-  let moveable = new Moveable(document.getElementById("container"), {
-    // If you want to use a group, set multiple targets(type: Array<HTMLElement | SVGElement>).
+function initMoveable(moveableObject, bin, binsinboxes) {
+  if (moveableObject.moveable == null) {
+    console.log("new");
+    moveableObject.frame = {
+      translate: [0, 0],
+      scale: [1, 1],
+      rotate: 0
+    };
+    moveableObject.name = bin.getAttribute("name");
+  } else {
+    console.log("old");
+  }
+  frame = moveableObject.frame;
+  console.log(frame.translate);
+  moveableObject.moveable = new Moveable(document.getElementById("container"), {
     target: bin,
     rotatable: true,
     draggable: true,
     scalable: true,
     keepRatio: false,
-    // throttleScale: 0,
-    // throttleDrag: 0,
-    // throttleRotate: 0,
-    // throttleDragRotate: 0,
-    // origin: true,
-    // snapThreshold: 0,
+    throttleScale: 0,
+    throttleDrag: 0,
+    throttleRotate: 0,
+    throttleDragRotate: 0,
+    origin: true,
+    snapThreshold: 0,
     snappable: true,
     bounds: {
       left: 0,
@@ -26,12 +33,13 @@ function initMoveable(bin, binsinboxes, name) {
     }
   });
   if (binsinboxes) {
-    moveable.scalable = false;
+    moveableObject.moveable.scalable = false;
   } else {
-    moveable.scalable = true;
+    moveableObject.moveable.scalable = true;
   }
-  moveable
+  moveableObject.moveable
     .on("rotateStart", ({ set }) => {
+      frame = moveableObject.frame;
       set(frame.rotate);
     })
     .on("rotate", ({ target, beforeRotate }) => {
@@ -39,6 +47,8 @@ function initMoveable(bin, binsinboxes, name) {
       editor(target);
     })
     .on("dragStart", ({ set }) => {
+      frame = moveableObject.frame;
+      console.log(moveableObject.name, moveableObject.frame.translate);
       set(frame.translate);
     })
     .on("drag", ({ target, beforeTranslate }) => {
@@ -46,11 +56,11 @@ function initMoveable(bin, binsinboxes, name) {
       editor(target);
     })
     .on("scaleStart", ({ set, dragStart }) => {
+      frame = moveableObject.frame;
       set(frame.scale);
       dragStart && dragStart.set(frame.translate);
     })
     .on("scale", ({ target, drag, scale }) => {
-      console.log("scale");
       frame.scale = scale;
       frame.translate = drag.beforeTranslate;
       editor(target);
@@ -59,13 +69,77 @@ function initMoveable(bin, binsinboxes, name) {
     const { translate, scale, rotate } = frame;
     target.style.transform = `translate(${translate[0]}px, ${translate[1]}px) scale(${scale[0]}, ${scale[1]}) rotate(${rotate}deg)`;
   }
-  moveableObject = {
-    moveable,
-    frame,
-    name
-  };
   return moveableObject;
 }
+
+// function initMoveable(bin, binsinboxes, name) {
+//   let frame = {
+//     translate: [0, 0],
+//     scale: [1, 1],
+//     rotate: 0
+//   };
+//   let moveable = new Moveable(document.getElementById("container"), {
+//     // If you want to use a group, set multiple targets(type: Array<HTMLElement | SVGElement>).
+//     target: bin,
+//     rotatable: true,
+//     draggable: true,
+//     scalable: true,
+//     keepRatio: false,
+//     // throttleScale: 0,
+//     // throttleDrag: 0,
+//     // throttleRotate: 0,
+//     // throttleDragRotate: 0,
+//     // origin: true,
+//     // snapThreshold: 0,
+//     snappable: true,
+//     bounds: {
+//       left: 0,
+//       top: 0,
+//       bottom: document.getElementById("container").offsetHeight,
+//       right: document.getElementById("container").offsetWidth
+//     }
+//   });
+//   if (binsinboxes) {
+//     moveable.scalable = false;
+//   } else {
+//     moveable.scalable = true;
+//   }
+//   moveable
+//     .on("rotateStart", ({ set }) => {
+//       set(frame.rotate);
+//     })
+//     .on("rotate", ({ target, beforeRotate }) => {
+//       frame.rotate = beforeRotate;
+//       editor(target);
+//     })
+//     .on("dragStart", ({ set }) => {
+//       set(frame.translate);
+//     })
+//     .on("drag", ({ target, beforeTranslate }) => {
+//       frame.translate = beforeTranslate;
+//       editor(target);
+//     })
+//     .on("scaleStart", ({ set, dragStart }) => {
+//       set(frame.scale);
+//       dragStart && dragStart.set(frame.translate);
+//     })
+//     .on("scale", ({ target, drag, scale }) => {
+//       console.log("scale");
+//       frame.scale = scale;
+//       frame.translate = drag.beforeTranslate;
+//       editor(target);
+//     });
+//   function editor(target) {
+//     const { translate, scale, rotate } = frame;
+//     target.style.transform = `translate(${translate[0]}px, ${translate[1]}px) scale(${scale[0]}, ${scale[1]}) rotate(${rotate}deg)`;
+//   }
+//   moveableObject = {
+//     moveable,
+//     frame,
+//     name
+//   };
+//   return moveableObject;
+// }
 // const frame = {
 //   translate: [0, 0],
 //   scale: [1, 1],
