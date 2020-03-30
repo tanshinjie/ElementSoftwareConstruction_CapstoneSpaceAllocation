@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+        href="file:///C:/Users/Nicholas/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
@@ -33,7 +33,10 @@
     <section>
         <nav>
             <input type="file" id="uploaded-file" class="hidden" accept="image/*">
-            <label for="uploaded-file">Upload Image</label>
+            <label for="uploaded-file">Upload Image (Top)</label>
+            <br>
+            <input type="file" id="uploaded-file2" class="hidden" accept="image/*">
+            <label for="uploaded-file2">Upload Image (Bottom)</label>
             <br>
             <input type="file" id="uploaded-excel" class="hidden"
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
@@ -51,7 +54,7 @@
             </div>
             <p id='error-message'></p>
         </nav>
-
+        
         <article id="drawZone">
             <div id="buttonContainer" style="position: absolute; right: 0;">
                 <button type=" button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
@@ -68,8 +71,20 @@
 
     <div id="emptySpace"></div>
 
-    <div  id="drawZone2"></div>
+    <article id="drawZone2">
+        <div id="buttonContainer2" style="position: absolute; right: 0;">
+            <button type=" button" class="zoomBtnIn" onclick="zoomin2()" id="zoomIn2"><i
+                    class="fas fa-search-plus"></i></button>
+            <button type="button" class="zoomBtnOut" onclick="zoomout2()" id="zoomOut2"><i
+                    class="fas fa-search-minus"></i></button>
+        </div>
+        <div id="container2" style="width: 100%; height: 100%; overflow: visible;">
+            <canvas id="our-canvas2" z-index="1"></canvas>
+        </div>
+    </article>
+
     <div id="dvExcel">dvExcel</div>
+
 </body>
 
 <script type="text/javascript">
@@ -85,7 +100,8 @@
     var checkExcel = false;
 
     let zoomLevel = 1
-    // script to handle zooming in and out of canvas
+    let zoomLevel2  =  1
+    // script to handle zooming in and out of canvas 1
     function zoomin() {
         if (zoomLevel < 1.5) {
             zoomLevel = zoomLevel + 0.1
@@ -154,7 +170,29 @@
         // $("#our-canvas").height($("#our-canvas").height() / 1.2)
     }
 
-    // script to handle uploading of image file
+    // script to handle zooming in and out of canvas 2
+    function zoomin2() {
+        if (zoomLevel2 < 1.5) {
+            zoomLevel2 = zoomLevel2 + 0.1
+            document.getElementById("container2").style.transform = "scale(" + zoomLevel2 + "," + zoomLevel2 + ")"
+            document.getElementById("container2").style.transformOrigin = "0 0 0"
+        } else {
+            console.log("maximum zoom");
+        }
+    }
+
+    function zoomout2() {
+        if (0.5 < zoomLevel2) {
+            zoomLevel2 = zoomLevel2 - 0.1
+            document.getElementById("container2").style.transform = "scale(" + zoomLevel2 + "," + zoomLevel2 + ")"
+            document.getElementById("container2").style.transformOrigin = "0 0 0"
+        } else {
+            console.log("minimum zoom");
+        }
+        
+    }
+
+    // script to handle uploading of image file 1
     var canvas = document.getElementById('our-canvas');
     var context = canvas.getContext('2d');
 
@@ -200,6 +238,69 @@
                 tempImageStore.src = event.target.result;
                 // script to enable drag-moving of canvas
                 $("#container").draggable();
+                checkImage = true;
+
+                if (checkExcel) {
+                    document.getElementById("save-button").disabled = false;
+                    document.getElementById("drawBtn").disabled = false;
+                    document.getElementById("editBtn").disabled = false;
+                    document.getElementById("runBtn").disabled = false;
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+        else {
+            var error = document.getElementById('error-message');
+            error.innerHTML = "Error! You did not upload an image file! (eg .png, .jpg)";
+        }
+    }
+
+    // script to handle uploading of image file 2
+    var canvas2 = document.getElementById('our-canvas2');
+    var context2 = canvas2.getContext('2d');
+
+    window.addEventListener('DOMContentLoaded', initImageLoader2);
+
+    var uploadedFile2 = document.getElementById('uploaded-file2');
+
+    function initImageLoader2() {
+        uploadedFile2.addEventListener('change', handleManualUploadedFiles2);
+
+
+
+        function handleManualUploadedFiles2(ev) {
+            var file = ev.target.files[0];
+            let boxes = document.querySelectorAll(".box")
+            for (let index = 0; index < boxes.length; index++) {
+                const box = boxes[index];
+                box.parentNode.removeChild(box)
+            }
+            handleFile2(file);
+        }
+    }
+
+    function handleFile2(file) {
+        var imageType = /image.*/;
+
+        if (file.type.match(imageType)) {
+            var reader = new FileReader();
+
+            reader.onloadend = function (event) {
+                var tempImageStore = new Image();
+                tempImageStore.onload = function (ev) {
+                    canvas2.width = ev.target.width;
+                    canvas2.height = ev.target.height;
+                    context2.drawImage(ev.target, 0, 0);
+                    // console.log(document.getElementById("our-canvas").getBoundingClientRect().width);
+                    console.log($("#container2").width());
+
+                    $("#container2").width(canvas.width)
+                    $("#container2").height(canvas.height)
+
+                }
+                tempImageStore.src = event.target.result;
+                // script to enable drag-moving of canvas
+                $("#container2").draggable();
                 checkImage = true;
 
                 if (checkExcel) {
