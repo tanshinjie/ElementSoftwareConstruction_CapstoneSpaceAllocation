@@ -2,25 +2,56 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: ADAM;
+  src:  url(adam.otf);
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-image: url('sutd.jpg'); 
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#logoBox {
+  float: left;
+  width: 12%;
+
+}
+
+#sutdLogo {
+  padding-top: 14px;
+  display: block;
+  width: 100%;
 }
 
 /*style the header*/
 header {
-  background-image: url("banner.jpg");
+  font-family: ADAM;
+  float:left;
+  width: 87%;
   padding: 30px;
   text-align: center;
   font-size: 30px;
-  color: white;
+  color: rgb(48, 48, 48); 
   background-size: cover;
+  border-radius: 22px;
+  background:rgba(255,255,255, 0.8);
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  
 }
 
 /* create navigation bar (containing buttons) that will float to the left of the canvas */
 nav {
   float: left;
-  width: 8%;
-  background-color: #eee8e8;
+  width: 11%;
+  margin-right: 15px;
+  border-radius: 22px;
+  padding-top: 17px;
+  background:rgba(255,255,255, 0.8);
 }
 
 /*style non buttons inside navigation bar*/
@@ -37,14 +68,15 @@ nav {
 
 /*style the list of buttons inside navigation bar*/
 .btn-group button {
-  background-color: #4caf50; /* Green background */
-  border: 1px solid green; /* Green border */
+  background: rgba(0,128,0,0.7);
   color: white; /* White text */
   padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
   width: 100%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
   font-size: 14px;
+  border: none;
+  
 }
 
 .btn-group button:not(:last-child) {
@@ -56,13 +88,35 @@ nav {
   background-color: #3e8e41;
 }
 
+.btn-group button:disabled {
+  background-color:lightgrey; /* Green background */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: not-allowed; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  font-size: 14px;
+  border: none;
+  
+}
+
+
 /*create article box (containing canvas)*/
-article {
+/* article {
   float: left;
   width: 92%;
   height: 650px;
   overflow: hidden;
   border: 1px solid grey;
+} */
+
+#drawZone {
+  float: left;
+  width: 87%;
+  height: 650px;
+  overflow: hidden;
+  border-radius: 22px;
+  background:rgba(255,255,255, 0.8);
 }
 
 /*clears floats after the columns*/
@@ -88,8 +142,7 @@ section:after {
 
 /*style the label that hides the buttons*/
 label {
-  background-color: #4caf50; /* Green background */
-  border: 1px solid green; /* Green border */
+  background: rgba(0,128,0,0.7);
   color: white; /* White text */
   padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */

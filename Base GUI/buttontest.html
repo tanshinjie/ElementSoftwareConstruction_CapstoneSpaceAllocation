@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="file:///C:/Users/Nicholas/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
-    <script src="jquery.js"></script>
+        href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+    <!-- <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
     <script src="../datacleaner.js"></script>
@@ -17,58 +17,56 @@
     <link rel="stylesheet" href="../combine/style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+
     <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
-    <script src="https://daybrush.com/scenejs/release/latest/dist/scene.js"></script>
+    <script src="https://daybrush.com/scenejs/release/latest/dist/scene.js"></script> -->
 </head>
 
-
-
 <body>
-    <div id="logoBox">
-        <img src="logo.png" id="sutdLogo">
-    </div>
-
     <header>Capstone Allocation</header>
-
     <section>
         <nav>
             <input type="file" id="uploaded-file" class="hidden" accept="image/*">
-            <label for="uploaded-file">Upload Image</label>
+            <label onclick = "testbutton()">Upload Image</label>
             <br>
             <input type="file" id="uploaded-excel" class="hidden"
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
-            <label for="uploaded-excel" id="upload">Upload Excel</label>
+            <label id="upload" onclick="testbutton()">Upload Excel</label>
             <div id="excel-name"></div>
             <br>
             <div class="btn-group">
-                <button id="drawBtn" onclick="draw()">Draw</button>
+                <button id="drawBtn" onclick="testbutton()">Draw</button>
                 <br>
-                <button id="editBtn" onclick="resize()">Edit</button>
+                <button id="editBtn" onclick="testbutton()">Edit</button>
                 <br>
-                <button id="runBtn" onclick="Run()">Run</button>
+                <button id="runBtn" onclick="testbutton()">Run</button>
                 <br>
-                <button id="save-button">Save Image</button>
+                <button id="save-button" onclick="testbutton()">Save Image</button>
             </div>
             <p id='error-message'></p>
         </nav>
 
         <article id="drawZone">
             <div id="buttonContainer" style="position: absolute; right: 0;">
-                <button type=" button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
+                <button type=" button" class="zoomBtnIn" onclick="testbutton()" id="zoomIn"><i
                         class="fas fa-search-plus"></i></button>
-                <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
+                <button type="button" class="zoomBtnOut" onclick="testbutton()" id="zoomOut"><i
                         class="fas fa-search-minus"></i></button>
             </div>
-            <div id="container" style="width: 100%; height: 100%; overflow: visible;">
+            <div id="container" style="width: 100%; height: 100%; background-color: aqua; overflow: visible;">
                 <canvas id="our-canvas" z-index="1"></canvas>
             </div>
-            <script src="../rotate_daybrush/rotate.js"></script>
+            <!-- <script src="../rotate_daybrush/rotate.js"></script> -->
         </article>
     </section>
     <div id="dvExcel">dvExcel</div>
 </body>
-
-<script type="text/javascript">
+<script>
+    function testbutton(){
+        alert("This button can be clicked");
+    }
+</script>
+<!-- <script type="text/javascript">
 
     //default: all buttons other than "Upload Image" and "Upload Excel" will be disabled
     document.getElementById("save-button").disabled = true;
@@ -239,6 +237,6 @@
     });
 
 
-</script>
+</script> -->
 
 </html>

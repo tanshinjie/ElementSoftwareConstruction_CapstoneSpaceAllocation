@@ -1,34 +1,115 @@
 var editing = 0;
 var numberOfBin = 0;
+var boxesinbins = 0;
 function resize() {
-  document
-    .getElementById("drawZone")
-    .removeEventListener("mousedown", drawMouseDown);
-  document
-    .getElementById("drawZone")
-    .removeEventListener("mouseup", drawMouseUp);
-  document
-    .getElementById("drawZone")
-    .removeEventListener("mousemomve", drawMouseMove);
+  // document
+  //   .getElementById("drawZone")
+  //   .removeEventListener("mousedown", drawMouseDown);
+  // document
+  //   .getElementById("drawZone")
+  //   .removeEventListener("mouseup", drawMouseUp);
+  // document
+  //   .getElementById("drawZone")
+  //   .removeEventListener("mousemomve", drawMouseMove);
   btn = document.getElementById("editBtn");
   if (editing) {
-    $("#drawZone").draggable('enable');
+    $("#container").draggable("enable");
+    document.getElementById("drawBtn").disabled = false;
     editing = 0;
     btn.innerHTML = "Edit";
-    resizables = document.querySelectorAll(".resizable");
-    for (let index = 0; index < resizables.length; index++) {
-      resizables[index].className = "box";
+    boxes = document.querySelectorAll(".box");
+    // for (let index = 0; index < boxes.length; index++) {
+    //   var element = boxes[index];
+    //   // $(element).draggable("enable");
+    //   element.style.backgroundColor = null;
+    //   element.style.opacity = null;
+    // }
+    for (let index = 0; index < boxes.length; index++) {
+      var element = boxes[index];
+      let div = document.createElement("div");
+      div.style.left = element.style.left;
+      div.style.top = element.style.top;
+      div.style.width = element.style.width;
+      div.style.height = element.style.height;
+      div.style.transform = element.style.transform;
+      while (element.childNodes.length > 0) {
+        div.appendChild(element.childNodes[0]);
+      }
+      // div.style.position = element.style.position;
+      div.className = element.className;
+      div.style.border = "2px solid black";
+      div.style.zIndex = element.style.zIndex;
+      div.setAttribute("name", element.getAttribute("name"));
+      element.parentNode.removeChild(element);
+      document.getElementById("container").appendChild(div);
+      element.style.backgroundColor = null;
+      element.style.opacity = null;
     }
+    controlBoxes = document.querySelectorAll(".moveable-control-box");
+    console.log(controlBoxes);
+    for (let index = 0; index < controlBoxes.length; index++) {
+      const element = controlBoxes[index];
+      element.parentNode.removeChild(element);
+      // document.body.removeChild(element);
+    }
+    // resizables = document.querySelectorAll(".resizable");
+    // for (let index = 0; index < resizables.length; index++) {
+    //   resizables[index].className = "box";
+    // }
   } else {
-    $("#drawZone").draggable('disable');
+    // let currentSelected;
+    $("#container").draggable("disable");
+    document.getElementById("drawBtn").disabled = true;
     editing = 1;
     btn.innerHTML = "Editing...";
-    bins = document.querySelectorAll(".box");
-    for (let index = 0; index < bins.length; index++) {
-      bins[index].className = "resizable";
+    boxes = document.querySelectorAll(".box");
+
+    for (let index = 0; index < boxes.length; index++) {
+      const element = boxes[index];
+      element.style.backgroundColor = "#0C97C9";
+      // element.style.opacity = 0.5;
+      console.log(element.childNodes);
+      if (element.childNodes.length > 0) {
+        boxesinbins = 1;
+      } else {
+        boxesinbins = 0;
+      }
+      Rotate(element, boxesinbins);
+      // $(element).draggable("disable");
     }
-    makeResizableDiv(".resizable");
+    document
+      .getElementById("drawZone")
+      .addEventListener("mousedown", function(e) {
+        currentSelected = e.target;
+      });
+    document.addEventListener("keydown", function(e) {
+      if (e.keyCode == 46 && currentSelected != null) {
+        console.log("delete", currentSelected.getAttribute("name"));
+        // console.log(currentSelected.parentNode);
+        document.getElementById("drawZone").removeChild(currentSelected);
+      }
+    });
+
+    // for (let index = 0; index < controlBoxes.length; index++) {
+    //   const element = controlBoxes[index];
+    //   element.appendChild(boxes[index]);
+    //   console.log(element);
+
+    // $(element).draggable();
+    // console.log(1);
+    // }
+    // for (let index = 0; index < boxes.length; index++) {
+    //   const element = boxes[index];
+    //   $(element).draggable();
+    // }
+
+    // bins = document.querySelectorAll(".box");
+    // for (let index = 0; index < bins.length; index++) {
+    //   bins[index].className = "resizable";
+    // }
+    // makeResizableDiv(".resizable");
   }
+
   /*Make resizable div by Hung Nguyen*/
   function makeResizableDiv(div) {
     const elements = document.querySelectorAll(div);
@@ -137,13 +218,13 @@ function resize() {
 }
 
 var dragging = false;
-var startX, startY, diffX, diffY;
+let startX, startY, diffX, diffY, rect;
 var drawing = 0;
 function draw() {
-
   btn = document.getElementById("drawBtn");
   if (drawing) {
-    $("#drawZone").draggable('enable');
+    $("#container").draggable("enable");
+    document.getElementById("editBtn").disabled = false;
     drawing = 0;
     btn.innerHTML = "Draw";
     document
@@ -155,8 +236,19 @@ function draw() {
     document
       .getElementById("drawZone")
       .removeEventListener("mouseup", drawMouseUp);
+    // $("#our-canvas").draggable(true);
+
+    // var childs = document.getElementsByClassName(
+    //   "ui-draggable ui-draggable-handle"
+    // );
+    // var i;
+
+    // for (i = 0; i < childs.length; i++) {
+    //   childs[i].draggable("true");
+    // }
   } else {
-    $("#drawZone").draggable('disable');
+    $("#container").draggable("disable");
+    document.getElementById("editBtn").disabled = true;
     drawing = 1;
     btn.innerHTML = "Drawing...";
     document
@@ -168,47 +260,61 @@ function draw() {
     document
       .getElementById("drawZone")
       .addEventListener("mouseup", drawMouseUp);
-    btn = document.getElementById("drawBtn");
+    // $("#our-canvas").draggable(false);
 
+    // var childs = document.getElementsByClassName(
+    //   "ui-draggable ui-draggable-handle"
+    // );
+    // var i;
+
+    // for (i = 0; i < childs.length; i++) {
+    //   childs[i].draggable("false");
+    // }
   }
 }
 function drawMouseDown(e) {
-  startX = e.clientX;
-  startY = e.clientY;
-  // 如果鼠标在 box 上被按下
-  console.log(e.target);
+  rect = document.getElementById("container").getBoundingClientRect();
+  // console.log(rect);
 
-  if (e.target.className.match(/box/)) {
-    // 允许拖动
-    dragging = true;
-    // 设置当前 box 的 id 为 moving_box
-    if (document.getElementById("moving_box") !== null) {
-      document.getElementById("moving_box").removeAttribute("id");
-    }
-    e.target.id = "moving_box";
-    // 计算坐标差值
-    diffX = startX - e.target.offsetLeft;
-    diffY = startY - e.target.offsetTop;
-  } else {
-    // 在页面创建 box
+  startX = e.pageX - rect.x;
+  startY = e.pageY - rect.y;
+
+  // if click on the box
+
+  // if (e.target.className.match(/box/)) {
+  //   // allow dragging
+  //   dragging = true;
+  //   // set current box's id to be moving_box
+  //   if (document.getElementById("moving_box") !== null) {
+  //     document.getElementById("moving_box").removeAttribute("id");
+  //   }
+  //   e.target.id = "moving_box";
+  //   // calculate difference in coordinates
+  //   diffX = startX - e.target.offsetLeft;
+  //   diffY = startY - e.target.offsetTop;
+  // } else
+  {
+    // create box in website
     var active_box = document.createElement("div");
     active_box.id = "active_box";
     active_box.className = "box";
     active_box.style.top = startY + "px";
     active_box.style.left = startX + "px";
-    document.getElementById("drawZone").appendChild(active_box);
+    active_box.style.position = "absolute";
+    active_box.style.zIndex = 1000;
+    document.getElementById("container").appendChild(active_box);
     active_box = null;
   }
 }
 function drawMouseMove(e) {
-  // 更新 box 尺寸
+  // update box dimension
   if (document.getElementById("active_box") !== null) {
     var ab = document.getElementById("active_box");
-    ab.style.width = e.pageX - startX + "px";
-    ab.style.height = e.pageY - startY + "px";
+    ab.style.width = e.pageX - startX - rect.x + "px";
+    ab.style.height = e.pageY - startY - rect.y + "px";
   }
 
-  // 移动，更新 box 坐标
+  // move and update box coordinates
   if (document.getElementById("moving_box") !== null && dragging) {
     var mb = document.getElementById("moving_box");
     mb.style.top = e.pageY - diffY + "px";
@@ -216,36 +322,43 @@ function drawMouseMove(e) {
   }
 }
 function drawMouseUp(e) {
-  // 禁止拖动
+  // forbid dragging
   dragging = false;
   if (document.getElementById("active_box") !== null) {
     var ab = document.getElementById("active_box");
     ab.removeAttribute("id");
-    resizersDiv = document.createElement("div");
-    resizersDiv.className = "resizers";
-    resizerLabels = [
-      "resizer top-left",
-      "resizer top-right",
-      "resizer bottom-left",
-      "resizer bottom-right",
-      "resizer rotate"
-    ];
-    resizerLabels.forEach(resizerLabel => {
-      div = document.createElement("div");
-      div.className = resizerLabel;
-      resizersDiv.appendChild(div);
-    });
-    ab.appendChild(resizersDiv);
+    // resizersDiv = document.createElement("div");
+    // resizersDiv.className = "resizers";
+    // resizerLabels = [
+    //   "resizer top-left",
+    //   "resizer top-right",
+    //   "resizer bottom-left",
+    //   "resizer bottom-right",
+    //   "resizer rotate"
+    // ];
+    // resizerLabels = [
+    //   "resizer top-left",
+    //   "resizer top-right",
+    //   "resizer bottom-left",
+    //   "resizer bottom-right"
+    // ];
+    // resizerLabels.forEach(resizerLabel => {
+    //   div = document.createElement("div");
+    //   div.className = resizerLabel;
+    //   resizersDiv.appendChild(div);
+    // });
+    // ab.appendChild(resizersDiv);
     ab.setAttribute("name", "bin-" + numberOfBin);
     numberOfBin++;
-    // 如果长宽均小于 3px，移除 box
+    // if height and weight less than 5px remove box
     if (ab.offsetWidth < 5 || ab.offsetHeight < 5) {
       numberOfBin--;
-      document.getElementById("drawZone").removeChild(ab);
+      document.getElementById("container").removeChild(ab);
     }
   }
   // if (document.getElementById("moving_box") !== null) {
   // document.getElementById("moving_box").removeAttribute("id");
   // }
+
   console.log("numberOfBin", numberOfBin);
 }

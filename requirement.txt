@@ -1,3 +1,24 @@
-Disable create bin outside of container div
-Rotate box
-Delete box (wentao)
+nic - 
+disable button before upload image and excel
+Disable both draw and edit
+Reset image to original scaling before saving image 
+
+aaron - 
+Disable scales only if there are boxes inside
+Edit color hard to see
+Delete
+True scaling of bins and boxes
+
+SJ - 
+Zooming after edit problem
+
+Tharun - 
+Swap two boxes
+restrict draggable within article
+
+Wentao -
+Unit testing to click button
+
+
+
+App hang after finish allocating boxes
