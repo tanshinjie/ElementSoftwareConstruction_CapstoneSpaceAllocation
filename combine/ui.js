@@ -1,6 +1,7 @@
 var editing = 0;
 var numberOfBin = 0;
 var boxesinbins = 0;
+let moveableObjectsList = [];
 function resize() {
   // document
   //   .getElementById("drawZone")
@@ -74,7 +75,10 @@ function resize() {
       } else {
         boxesinbins = 0;
       }
-      Rotate(element, boxesinbins);
+      moveableObjectsList.push(
+        initMoveable(element, boxesinbins, element.getAttribute("name"))
+      );
+      // Rotate(element, boxesinbins);
       // $(element).draggable("disable");
     }
     document
@@ -85,8 +89,7 @@ function resize() {
     document.addEventListener("keydown", function(e) {
       if (e.keyCode == 46 && currentSelected != null) {
         console.log("delete", currentSelected.getAttribute("name"));
-        // console.log(currentSelected.parentNode);
-        document.getElementById("drawZone").removeChild(currentSelected);
+        document.getElementById("container").removeChild(currentSelected);
       }
     });
 
