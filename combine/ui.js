@@ -20,6 +20,7 @@ function resize() {
   btn = document.getElementById("editBtn");
   if (editing) {
     $("#container").draggable("enable");
+    $("#container2").draggable("enable");
     document.getElementById("drawBtn").disabled = false;
     editing = 0;
     btn.innerHTML = "Edit";
@@ -63,6 +64,7 @@ function resize() {
   } else {
     // let currentSelected;
     $("#container").draggable("disable");
+    $("#container2").draggable("disable");
     document.getElementById("drawBtn").disabled = true;
     editing = 1;
     btn.innerHTML = "Editing...";
