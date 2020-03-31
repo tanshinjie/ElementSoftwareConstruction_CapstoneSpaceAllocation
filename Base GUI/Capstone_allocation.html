@@ -44,7 +44,7 @@
             <div id="excel-name"></div>
             <br>
             <div class="btn-group">
-                <button id="drawBtn" onclick="draw()">Draw</button>
+                <button id="drawBtn" onclick="drawMode()">Draw</button>
                 <br>
                 <button id="editBtn" onclick="resize()">Edit</button>
                 <br>
@@ -139,7 +139,7 @@
     }
 
     function zoomout() {
-        if (0.5 < zoomLevel) {
+        if (0.3 < zoomLevel) {
             zoomLevel = zoomLevel - 0.1
             document.getElementById("container").style.transform = "scale(" + zoomLevel + "," + zoomLevel + ")"
             document.getElementById("container").style.transformOrigin = "0 0 0"
@@ -182,7 +182,7 @@
     }
 
     function zoomout2() {
-        if (0.5 < zoomLevel2) {
+        if (0.3 < zoomLevel2) {
             zoomLevel2 = zoomLevel2 - 0.1
             document.getElementById("container2").style.transform = "scale(" + zoomLevel2 + "," + zoomLevel2 + ")"
             document.getElementById("container2").style.transformOrigin = "0 0 0"
@@ -371,7 +371,44 @@
     });
 
     let numOfBox = 0
-    function createNewBin() {
+    var drawing = 0
+
+    function drawMode() {
+        btn = document.getElementById("drawBtn");
+
+        if(drawing) {
+            $("#container").draggable("enable");
+            $("#container2").draggable("enable");
+            document.getElementById("editBtn").disabled = false;
+            drawing = 0;
+            btn.innerHTML = "Draw";
+
+            document.getElementById("drawZone").removeEventListener("click", createOne);
+            document.getElementById("drawZone2").removeEventListener("click", createTwo);
+
+
+        }else{
+            $("#container").draggable("disable");
+            $("#container2").draggable("disable");
+            document.getElementById("editBtn").disabled = true;
+            drawing = 1;
+            btn.innerHTML = "Drawing...";
+
+            document.getElementById("drawZone").addEventListener("click", createOne);
+            document.getElementById("drawZone2").addEventListener("click", createTwo);
+
+        }
+    }
+
+    function createOne() {
+        createNewBin("container");
+    }
+
+    function createTwo() {
+        createNewBin("container2");
+    }
+
+    function createNewBin(containerID) {
         let active_box = document.createElement("div");
         active_box.className = "box";
         active_box.style.width = 200 + "px";
@@ -381,8 +418,15 @@
         active_box.style.position = "absolute";
         active_box.style.zIndex = 1000;
         active_box.setAttribute("name", "bin-" + numOfBox)
-        document.getElementById("container").appendChild(active_box);
+        document.getElementById(containerID).appendChild(active_box);
         numOfBox++;
+
+        moveableObject = {
+        moveable,
+        frame,
+        name
+        };
+         moveableObjectList.push(moveableObject);
     }
 </script>
 
