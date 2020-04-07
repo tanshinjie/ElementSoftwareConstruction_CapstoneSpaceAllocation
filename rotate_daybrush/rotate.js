@@ -4,14 +4,14 @@ function initMoveable(moveableObject, bin, binsinboxes) {
     moveableObject.frame = {
       translate: [0, 0],
       scale: [1, 1],
-      rotate: 0
+      rotate: 0,
     };
     moveableObject.name = bin.getAttribute("name");
   } else {
     console.log("old");
   }
   frame = moveableObject.frame;
-  console.log(frame.translate);
+  // console.log(frame.translate);
   moveableObject.moveable = new Moveable(document.getElementById("container"), {
     target: bin,
     rotatable: true,
@@ -29,13 +29,16 @@ function initMoveable(moveableObject, bin, binsinboxes) {
       left: 0,
       top: 0,
       bottom: document.getElementById("container").offsetHeight,
-      right: document.getElementById("container").offsetWidth
-    }
+      right: document.getElementById("container").offsetWidth,
+    },
   });
   if (binsinboxes) {
     moveableObject.moveable.scalable = false;
   } else {
     moveableObject.moveable.scalable = true;
+  }
+  if (moveableObject.frame.rotate != 0) {
+    moveableObject.moveable.scalable = false;
   }
   moveableObject.moveable
     .on("rotateStart", ({ set }) => {

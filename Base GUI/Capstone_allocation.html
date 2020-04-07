@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="file:///C:/Users/Nicholas/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+        href="file:///C:/Users/shinj/Desktop/esc%20latest/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
@@ -44,6 +44,8 @@
             <div id="excel-name"></div>
             <br>
             <div class="btn-group">
+                <!-- <button id="drawBtn" onclick="draw()">Draw</button> -->
+                <!-- <button id="drawBtn" onclick="createNewBin()">Draw</button> -->
                 <button id="drawBtn" onclick="drawMode()">Draw</button>
                 <br>
                 <button id="editBtn" onclick="resize()">Edit</button>
@@ -54,7 +56,7 @@
             </div>
             <p id='error-message'></p>
         </nav>
-        
+
         <article id="drawZone">
             <div id="buttonContainer" style="position: absolute; right: 0;">
                 <button type=" button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
@@ -100,7 +102,7 @@
     var checkExcel = false;
 
     let zoomLevel = 1
-    let zoomLevel2  =  1
+    let zoomLevel2 = 1
     // script to handle zooming in and out of canvas 1
     function zoomin() {
         if (zoomLevel < 1.5) {
@@ -189,7 +191,7 @@
         } else {
             console.log("minimum zoom");
         }
-        
+
     }
 
     // script to handle uploading of image file 1
@@ -376,26 +378,48 @@
     function drawMode() {
         btn = document.getElementById("drawBtn");
 
-        if(drawing) {
-            $("#container").draggable("enable");
-            $("#container2").draggable("enable");
+        if (drawing) {
             document.getElementById("editBtn").disabled = false;
             drawing = 0;
             btn.innerHTML = "Draw";
 
-            document.getElementById("drawZone").removeEventListener("click", createOne);
-            document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            if ($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')) {
+                $("#container").draggable("enable");
+                $("#container2").draggable("enable");
 
+                document.getElementById("drawZone").removeEventListener("click", createOne);
+                document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            } else if ($("#container").data('ui-draggable')) {
+                $("#container").draggable("enable");
 
-        }else{
-            $("#container").draggable("disable");
-            $("#container2").draggable("disable");
+                document.getElementById("drawZone").removeEventListener("click", createOne);
+            } else {
+                $("#container2").draggable("enable");
+                document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            }
+
+        } else {
+
             document.getElementById("editBtn").disabled = true;
             drawing = 1;
             btn.innerHTML = "Drawing...";
 
-            document.getElementById("drawZone").addEventListener("click", createOne);
-            document.getElementById("drawZone2").addEventListener("click", createTwo);
+            if ($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')) {
+                $("#container").draggable("disable");
+                $("#container2").draggable("disable");
+
+                document.getElementById("drawZone").addEventListener("click", createOne);
+                document.getElementById("drawZone2").addEventListener("click", createTwo);
+
+            } else if ($("#container").data('ui-draggable')) {
+                $("#container").draggable("disable");
+
+                document.getElementById("drawZone").addEventListener("click", createOne);
+            } else {
+                $("#container2").draggable("disable");
+
+                document.getElementById("drawZone2").addEventListener("click", createTwo);
+            }
 
         }
     }
@@ -409,7 +433,7 @@
         createNewBin("container2");
     }
 
-    //Upon clicking on 
+    //Upon clicking on
     function createNewBin(containerID) {
         let active_box = document.createElement("div");
         active_box.className = "box";
@@ -424,11 +448,11 @@
         numOfBox++;
 
         moveableObject = {
-        moveable,
-        frame,
-        name
+            moveable,
+            frame,
+            name
         };
-         moveableObjectList.push(moveableObject);
+        moveableObjectList.push(moveableObject);
     }
 </script>
 

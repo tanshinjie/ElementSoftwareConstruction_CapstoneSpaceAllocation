@@ -141,7 +141,7 @@ function ProcessExcel(data) {
 
   var dvExcel = document.getElementById("dvExcel");
   dvExcel.innerHTML = "";
-  dvExcel.appendChild(table);
+  // dvExcel.appendChild(table);
 
   ////////////////////
   // Read all rows from First Sheet into an JSON array.

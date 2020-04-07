@@ -1,3 +1,4 @@
+// import { Rect, BinPack } from "./bin-pack.js";
 // const BinPack = require("./bin-pack");
 // const Rect = require("./bin-pack");
 // var packer = new BinPack.BinPack();
