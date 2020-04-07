@@ -78,6 +78,10 @@ function ProcessExcel(data) {
   headerCell.innerHTML = "Tag";
   row.appendChild(headerCell);
 
+  headerCell = document.createElement("TH");
+  headerCell.innerHTML = "Allocation";
+  row.appendChild(headerCell);
+
   dimensions = [];
   tags = [];
   projIDs = [];
@@ -96,6 +100,11 @@ function ProcessExcel(data) {
 
     cell = row.insertCell(-1);
     cell.innerHTML = excelRows[i].Tag;
+
+    cell = row.insertCell(-1);
+    //cell.getAttribute("id");
+    //cell.id = "i"
+    cell.innerHTML = "Unallocated";
 
     // cell = row.insertCell(-1);
     // cell.innerHTML = excelRows[i][projID];
@@ -269,6 +278,7 @@ function Run() {
       container.appendChild(div);
       numberOfBox++;
     });
+    //getElementById("dv").innerHTML = "Allocated";
   });
   // List(unpositioned, false);
 }
