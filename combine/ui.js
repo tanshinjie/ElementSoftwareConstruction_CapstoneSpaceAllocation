@@ -7,7 +7,6 @@ let moveable = null;
 let frame = null;
 let name = null;
 function resize() {
-  console.log(moveableObjectList);
   // document
   //   .getElementById("drawZone")
   //   .removeEventListener("mousedown", drawMouseDown);
@@ -72,7 +71,7 @@ function resize() {
       const element = boxes[index];
       element.style.backgroundColor = "#0C97C9";
       // element.style.opacity = 0.5;
-      console.log(element.childNodes);
+      // console.log(element.childNodes);
       if (element.childNodes.length > 0) {
         boxesinbins = 1;
       } else {
@@ -84,27 +83,29 @@ function resize() {
     }
     document
       .getElementById("container")
-      .addEventListener("mousedown", function(e) {
+      .addEventListener("mousedown", function (e) {
         if (e.target.className == "box") {
           currentSelected = e.target;
+          console.log("currentSelected", currentSelected);
         }
       });
-    document.addEventListener("keydown", function(e) {
+    document.addEventListener("keydown", function (e) {
       if (e.keyCode == 46 && currentSelected != null) {
         console.log("delete", currentSelected.getAttribute("name"));
         let removeIndex;
-        console.log(moveableObjectList.length);
+        // console.log("moveableObject", moveableObjectList);
         for (let index = 0; index < moveableObjectList.length; index++) {
           const element = moveableObjectList[index];
-          console.log(element.name);
+          // console.log(element.name);
           if (element.name == currentSelected.getAttribute("name")) {
             removeIndex = index;
           }
         }
-        console.log(removeIndex);
+        // console.log(removeIndex);
         moveableObjectList.splice(removeIndex, 1);
-        console.log(moveableObjectList);
+        // console.log(moveableObjectList);
         document.getElementById("container").removeChild(currentSelected);
+        currentSelected = null;
       }
     });
 
@@ -145,7 +146,7 @@ function resize() {
     let orientation;
     for (let i = 0; i < resizers.length; i++) {
       const currentResizer = resizers[i];
-      currentResizer.addEventListener("mousedown", function(e) {
+      currentResizer.addEventListener("mousedown", function (e) {
         currentBin = e.target.parentNode.parentNode;
         currentBinIndex = parseInt(
           currentBin.getAttribute("name").replace(/[^0-9\.]/g, ""),
@@ -378,7 +379,7 @@ function drawMouseUp(e) {
   moveableObject = {
     moveable,
     frame,
-    name
+    name,
   };
   moveableObjectList.push(moveableObject);
   // if (document.getElementById("moving_box") !== null) {

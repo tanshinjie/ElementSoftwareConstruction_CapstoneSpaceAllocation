@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="file:///C:/Users/shinj/Desktop/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+        href="file:///C:/Users/shinj/Desktop/esc%20latest/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
@@ -42,6 +42,7 @@
             <br>
             <div class="btn-group">
                 <button id="drawBtn" onclick="draw()">Draw</button>
+                <!-- <button id="drawBtn" onclick="createNewBin()">Draw</button> -->
                 <br>
                 <button id="editBtn" onclick="resize()">Edit</button>
                 <br>
@@ -265,20 +266,20 @@
 
     });
 
-    let numOfBox = 0
-    function createNewBin() {
-        let active_box = document.createElement("div");
-        active_box.className = "box";
-        active_box.style.width = 200 + "px";
-        active_box.style.height = 200 + "px";
-        active_box.style.top = 200 + "px";
-        active_box.style.left = 200 + "px";
-        active_box.style.position = "absolute";
-        active_box.style.zIndex = 1000;
-        active_box.setAttribute("name", "bin-" + numOfBox)
-        document.getElementById("container").appendChild(active_box);
-        numOfBox++;
-    }
+    // let numOfBox = 0
+    // function createNewBin(containerId) {
+    //     let active_box = document.createElement("div");
+    //     active_box.className = "box";
+    //     active_box.style.width = 200 + "px";
+    //     active_box.style.height = 200 + "px";
+    //     active_box.style.top = 200 + "px";
+    //     active_box.style.left = 200 + "px";
+    //     active_box.style.position = "absolute";
+    //     active_box.style.zIndex = 1000;
+    //     active_box.setAttribute("name", "bin-" + numOfBox)
+    //     document.getElementById(containerId).appendChild(active_box);
+    //     numOfBox++;
+    // }
 </script>
 
 </html>

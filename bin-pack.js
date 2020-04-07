@@ -9,7 +9,7 @@ function Rect(x, y, width, height, tag, projID) {
   this.projID = projID;
 }
 
-Rect.prototype.contains = function(r) {
+Rect.prototype.contains = function (r) {
   // Does this rectangle contain the specified rectangle?
   return (
     this.x <= r.x &&
@@ -19,7 +19,7 @@ Rect.prototype.contains = function(r) {
   );
 };
 
-Rect.prototype.disjointFrom = function(r) {
+Rect.prototype.disjointFrom = function (r) {
   // Is this rectangle disjoint from the specified rectangle?
   return (
     this.x + this.width <= r.x ||
@@ -29,12 +29,12 @@ Rect.prototype.disjointFrom = function(r) {
   );
 };
 
-Rect.prototype.intersects = function(r) {
+Rect.prototype.intersects = function (r) {
   // Does this rectangle intersect the specified rectangle?
   return !this.disjointFrom(r);
 };
 
-Rect.prototype.copy = function() {
+Rect.prototype.copy = function () {
   // Create a copy of this rectangle.
   return new Rect(this.x, this.y, this.width, this.height);
 };
@@ -66,7 +66,7 @@ function BinPacker(width, height) {
   this.unpositionedRectangles = [];
 }
 
-BinPacker.prototype.insert = function(width, height) {
+BinPacker.prototype.insert = function (width, height) {
   // Insert a rectangle into the bin.
   //
   // If the rectangle was successfully positioned, add it to the array of
@@ -113,7 +113,7 @@ BinPacker.prototype.insert = function(width, height) {
   return { positioned: true, rectangle: r };
 };
 
-BinPacker.findPosition = function(width, height, F) {
+BinPacker.findPosition = function (width, height, F) {
   // Decide where to position a rectangle (with side lengths specified by width
   // and height) within the bin. The bin's free space is defined in the array
   // of free rectangles, F.
@@ -156,7 +156,7 @@ BinPacker.findPosition = function(width, height, F) {
   return bestRectangle;
 };
 
-BinPacker.splitRectangle = function(f, r) {
+BinPacker.splitRectangle = function (f, r) {
   // Splits the rectangle f into at most four sub-rectangles that are formed by
   // taking the geometric difference of f from r and identifying the largest
   // rectangles that can be formed from the resulting polygon. Returns these
@@ -215,7 +215,7 @@ BinPacker.splitRectangle = function(f, r) {
   return new_rectangles;
 };
 
-BinPacker.pruneRectangles = function(F) {
+BinPacker.pruneRectangles = function (F) {
   // Go through the array of rectangles, F, and remove any that are
   // completely contained within another rectangle in F
 
@@ -238,10 +238,10 @@ function BinPack(binWidth, binHeight) {
   var binWidth = binWidth,
     binHeight = binHeight;
 
-  var rectWidth = function(d) {
+  var rectWidth = function (d) {
       return d.width;
     },
-    rectHeight = function(d) {
+    rectHeight = function (d) {
       return d.height;
     };
 
@@ -252,7 +252,7 @@ function BinPack(binWidth, binHeight) {
 
   var pack = {};
 
-  pack.add = function(d) {
+  pack.add = function (d) {
     var o = binPacker.insert(rectWidth(d), rectHeight(d));
     o.rectangle.datum = d;
     return pack;
@@ -270,7 +270,7 @@ function BinPack(binWidth, binHeight) {
 
   //   return pack;
   // };
-  pack.addAll = function(array) {
+  pack.addAll = function (array) {
     let values = ArrayMaker(array, binWidth, binHeight);
     let readyToPack = values[0];
     let updatedList = values[1];
@@ -282,7 +282,7 @@ function BinPack(binWidth, binHeight) {
     //   }
     // }
     if (sort) readyToPack.sort(sort);
-    readyToPack.forEach(function(d, i) {
+    readyToPack.forEach(function (d, i) {
       var o = binPacker.insert(rectWidth(d), rectHeight(d));
       o.rectangle.datum = d;
     });
@@ -290,42 +290,42 @@ function BinPack(binWidth, binHeight) {
     return [pack, updatedList, z];
   };
 
-  pack.binWidth = function(_) {
+  pack.binWidth = function (_) {
     if (!arguments.length) return binWidth;
     binWidth = _;
     binPacker = new BinPacker(binWidth, binHeight);
     return pack;
   };
 
-  pack.binHeight = function(_) {
+  pack.binHeight = function (_) {
     if (!arguments.length) return binHeight;
     binHeight = _;
     binPacker = new BinPacker(binWidth, binHeight);
     return pack;
   };
 
-  pack.rectWidth = function(_) {
+  pack.rectWidth = function (_) {
     return arguments.length ? ((rectWidth = _), pack) : rectWidth;
   };
 
-  pack.rectHeight = function(_) {
+  pack.rectHeight = function (_) {
     return arguments.length ? ((rectHeight = _), pack) : rectHeight;
   };
 
-  pack.sort = function(_) {
+  pack.sort = function (_) {
     return arguments.length ? ((sort = _), pack) : sort;
   };
 
   Object.defineProperty(pack, "positioned", {
-    get: function() {
+    get: function () {
       return binPacker.positionedRectangles;
-    }
+    },
   });
 
   Object.defineProperty(pack, "unpositioned", {
-    get: function() {
+    get: function () {
       return binPacker.unpositionedRectangles;
-    }
+    },
   });
 
   return pack;
@@ -350,7 +350,7 @@ function ArrayMaker(rlist, width, height) {
   let max = 0;
   let totalLength = rlist.length;
   let counter = 0;
-  rlist.forEach(element => {
+  rlist.forEach((element) => {
     if (element.tag >= max) {
       max = element.tag;
     }
@@ -505,3 +505,4 @@ function ArrayMaker(rlist, width, height) {
 //   //console.log(packer.positioned);
 //   return toBePacked;
 // }
+module.export(BinPack);
