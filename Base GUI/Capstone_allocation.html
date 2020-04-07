@@ -377,25 +377,47 @@
         btn = document.getElementById("drawBtn");
 
         if(drawing) {
-            $("#container").draggable("enable");
-            $("#container2").draggable("enable");
             document.getElementById("editBtn").disabled = false;
             drawing = 0;
             btn.innerHTML = "Draw";
 
-            document.getElementById("drawZone").removeEventListener("click", createOne);
-            document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
+                $("#container").draggable("enable");
+                $("#container2").draggable("enable");
 
+                document.getElementById("drawZone").removeEventListener("click", createOne);
+                document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            }else if($("#container").data('ui-draggable')){
+                $("#container").draggable("enable");
+
+                document.getElementById("drawZone").removeEventListener("click", createOne);
+            }else{
+                $("#container2").draggable("enable");
+                document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            }
 
         }else{
-            $("#container").draggable("disable");
-            $("#container2").draggable("disable");
+
             document.getElementById("editBtn").disabled = true;
             drawing = 1;
             btn.innerHTML = "Drawing...";
 
-            document.getElementById("drawZone").addEventListener("click", createOne);
-            document.getElementById("drawZone2").addEventListener("click", createTwo);
+            if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
+                $("#container").draggable("disable");
+                $("#container2").draggable("disable");
+
+                document.getElementById("drawZone").addEventListener("click", createOne);
+                document.getElementById("drawZone2").addEventListener("click", createTwo);
+
+            }else if($("#container").data('ui-draggable')) {
+                $("#container").draggable("disable");
+
+                document.getElementById("drawZone").addEventListener("click", createOne);
+            }else {
+                $("#container2").draggable("disable");
+
+                document.getElementById("drawZone2").addEventListener("click", createTwo);
+            }
 
         }
     }
@@ -424,11 +446,11 @@
         numOfBox++;
 
         moveableObject = {
-        moveable,
-        frame,
-        name
+            moveable,
+            frame,
+            name
         };
-         moveableObjectList.push(moveableObject);
+        moveableObjectList.push(moveableObject);
     }
 </script>
 
