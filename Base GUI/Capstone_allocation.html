@@ -33,7 +33,10 @@
     <section>
         <nav>
             <input type="file" id="uploaded-file" class="hidden" accept="image/*">
-            <label for="uploaded-file">Upload Image</label>
+            <label for="uploaded-file">Upload Image (Top)</label>
+            <br>
+            <input type="file" id="uploaded-file2" class="hidden" accept="image/*">
+            <label for="uploaded-file2">Upload Image (Bottom)</label>
             <br>
             <input type="file" id="uploaded-excel" class="hidden"
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
@@ -41,8 +44,9 @@
             <div id="excel-name"></div>
             <br>
             <div class="btn-group">
-                <button id="drawBtn" onclick="draw()">Draw</button>
+                <!-- <button id="drawBtn" onclick="draw()">Draw</button> -->
                 <!-- <button id="drawBtn" onclick="createNewBin()">Draw</button> -->
+                <button id="drawBtn" onclick="drawMode()">Draw</button>
                 <br>
                 <button id="editBtn" onclick="resize()">Edit</button>
                 <br>
@@ -66,7 +70,23 @@
             <script src="../rotate_daybrush/rotate.js"></script>
         </article>
     </section>
+
+    <div id="emptySpace"></div>
+
+    <article id="drawZone2">
+        <div id="buttonContainer2" style="position: absolute; right: 0;">
+            <button type=" button" class="zoomBtnIn" onclick="zoomin2()" id="zoomIn2"><i
+                    class="fas fa-search-plus"></i></button>
+            <button type="button" class="zoomBtnOut" onclick="zoomout2()" id="zoomOut2"><i
+                    class="fas fa-search-minus"></i></button>
+        </div>
+        <div id="container2" style="width: 100%; height: 100%; overflow: visible;">
+            <canvas id="our-canvas2" z-index="1"></canvas>
+        </div>
+    </article>
+
     <div id="dvExcel">dvExcel</div>
+
 </body>
 
 <script type="text/javascript">
@@ -82,7 +102,8 @@
     var checkExcel = false;
 
     let zoomLevel = 1
-    // script to handle zooming in and out of canvas
+    let zoomLevel2 = 1
+    // script to handle zooming in and out of canvas 1
     function zoomin() {
         if (zoomLevel < 1.5) {
             zoomLevel = zoomLevel + 0.1
@@ -120,7 +141,7 @@
     }
 
     function zoomout() {
-        if (0.5 < zoomLevel) {
+        if (0.3 < zoomLevel) {
             zoomLevel = zoomLevel - 0.1
             document.getElementById("container").style.transform = "scale(" + zoomLevel + "," + zoomLevel + ")"
             document.getElementById("container").style.transformOrigin = "0 0 0"
@@ -151,7 +172,29 @@
         // $("#our-canvas").height($("#our-canvas").height() / 1.2)
     }
 
-    // script to handle uploading of image file
+    // script to handle zooming in and out of canvas 2
+    function zoomin2() {
+        if (zoomLevel2 < 1.5) {
+            zoomLevel2 = zoomLevel2 + 0.1
+            document.getElementById("container2").style.transform = "scale(" + zoomLevel2 + "," + zoomLevel2 + ")"
+            document.getElementById("container2").style.transformOrigin = "0 0 0"
+        } else {
+            console.log("maximum zoom");
+        }
+    }
+
+    function zoomout2() {
+        if (0.3 < zoomLevel2) {
+            zoomLevel2 = zoomLevel2 - 0.1
+            document.getElementById("container2").style.transform = "scale(" + zoomLevel2 + "," + zoomLevel2 + ")"
+            document.getElementById("container2").style.transformOrigin = "0 0 0"
+        } else {
+            console.log("minimum zoom");
+        }
+
+    }
+
+    // script to handle uploading of image file 1
     var canvas = document.getElementById('our-canvas');
     var context = canvas.getContext('2d');
 
@@ -197,6 +240,69 @@
                 tempImageStore.src = event.target.result;
                 // script to enable drag-moving of canvas
                 $("#container").draggable();
+                checkImage = true;
+
+                if (checkExcel) {
+                    document.getElementById("save-button").disabled = false;
+                    document.getElementById("drawBtn").disabled = false;
+                    document.getElementById("editBtn").disabled = false;
+                    document.getElementById("runBtn").disabled = false;
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+        else {
+            var error = document.getElementById('error-message');
+            error.innerHTML = "Error! You did not upload an image file! (eg .png, .jpg)";
+        }
+    }
+
+    // script to handle uploading of image file 2
+    var canvas2 = document.getElementById('our-canvas2');
+    var context2 = canvas2.getContext('2d');
+
+    window.addEventListener('DOMContentLoaded', initImageLoader2);
+
+    var uploadedFile2 = document.getElementById('uploaded-file2');
+
+    function initImageLoader2() {
+        uploadedFile2.addEventListener('change', handleManualUploadedFiles2);
+
+
+
+        function handleManualUploadedFiles2(ev) {
+            var file = ev.target.files[0];
+            let boxes = document.querySelectorAll(".box")
+            for (let index = 0; index < boxes.length; index++) {
+                const box = boxes[index];
+                box.parentNode.removeChild(box)
+            }
+            handleFile2(file);
+        }
+    }
+
+    function handleFile2(file) {
+        var imageType = /image.*/;
+
+        if (file.type.match(imageType)) {
+            var reader = new FileReader();
+
+            reader.onloadend = function (event) {
+                var tempImageStore = new Image();
+                tempImageStore.onload = function (ev) {
+                    canvas2.width = ev.target.width;
+                    canvas2.height = ev.target.height;
+                    context2.drawImage(ev.target, 0, 0);
+                    // console.log(document.getElementById("our-canvas").getBoundingClientRect().width);
+                    console.log($("#container2").width());
+
+                    $("#container2").width(canvas.width)
+                    $("#container2").height(canvas.height)
+
+                }
+                tempImageStore.src = event.target.result;
+                // script to enable drag-moving of canvas
+                $("#container2").draggable();
                 checkImage = true;
 
                 if (checkExcel) {
@@ -266,20 +372,88 @@
 
     });
 
-    // let numOfBox = 0
-    // function createNewBin(containerId) {
-    //     let active_box = document.createElement("div");
-    //     active_box.className = "box";
-    //     active_box.style.width = 200 + "px";
-    //     active_box.style.height = 200 + "px";
-    //     active_box.style.top = 200 + "px";
-    //     active_box.style.left = 200 + "px";
-    //     active_box.style.position = "absolute";
-    //     active_box.style.zIndex = 1000;
-    //     active_box.setAttribute("name", "bin-" + numOfBox)
-    //     document.getElementById(containerId).appendChild(active_box);
-    //     numOfBox++;
-    // }
+    let numOfBox = 0
+    var drawing = 0
+
+    function drawMode() {
+        btn = document.getElementById("drawBtn");
+
+        if (drawing) {
+            document.getElementById("editBtn").disabled = false;
+            drawing = 0;
+            btn.innerHTML = "Draw";
+
+            if ($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')) {
+                $("#container").draggable("enable");
+                $("#container2").draggable("enable");
+
+                document.getElementById("drawZone").removeEventListener("click", createOne);
+                document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            } else if ($("#container").data('ui-draggable')) {
+                $("#container").draggable("enable");
+
+                document.getElementById("drawZone").removeEventListener("click", createOne);
+            } else {
+                $("#container2").draggable("enable");
+                document.getElementById("drawZone2").removeEventListener("click", createTwo);
+            }
+
+        } else {
+
+            document.getElementById("editBtn").disabled = true;
+            drawing = 1;
+            btn.innerHTML = "Drawing...";
+
+            if ($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')) {
+                $("#container").draggable("disable");
+                $("#container2").draggable("disable");
+
+                document.getElementById("drawZone").addEventListener("click", createOne);
+                document.getElementById("drawZone2").addEventListener("click", createTwo);
+
+            } else if ($("#container").data('ui-draggable')) {
+                $("#container").draggable("disable");
+
+                document.getElementById("drawZone").addEventListener("click", createOne);
+            } else {
+                $("#container2").draggable("disable");
+
+                document.getElementById("drawZone2").addEventListener("click", createTwo);
+            }
+
+        }
+    }
+
+    //intermediate functions to createNewBin function
+    function createOne() {
+        createNewBin("container");
+    }
+
+    function createTwo() {
+        createNewBin("container2");
+    }
+
+    //Upon clicking on
+    function createNewBin(containerID) {
+        let active_box = document.createElement("div");
+        active_box.className = "box";
+        active_box.style.width = 200 + "px";
+        active_box.style.height = 200 + "px";
+        active_box.style.top = 200 + "px";
+        active_box.style.left = 200 + "px";
+        active_box.style.position = "absolute";
+        active_box.style.zIndex = 999;
+        active_box.setAttribute("name", "bin-" + numOfBox)
+        document.getElementById(containerID).appendChild(active_box);
+        numOfBox++;
+
+        moveableObject = {
+            moveable,
+            frame,
+            name
+        };
+        moveableObjectList.push(moveableObject);
+    }
 </script>
 
 </html>

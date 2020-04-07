@@ -18,7 +18,15 @@ function resize() {
   //   .removeEventListener("mousemomve", drawMouseMove);
   btn = document.getElementById("editBtn");
   if (editing) {
-    $("#container").draggable("enable");
+
+    if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
+      $("#container").draggable("enable");
+      $("#container2").draggable("enable");
+    } else if($("#container").data('ui-draggable')){
+      $("#container").draggable("enable");
+    } else {
+      $("#container2").draggable("enable");
+    }
     document.getElementById("drawBtn").disabled = false;
     editing = 0;
     btn.innerHTML = "Edit";
@@ -60,8 +68,17 @@ function resize() {
     //   resizables[index].className = "box";
     // }
   } else {
+
+    if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
+      $("#container").draggable("disable");
+      $("#container2").draggable("disable");
+    } else if($("#container").data('ui-draggable')){
+      $("#container").draggable("disable");
+    }else {
+      $("#container2").draggable("disable");
+    }
+
     // let currentSelected;
-    $("#container").draggable("disable");
     document.getElementById("drawBtn").disabled = true;
     editing = 1;
     btn.innerHTML = "Editing...";
