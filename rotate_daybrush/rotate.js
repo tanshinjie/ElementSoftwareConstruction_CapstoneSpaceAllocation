@@ -1,7 +1,6 @@
-function initMoveable(moveableObject, bin, binsinboxes, index) {
+function initMoveable(moveableObject, bin, binsinboxes) {
   if (moveableObject.moveable == null) {
     console.log("new");
-    console.log("parentNode", bin.parentNode);
     moveableObject.frame = {
       translate: [0, 0],
       scale: [1, 1],
@@ -13,8 +12,7 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
   }
   frame = moveableObject.frame;
   // console.log(frame.translate);
-  // moveableObject.moveable = new Moveable(document.getElementById("container"), {
-  moveableObject.moveable = new Moveable(bin.parentNode, {
+  moveableObject.moveable = new Moveable(document.getElementById("container"), {
     target: bin,
     rotatable: true,
     draggable: true,
@@ -39,9 +37,9 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
   } else {
     moveableObject.moveable.scalable = true;
   }
-  // if (moveableObject.frame.rotate != 0) {
-  //   moveableObject.moveable.scalable = false;
-  // }
+  if (moveableObject.frame.rotate != 0) {
+    moveableObject.moveable.scalable = false;
+  }
   moveableObject.moveable
     .on("rotateStart", ({ set }) => {
       frame = moveableObject.frame;

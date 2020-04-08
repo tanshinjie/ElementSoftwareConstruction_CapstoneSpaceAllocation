@@ -18,13 +18,11 @@ function resize() {
   //   .removeEventListener("mousemomve", drawMouseMove);
   btn = document.getElementById("editBtn");
   if (editing) {
-    if (
-      $("#container").data("ui-draggable") &&
-      $("#container2").data("ui-draggable")
-    ) {
+
+    if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
       $("#container").draggable("enable");
       $("#container2").draggable("enable");
-    } else if ($("#container").data("ui-draggable")) {
+    } else if($("#container").data('ui-draggable')){
       $("#container").draggable("enable");
     } else {
       $("#container2").draggable("enable");
@@ -55,13 +53,10 @@ function resize() {
       div.style.border = "2px solid black";
       div.style.zIndex = element.style.zIndex;
       div.setAttribute("name", element.getAttribute("name"));
-      element.parentNode.appendChild(div);
       element.parentNode.removeChild(element);
+      document.getElementById("container").appendChild(div);
       element.style.backgroundColor = null;
       element.style.opacity = null;
-
-      let bin_txt = document.getElementById("bin-" + index + "Txt");
-      bin_txt.remove();
     }
     controlBoxes = document.querySelectorAll(".moveable-control-box");
     for (let index = 0; index < controlBoxes.length; index++) {
@@ -73,15 +68,13 @@ function resize() {
     //   resizables[index].className = "box";
     // }
   } else {
-    if (
-      $("#container").data("ui-draggable") &&
-      $("#container2").data("ui-draggable")
-    ) {
+
+    if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
       $("#container").draggable("disable");
       $("#container2").draggable("disable");
-    } else if ($("#container").data("ui-draggable")) {
+    } else if($("#container").data('ui-draggable')){
       $("#container").draggable("disable");
-    } else {
+    }else {
       $("#container2").draggable("disable");
     }
 
@@ -96,7 +89,6 @@ function resize() {
       element.style.backgroundColor = "#0C97C9";
       // element.style.opacity = 0.5;
       // console.log(element.childNodes);
-      console.log(element.childNodes.length);
       if (element.childNodes.length > 0) {
         boxesinbins = 1;
       } else {
@@ -131,14 +123,6 @@ function resize() {
           console.log("currentSelected", currentSelected);
         }
       });
-    document
-      .getElementById("container2")
-      .addEventListener("mousedown", function (e) {
-        if (e.target.className == "box") {
-          currentSelected = e.target;
-          console.log("currentSelected", currentSelected);
-        }
-      });
     document.addEventListener("keydown", function (e) {
       if (e.keyCode == 46 && currentSelected != null) {
         console.log("delete", currentSelected.getAttribute("name"));
@@ -153,7 +137,8 @@ function resize() {
         }
         // console.log(removeIndex);
         moveableObjectList.splice(removeIndex, 1);
-        currentSelected.parentNode.removeChild(currentSelected);
+        // console.log(moveableObjectList);
+        document.getElementById("container").removeChild(currentSelected);
         currentSelected = null;
       }
     });
@@ -295,7 +280,7 @@ function draw() {
     document.getElementById("editBtn").disabled = false;
     drawing = 0;
     btn.innerHTML = "Draw";
-    documentx
+    document
       .getElementById("drawZone")
       .removeEventListener("mousedown", drawMouseDown);
     document

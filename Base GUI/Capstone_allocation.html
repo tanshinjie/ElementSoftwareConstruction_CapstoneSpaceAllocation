@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="C:\Users\shinj\Desktop\2dpacking\Base GUI\fontawesome-free-5.12.1-web\css\all.css">
+        href="C:\Users\Nicholas\Desktop\2dpacking\Base GUI\fontawesome-free-5.12.1-web\css\all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
@@ -52,7 +52,7 @@
                 <br>
                 <button id="runBtn" onclick="Run()">Run</button>
                 <br>
-                <button id="save-button">Save Image<br />(Top)</button>
+                <button id="save-button">Save Image<br/>(Top)</button>
                 <br>
                 <button id="save-button2">Save Image (Bottom)</button>
             </div>
@@ -87,7 +87,7 @@
         </div>
     </article>
 
-    <div id="dvExcel" innerHTML="dvExcel">
+    <div id="dvExcel" innerHTML = "dvExcel">
         <div class="table-scroll" id="table-scroll">
         </div>
     </div>
@@ -107,8 +107,8 @@
     var checkImage = false;
     var checkExcel = false;
 
-    let zoomLevel = 0.5
-    let zoomLevel2 = 0.5
+    let zoomLevel = 1
+    let zoomLevel2 = 1
     // script to handle zooming in and out of canvas 1
     function zoomin() {
         if (zoomLevel < 1.5) {
@@ -221,12 +221,7 @@
                 box.parentNode.removeChild(box)
             }
             handleFile(file);
-            console.log("handleFile done");
-
-            document.getElementById("container").style.transform = "scale(" + zoomLevel + ")"
-            document.getElementById("container").style.transformOrigin = "0 0 0"
         }
-
     }
 
     function handleFile(file) {
@@ -242,14 +237,13 @@
                     canvas.height = ev.target.height;
                     context.drawImage(ev.target, 0, 0);
                     // console.log(document.getElementById("our-canvas").getBoundingClientRect().width);
+                    console.log($("#container").width());
 
                     $("#container").width(canvas.width)
                     $("#container").height(canvas.height)
 
                 }
                 tempImageStore.src = event.target.result;
-
-
                 // script to enable drag-moving of canvas
                 $("#container").draggable();
                 checkImage = true;
@@ -291,8 +285,6 @@
                 box.parentNode.removeChild(box)
             }
             handleFile2(file);
-            document.getElementById("container2").style.transform = "scale(" + zoomLevel + ")"
-            document.getElementById("container2").style.transformOrigin = "0 0 0"
         }
     }
 
@@ -472,11 +464,11 @@
     }
 
     //intermediate functions to createNewBin function
-    function createOne(e) {
+    function createOne() {
         createNewBin("container");
     }
 
-    function createTwo(e) {
+    function createTwo() {
         createNewBin("container2");
     }
 
@@ -484,13 +476,12 @@
     function createNewBin(containerID) {
         let active_box = document.createElement("div");
         active_box.className = "box";
-        active_box.style.width = 1000 + "px";
-        active_box.style.height = 1000 + "px";
+        active_box.style.width = 200 + "px";
+        active_box.style.height = 200 + "px";
         active_box.style.top = 200 + "px";
         active_box.style.left = 200 + "px";
         active_box.style.position = "absolute";
         active_box.style.zIndex = 999;
-        active_box.setAttribute("value", containerID)
         active_box.setAttribute("name", "bin-" + numOfBox)
         document.getElementById(containerID).appendChild(active_box);
         numOfBox++;
