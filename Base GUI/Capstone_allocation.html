@@ -393,10 +393,10 @@
 
 
         //screenshot divs and canvas before downloading as image file
-        html2canvas(document.querySelector("#container2")).then(canvas2 => {
+        html2canvas(document.querySelector("#container2")).then(canvas => {
             //for IE / Edge
             if (window.navigator.msSaveBlob) {
-                window.navigator.msSaveBlob(canvas2.msToBlob(), "Capstone_Allocation_Bottom.png");
+                window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation_Bottom.png");
             }
             else {
                 //for google chrome, firefox & other web browser downloads
