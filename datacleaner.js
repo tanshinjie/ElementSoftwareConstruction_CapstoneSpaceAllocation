@@ -1,5 +1,5 @@
 // sdgervrelvbre;
-var rlist = [];
+let rlist = [];
 var positioned = [];
 var unpositioned = [];
 var scale = 50;
@@ -243,7 +243,8 @@ function Run() {
   let packer;
   let containers = [];
   // unpositioned = rlist;
-  let updatedList = rlist;
+  let updatedList = [...rlist];
+
   bins = document.getElementsByClassName("box");
   for (const bin of bins) {
     bin.innerHTML = null;
@@ -259,9 +260,11 @@ function Run() {
     packer = new BinPack(cWidth / scale, cHeight / scale);
     let values = packer.addAll(updatedList);
     updatedList = values[1];
+    console.log("updatedList inside", updatedList);
+
     positioned = packer.positioned;
     // List(positioned, true);
-    console.log("Positioned boxes\n", packer.positioned);
+    // console.log("Positioned boxes\n", packer.positioned);
     packer.positioned.forEach((element) => {
       div = document.createElement("div");
       div.id = numberOfBox;
