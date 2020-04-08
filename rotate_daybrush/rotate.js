@@ -72,7 +72,7 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
       let binTxt = document.getElementById("bin-" + index + "Txt")
       let width = Math.round(200 * scale[0])
       let height = Math.round(200 * scale[1])
-      binTxt.setAttribute("fontSize", "12px")
+      // binTxt.setAttribute("fontSize", "12px")
       binTxt.innerText = "Height: " + height + "px\nWidth: " + width + "px"
 
       editor(target);
