@@ -339,11 +339,7 @@ $(function() {
   var tableThNum = 0;
   var tableTr1Width = 0;
 
-<<<<<<< HEAD
       //tableWidth = $('.table-scroll table').css('width').replace('px','');
-=======
-      tableWidth = $('.table-scroll table').css('width').replace('px','');
->>>>>>> parent of afb73bd... merge with aaron
       tableThNum = $('.table-scroll tr:eq(0)').children('th').length;
 
   if ($('.table-scroll tr').length == 1) { // header only
@@ -354,22 +350,14 @@ $(function() {
           });
       }
   } else { // header and body
-<<<<<<< HEAD
       //tableTr1Width = $('.table-scroll tr:eq(1)').css('width').replace('px','');
-=======
-      tableTr1Width = $('.table-scroll tr:eq(1)').css('width').replace('px','');
->>>>>>> parent of afb73bd... merge with aaron
           $('.table-scroll tr:eq(1)').children('td').each(function(i){
           tableTdWidths[i]=$(this).css('width').replace('px','');
       });
       $('.table-scroll tr:eq(0)').children('th').each(function(i) {
   if(parseInt($(this).css('width').replace('px', '')) >
       parseInt(tableTdWidths[i])) {
-<<<<<<< HEAD
       //tableTdWidths[i] = $(this).css('width').replace('px','');
-=======
-      tableTdWidths[i] = $(this).css('width').replace('px','');
->>>>>>> parent of afb73bd... merge with aaron
           }
       });
 

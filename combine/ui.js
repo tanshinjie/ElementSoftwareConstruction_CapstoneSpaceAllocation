@@ -95,7 +95,6 @@ function resize() {
         boxesinbins = 0;
       }
 
-<<<<<<< HEAD
       var width = element.offsetWidth
       var height = element.offsetHeight
 
@@ -113,9 +112,6 @@ function resize() {
 
       initMoveable(moveableObjectList[index], element, boxesinbins, index);
 
-=======
-      initMoveable(moveableObjectList[index], element, boxesinbins);
->>>>>>> parent of afb73bd... merge with aaron
       // Rotate(element, boxesinbins);
       // $(element).draggable("disable");
     }

@@ -1,4 +1,4 @@
-function initMoveable(moveableObject, bin, binsinboxes) {
+function initMoveable(moveableObject, bin, binsinboxes, index) {
   if (moveableObject.moveable == null) {
     console.log("new");
     moveableObject.frame = {
@@ -66,7 +66,6 @@ function initMoveable(moveableObject, bin, binsinboxes) {
     .on("scale", ({ target, drag, scale }) => {
       frame.scale = scale;
       frame.translate = drag.beforeTranslate;
-<<<<<<< HEAD
 
       let binTxt = document.getElementById("bin-" + index + "Txt")
       let width = Math.round(200 * scale[0])
@@ -74,8 +73,6 @@ function initMoveable(moveableObject, bin, binsinboxes) {
       // binTxt.setAttribute("fontSize", "12px")
       binTxt.innerText = "Height: " + height + "px\nWidth: " + width + "px"
 
-=======
->>>>>>> parent of afb73bd... merge with aaron
       editor(target);
     });
   function editor(target) {
