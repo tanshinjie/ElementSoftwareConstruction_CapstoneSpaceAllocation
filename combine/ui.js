@@ -53,10 +53,12 @@ function resize() {
       div.style.border = "2px solid black";
       div.style.zIndex = element.style.zIndex;
       div.setAttribute("name", element.getAttribute("name"));
+      element.parentNode.appendChild(div);
       element.parentNode.removeChild(element);
-      document.getElementById("container").appendChild(div);
       element.style.backgroundColor = null;
       element.style.opacity = null;
+      let bin_txt = document.getElementById("bin-" + index + "Txt");
+      bin_txt.remove();
     }
     controlBoxes = document.querySelectorAll(".moveable-control-box");
     for (let index = 0; index < controlBoxes.length; index++) {

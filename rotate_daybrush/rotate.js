@@ -12,7 +12,7 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
   }
   frame = moveableObject.frame;
   // console.log(frame.translate);
-  moveableObject.moveable = new Moveable(document.getElementById("container"), {
+  moveableObject.moveable = new Moveable(bin.parentNode, {
     target: bin,
     rotatable: true,
     draggable: true,
