@@ -333,13 +333,13 @@ $(function() {
         + $('.table-scroll').scrollLeft());
       });
 
-      var tableTdWidths = new Array();
+  var tableTdWidths = new Array();
   var tableWidth = 0;
   var tableTr0Width = 0;
   var tableThNum = 0;
   var tableTr1Width = 0;
 
-      tableWidth = $('.table-scroll table').css('width').replace('px','');
+      //tableWidth = $('.table-scroll table').css('width').replace('px','');
       tableThNum = $('.table-scroll tr:eq(0)').children('th').length;
 
   if ($('.table-scroll tr').length == 1) { // header only
@@ -350,14 +350,14 @@ $(function() {
           });
       }
   } else { // header and body
-      tableTr1Width = $('.table-scroll tr:eq(1)').css('width').replace('px','');
+      //tableTr1Width = $('.table-scroll tr:eq(1)').css('width').replace('px','');
           $('.table-scroll tr:eq(1)').children('td').each(function(i){
           tableTdWidths[i]=$(this).css('width').replace('px','');
       });
       $('.table-scroll tr:eq(0)').children('th').each(function(i) {
   if(parseInt($(this).css('width').replace('px', '')) >
       parseInt(tableTdWidths[i])) {
-      tableTdWidths[i] = $(this).css('width').replace('px','');
+      //tableTdWidths[i] = $(this).css('width').replace('px','');
           }
       });
 
