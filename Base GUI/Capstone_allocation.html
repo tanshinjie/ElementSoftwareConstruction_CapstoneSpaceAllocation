@@ -101,8 +101,8 @@
     var checkImage = false;
     var checkExcel = false;
 
-    let zoomLevel = 1
-    let zoomLevel2 = 1
+    let zoomLevel = 0.5
+    let zoomLevel2 = 0.5
     // script to handle zooming in and out of canvas 1
     function zoomin() {
         if (zoomLevel < 1.5) {
@@ -215,7 +215,12 @@
                 box.parentNode.removeChild(box)
             }
             handleFile(file);
+            console.log("handleFile done");
+
+            document.getElementById("container").style.transform = "scale(" + zoomLevel + ")"
+            document.getElementById("container").style.transformOrigin = "0 0 0"
         }
+
     }
 
     function handleFile(file) {
@@ -231,13 +236,14 @@
                     canvas.height = ev.target.height;
                     context.drawImage(ev.target, 0, 0);
                     // console.log(document.getElementById("our-canvas").getBoundingClientRect().width);
-                    console.log($("#container").width());
 
                     $("#container").width(canvas.width)
                     $("#container").height(canvas.height)
 
                 }
                 tempImageStore.src = event.target.result;
+
+
                 // script to enable drag-moving of canvas
                 $("#container").draggable();
                 checkImage = true;
@@ -278,6 +284,8 @@
                 box.parentNode.removeChild(box)
             }
             handleFile2(file);
+            document.getElementById("container2").style.transform = "scale(" + zoomLevel + ")"
+            document.getElementById("container2").style.transformOrigin = "0 0 0"
         }
     }
 
@@ -425,11 +433,11 @@
     }
 
     //intermediate functions to createNewBin function
-    function createOne() {
+    function createOne(e) {
         createNewBin("container");
     }
 
-    function createTwo() {
+    function createTwo(e) {
         createNewBin("container2");
     }
 
@@ -443,6 +451,7 @@
         active_box.style.left = 200 + "px";
         active_box.style.position = "absolute";
         active_box.style.zIndex = 999;
+        active_box.setAttribute("value", containerID)
         active_box.setAttribute("name", "bin-" + numOfBox)
         document.getElementById(containerID).appendChild(active_box);
         numOfBox++;

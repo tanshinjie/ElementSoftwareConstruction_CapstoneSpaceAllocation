@@ -505,4 +505,3 @@ function ArrayMaker(rlist, width, height) {
 //   //console.log(packer.positioned);
 //   return toBePacked;
 // }
-module.export(BinPack);

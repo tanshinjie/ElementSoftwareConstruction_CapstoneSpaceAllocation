@@ -1,6 +1,7 @@
 function initMoveable(moveableObject, bin, binsinboxes) {
   if (moveableObject.moveable == null) {
     console.log("new");
+    console.log("parentNode", bin.parentNode);
     moveableObject.frame = {
       translate: [0, 0],
       scale: [1, 1],
@@ -12,7 +13,8 @@ function initMoveable(moveableObject, bin, binsinboxes) {
   }
   frame = moveableObject.frame;
   // console.log(frame.translate);
-  moveableObject.moveable = new Moveable(document.getElementById("container"), {
+  // moveableObject.moveable = new Moveable(document.getElementById("container"), {
+  moveableObject.moveable = new Moveable(bin.parentNode, {
     target: bin,
     rotatable: true,
     draggable: true,
