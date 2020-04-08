@@ -399,20 +399,23 @@
         $('#container2').css({ transform: 'scale(1)' });
 
 
-        //screenshot divs and canvas before downloading as image file
-        html2canvas(document.querySelector("#container2")).then(canvas => {
-            //for IE / Edge
+        // //screenshot divs and canvas before downloading as image file
+        html2canvas(document.getElementById("container2")).then(canvas => {
+            // html2canvas(document.querySelector("#container2")).then(canvas => {
+            //for IE / Edge]
+            console.log(canvas);
+
             if (window.navigator.msSaveBlob) {
-                window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation_Bottom.png");
+                // window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation_Bottom.png");
             }
             else {
                 //for google chrome, firefox & other web browser downloads
-                var a = document.createElement("a");
-                document.body.appendChild(a);
-                a.href = canvas2.toDataURL();
-                a.download = "Capstone_Allocation_Bottom.png"
-                a.click();
-                document.body.removeChild(a);
+                // var a = document.createElement("a");
+                // document.body.appendChild(a);
+                // a.href = canvas2.toDataURL();
+                // a.download = "Capstone_Allocation_Bottom.png"
+                // a.click();
+                // document.body.removeChild(a);
             }
         });
 
