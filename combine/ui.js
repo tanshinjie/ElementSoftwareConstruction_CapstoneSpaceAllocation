@@ -57,6 +57,9 @@ function resize() {
       document.getElementById("container").appendChild(div);
       element.style.backgroundColor = null;
       element.style.opacity = null;
+
+      let bin_txt = document.getElementById("bin-" + index + "Txt")
+      bin_txt.remove()
     }
     controlBoxes = document.querySelectorAll(".moveable-control-box");
     for (let index = 0; index < controlBoxes.length; index++) {
@@ -89,12 +92,29 @@ function resize() {
       element.style.backgroundColor = "#0C97C9";
       // element.style.opacity = 0.5;
       // console.log(element.childNodes);
+      console.log(element.childNodes.length)
       if (element.childNodes.length > 0) {
         boxesinbins = 1;
       } else {
         boxesinbins = 0;
       }
-      initMoveable(moveableObjectList[index], element, boxesinbins);
+
+      var width = element.offsetWidth
+      var height = element.offsetHeight
+
+      let bin_txt = document.createElement('p');
+      bin_txt.className = "boxTxt"
+      bin_txt.setAttribute("align", "center")
+      bin_txt.setAttribute("vertical-align", "middle")
+      // bin_txt.setAttribute("position", "static")
+      bin_txt.setAttribute("marginTop", "50%")
+      bin_txt.setAttribute("fontSize", "12px")
+      bin_txt.setAttribute("textAlign", "center")
+      bin_txt.setAttribute("id", "bin-" + index + "Txt")
+      bin_txt.innerText = "Height: " + height + "px\nWidth: " + width + "px"
+      element.appendChild(bin_txt)
+
+      initMoveable(moveableObjectList[index], element, boxesinbins, index);
       // Rotate(element, boxesinbins);
       // $(element).draggable("disable");
     }
