@@ -217,15 +217,19 @@ label:hover {
 }
 
 .table-scroll {
-  width: calc(100% - 5px);
-  overflow-x: scroll;
+  float:right;
+  width: 87%;
+  /*overflow-x: scroll;*/
   white-space: nowrap;
+  clear:both;
+  margin-right: 16px;
+  margin-bottom: 20px;
 }
 
 .table-scroll table {
   table-layout: fixed;
-  width: calc(100% - 10px);
-  background-color:darkseagreen ;
+  width: 100%;
+  background:rgba(255,255,255, 0.8);
 }
 
 .table-scroll thead {
