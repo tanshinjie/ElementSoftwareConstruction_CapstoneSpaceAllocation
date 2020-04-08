@@ -1,7 +1,6 @@
 function initMoveable(moveableObject, bin, binsinboxes, index) {
   if (moveableObject.moveable == null) {
     console.log("new");
-    console.log("parentNode", bin.parentNode);
     moveableObject.frame = {
       translate: [0, 0],
       scale: [1, 1],
@@ -13,7 +12,6 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
   }
   frame = moveableObject.frame;
   // console.log(frame.translate);
-  // moveableObject.moveable = new Moveable(document.getElementById("container"), {
   moveableObject.moveable = new Moveable(bin.parentNode, {
     target: bin,
     rotatable: true,
@@ -39,9 +37,9 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
   } else {
     moveableObject.moveable.scalable = true;
   }
-  // if (moveableObject.frame.rotate != 0) {
-  //   moveableObject.moveable.scalable = false;
-  // }
+  if (moveableObject.frame.rotate != 0) {
+    moveableObject.moveable.scalable = false;
+  }
   moveableObject.moveable
     .on("rotateStart", ({ set }) => {
       frame = moveableObject.frame;
@@ -72,7 +70,7 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
       let binTxt = document.getElementById("bin-" + index + "Txt")
       let width = Math.round(200 * scale[0])
       let height = Math.round(200 * scale[1])
-      binTxt.setAttribute("fontSize", "12px")
+      // binTxt.setAttribute("fontSize", "12px")
       binTxt.innerText = "Height: " + height + "px\nWidth: " + width + "px"
 
       editor(target);

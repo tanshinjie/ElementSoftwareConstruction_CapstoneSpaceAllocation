@@ -19,13 +19,13 @@ function Upload() {
 
       //For Browsers other than IE.
       if (reader.readAsBinaryString) {
-        reader.onload = function (e) {
+        reader.onload = function(e) {
           ProcessExcel(e.target.result);
         };
         reader.readAsBinaryString(fileUpload.files[0]);
       } else {
         //For IE Browser.
-        reader.onload = function (e) {
+        reader.onload = function(e) {
           var data = "";
           var bytes = new Uint8Array(e.target.result);
           for (var i = 0; i < bytes.byteLength; i++) {
@@ -45,7 +45,7 @@ function Upload() {
 function ProcessExcel(data) {
   //Read the Excel File data.
   var workbook = XLSX.read(data, {
-    type: "binary",
+    type: "binary"
   });
 
   //Fetch the name of First Sheet.
@@ -249,7 +249,7 @@ function Run() {
     bin.innerHTML = null;
     containers.push(bin);
   }
-  containers.forEach((container) => {
+  containers.forEach(container => {
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
     // packer = new BinPack(cWidth / scale, cHeight / scale);
@@ -262,7 +262,7 @@ function Run() {
     positioned = packer.positioned;
     // List(positioned, true);
     console.log("Positioned boxes\n", packer.positioned);
-    packer.positioned.forEach((element) => {
+    packer.positioned.forEach(element => {
       div = document.createElement("div");
       div.id = numberOfBox;
       div.style.left = element.x * scale + "px";
@@ -274,8 +274,7 @@ function Run() {
       div.style.opacity = "1";
       div.style.border = "1px solid black";
       div.innerHTML = element.datum.projID;
-      document.getElementById("assign" + element.datum.projID).innerHTML =
-        "Allocated";
+      document.getElementById("assign"+element.datum.projID).innerHTML = "Allocated";
       container.appendChild(div);
       numberOfBox++;
     });
@@ -328,19 +327,19 @@ function getColor(tag) {
 //   div.style.backgroundColor = getRandomColor();
 //   document.getElementById("container").appendChild(div);
 // });
-$(function () {
-  $(".table-scroll").scroll(function () {
-    $(".table-scroll table").width(
-      $(".table-scroll").width() + $(".table-scroll").scrollLeft()
-    );
-  });
+$(function() {
+  $('.table-scroll').scroll(function() {
+        $('.table-scroll table').width($('.table-scroll').width() 
+        + $('.table-scroll').scrollLeft());
+      });
 
-  var tableTdWidths = new Array();
+      var tableTdWidths = new Array();
   var tableWidth = 0;
   var tableTr0Width = 0;
   var tableThNum = 0;
   var tableTr1Width = 0;
 
+<<<<<<< HEAD
   // tableWidth = $(".table-scroll table").css("width").replace("px", "");
   tableThNum = $(".table-scroll tr:eq(0)").children("th").length;
 
@@ -375,33 +374,46 @@ $(function () {
         ) {
           // tableTdWidths[i] = $(this).css("width").replace("px", "");
         }
+=======
+      //tableWidth = $('.table-scroll table').css('width').replace('px','');
+      tableThNum = $('.table-scroll tr:eq(0)').children('th').length;
+
+  if ($('.table-scroll tr').length == 1) { // header only
+      if (tableWidth > tableTr0Width) {
+          $('.table-scroll tr:eq(0)').children('th').each(function(i){
+              $(this).width(parseInt(($(this).css('width').replace('px','')) 
+              + parseInt(Math.floor((tableWidth - tableTr0Width) / tableThNum))) + 'px');
+          });
+      }
+  } else { // header and body
+      //tableTr1Width = $('.table-scroll tr:eq(1)').css('width').replace('px','');
+          $('.table-scroll tr:eq(1)').children('td').each(function(i){
+          tableTdWidths[i]=$(this).css('width').replace('px','');
+      });
+      $('.table-scroll tr:eq(0)').children('th').each(function(i) {
+  if(parseInt($(this).css('width').replace('px', '')) >
+      parseInt(tableTdWidths[i])) {
+      //tableTdWidths[i] = $(this).css('width').replace('px','');
+          }
+>>>>>>> e3f4116cca1d7246c98a41c2ce702169968d8a90
       });
 
-    if (tableWidth > tableTr1Width) {
-      //set all th td width
-      $(".table-scroll tr").each(function (i) {
-        $(this)
-          .children()
-          .each(function (j) {
-            $(this).css(
-              "min-width",
-              parseInt(tableTdWidths[j]) +
-                parseInt(
-                  Math.floor((tableWidth - tableTr1Width) / tableThNum)
-                ) +
-                "px"
-            );
+      if (tableWidth > tableTr1Width) {
+          //set all th td width
+          $('.table-scroll tr').each(function(i){
+                  $(this).children().each(function(j){
+                      $(this).css('min-width',(parseInt(tableTdWidths[j]) 
+                      + parseInt(Math.floor((tableWidth - tableTr1Width) / 
+                      tableThNum))) + 'px');
+                  });
           });
-      });
-    } else {
-      //method 1 : set all th td width
-      $(".table-scroll tr").each(function (i) {
-        $(this)
-          .children()
-          .each(function (j) {
-            $(this).css("min-width", tableTdWidths[j] + "px");
+      } else {
+          //method 1 : set all th td width
+          $('.table-scroll tr').each(function(i){
+                  $(this).children().each(function(j){
+                      $(this).css('min-width',tableTdWidths[j] + 'px');
+                  });
           });
-      });
-    }
+      }
   }
-});
+  });
