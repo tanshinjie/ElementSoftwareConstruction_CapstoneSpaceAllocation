@@ -37,6 +37,7 @@ function resize() {
     //   element.style.backgroundColor = null;
     //   element.style.opacity = null;
     // }
+    
     for (let index = 0; index < boxes.length; index++) {
       var element = boxes[index];
       let div = document.createElement("div");
@@ -86,6 +87,10 @@ function resize() {
     btn.innerHTML = "Editing...";
     boxes = document.querySelectorAll(".box");
 
+    var zone1 = document.getElementById("drawZone")
+    zone1_width = zone1.offsetWidth
+    zone1_height = zone1.offsetHeight
+
     for (let index = 0; index < boxes.length; index++) {
       const element = boxes[index];
       element.style.backgroundColor = "#0C97C9";
@@ -97,8 +102,12 @@ function resize() {
         boxesinbins = 0;
       }
 
-      var width = element.offsetWidth
-      var height = element.offsetHeight
+      // var width = Math.round()
+
+      console.log(element.offsetWidth)
+
+      // var width = Math.round(element.offsetWidth * 25.4/1000)
+      // var height = Math.round(element.offsetHeight * 26.1/ 1000)
 
       let bin_txt = document.createElement('p');
       bin_txt.className = "boxTxt"
@@ -109,7 +118,7 @@ function resize() {
       bin_txt.setAttribute("fontSize", "12px")
       bin_txt.setAttribute("textAlign", "center")
       bin_txt.setAttribute("id", "bin-" + index + "Txt")
-      bin_txt.innerText = "Height: " + height + "px\nWidth: " + width + "px"
+      // bin_txt.innerText = "Height: " + height + "m\nWidth: " + width + "m"
       element.appendChild(bin_txt)
 
       initMoveable(moveableObjectList[index], element, boxesinbins, index);

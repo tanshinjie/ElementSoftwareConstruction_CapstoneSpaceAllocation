@@ -68,10 +68,10 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
       frame.translate = drag.beforeTranslate;
 
       let binTxt = document.getElementById("bin-" + index + "Txt")
-      let width = Math.round(200 * scale[0])
-      let height = Math.round(200 * scale[1])
+      let width = Math.round(200 * scale[0] * 127/1000)
+      let height = Math.round(200 * scale[1] * 125.9/1000)
       // binTxt.setAttribute("fontSize", "12px")
-      binTxt.innerText = "Height: " + height + "px\nWidth: " + width + "px"
+      binTxt.innerText = "Height: " + height + "m\nWidth: " + width + "m"
 
       editor(target);
     });
