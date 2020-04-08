@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Capstone_Allocation.css">
     <link rel="stylesheet" href="jquery-ui.min.css">
     <link rel="stylesheet" type="text/css"
-        href="file:///C:/Users/shinj/Desktop/esc%20latest/2dpacking/Base%20GUI/fontawesome-free-5.12.1-web/css/all.css">
+        href="C:\Users\Nicholas\Desktop\2dpacking\Base GUI\fontawesome-free-5.12.1-web\css\all.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
@@ -52,7 +52,9 @@
                 <br>
                 <button id="runBtn" onclick="Run()">Run</button>
                 <br>
-                <button id="save-button">Save Image</button>
+                <button id="save-button">Save Image<br/>(Top)</button>
+                <br>
+                <button id="save-button2">Save Image (Bottom)</button>
             </div>
             <p id='error-message'></p>
         </nav>
@@ -85,7 +87,10 @@
         </div>
     </article>
 
-    <div id="dvExcel">dvExcel</div>
+    <div id="dvExcel" innerHTML = "dvExcel">
+        <div class="table-scroll" id="table-scroll">
+        </div>
+    </div>
 
 </body>
 
@@ -93,6 +98,7 @@
 
     //default: all buttons other than "Upload Image" and "Upload Excel" will be disabled
     document.getElementById("save-button").disabled = true;
+    document.getElementById("save-button2").disabled = true;
     document.getElementById("drawBtn").disabled = true;
     document.getElementById("editBtn").disabled = true;
     document.getElementById("runBtn").disabled = true;
@@ -253,6 +259,7 @@
                     document.getElementById("drawBtn").disabled = false;
                     document.getElementById("editBtn").disabled = false;
                     document.getElementById("runBtn").disabled = false;
+                    document.getElementById("save-button2").disabled = false;
                 }
             }
             reader.readAsDataURL(file);
@@ -318,6 +325,7 @@
                     document.getElementById("drawBtn").disabled = false;
                     document.getElementById("editBtn").disabled = false;
                     document.getElementById("runBtn").disabled = false;
+                    document.getElementById("save-button2").disabled = false;
                 }
             }
             reader.readAsDataURL(file);
@@ -346,6 +354,7 @@
             document.getElementById("drawBtn").disabled = false;
             document.getElementById("editBtn").disabled = false;
             document.getElementById("runBtn").disabled = false;
+            document.getElementById("save-button2").disabled = false;
         }
 
     }
@@ -365,14 +374,44 @@
         html2canvas(document.querySelector("#container")).then(canvas => {
             //for IE / Edge
             if (window.navigator.msSaveBlob) {
-                window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation.png");
+                window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation_Top.png");
             }
             else {
                 //for google chrome, firefox & other web browser downloads
                 var a = document.createElement("a");
                 document.body.appendChild(a);
                 a.href = canvas.toDataURL();
-                a.download = "Capstone_Allocation.png"
+                a.download = "Capstone_Allocation_Top.png"
+                a.click();
+                document.body.removeChild(a);
+            }
+        });
+
+    });
+
+    //script to handle saving of overall container2
+    var saveButton2 = document.getElementById("save-button2");
+    //var myCanvas = document.getElementById("our-canvas");
+
+    saveButton2.addEventListener("click", function () {
+
+        //resize canvas before saving image
+        //myCanvas.style.height = 3521 + "px";
+        $('#container2').css({ transform: 'scale(1)' });
+
+
+        //screenshot divs and canvas before downloading as image file
+        html2canvas(document.querySelector("#container2")).then(canvas => {
+            //for IE / Edge
+            if (window.navigator.msSaveBlob) {
+                window.navigator.msSaveBlob(canvas.msToBlob(), "Capstone_Allocation_Bottom.png");
+            }
+            else {
+                //for google chrome, firefox & other web browser downloads
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.href = canvas2.toDataURL();
+                a.download = "Capstone_Allocation_Bottom.png"
                 a.click();
                 document.body.removeChild(a);
             }

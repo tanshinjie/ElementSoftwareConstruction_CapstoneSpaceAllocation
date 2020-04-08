@@ -215,3 +215,39 @@ label:hover {
   font-size: 10px;
   padding: 2px;
 }
+
+.table-scroll {
+  width: calc(100% - 5px);
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.table-scroll table {
+  table-layout: fixed;
+  width: calc(100% - 10px);
+  background-color:darkseagreen ;
+}
+
+.table-scroll thead {
+  display: table-row;
+  background-color: bisque;
+}
+
+.table-scroll tbody {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: block;
+  height: calc(100vh - 300px);
+}
+
+.table-scroll th,td {
+  width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 160px;
+  border: 1px solid #808080;
+}
+
+h4, h5 {
+  color: cornflowerblue;
+}
