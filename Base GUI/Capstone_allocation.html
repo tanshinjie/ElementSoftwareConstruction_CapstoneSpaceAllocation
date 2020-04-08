@@ -86,7 +86,7 @@
             <canvas id="our-canvas2" z-index="1"></canvas>
         </div>
     </article>
-
+    <div id="emptySpace"></div>
     <div id="dvExcel" innerHTML="dvExcel">
         <div class="table-scroll" id="table-scroll">
         </div>
@@ -408,7 +408,7 @@
                 //for google chrome, firefox & other web browser downloads
                 var a = document.createElement("a");
                 document.body.appendChild(a);
-                a.href = canvas2.toDataURL();
+                a.href = canvas.toDataURL();
                 a.download = "Capstone_Allocation_Bottom.png"
                 a.click();
                 document.body.removeChild(a);
