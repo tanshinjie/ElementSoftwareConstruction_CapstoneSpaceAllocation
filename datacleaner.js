@@ -102,8 +102,7 @@ function ProcessExcel(data) {
     cell.innerHTML = excelRows[i].Tag;
 
     cell = row.insertCell(-1);
-    //cell.getAttribute("id");
-    //cell.id = "i"
+    cell.id = "assign" + i;
     cell.innerHTML = "Unallocated";
 
     // cell = row.insertCell(-1);
@@ -275,6 +274,7 @@ function Run() {
       div.style.opacity = "1";
       div.style.border = "1px solid black";
       div.innerHTML = element.datum.projID;
+      document.getElementById("assign"+element.datum.projID).innerHTML = "Allocated";
       container.appendChild(div);
       numberOfBox++;
     });
