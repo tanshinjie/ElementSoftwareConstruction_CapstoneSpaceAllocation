@@ -106,8 +106,8 @@
     var checkImage = false;
     var checkExcel = false;
 
-    let zoomLevel = 1
-    let zoomLevel2 = 1
+    let zoomLevel = 0.5
+    let zoomLevel2 = 0.5
     // script to handle zooming in and out of canvas 1
     function zoomin() {
         if (zoomLevel < 1.5) {
@@ -220,6 +220,8 @@
                 box.parentNode.removeChild(box)
             }
             handleFile(file);
+            document.getElementById("container").style.transform = "scale(0.5)"
+            document.getElementById("container").style.transformOrigin = "0 0 0"
         }
     }
 
@@ -284,6 +286,8 @@
                 box.parentNode.removeChild(box)
             }
             handleFile2(file);
+            document.getElementById("container2").style.transform = "scale(0.5)"
+            document.getElementById("container2").style.transformOrigin = "0 0 0"
         }
     }
 
@@ -478,8 +482,8 @@
     function createNewBin(containerID) {
         let active_box = document.createElement("div");
         active_box.className = "box";
-        active_box.style.width = 200 + "px";
-        active_box.style.height = 200 + "px";
+        active_box.style.width = 1000 + "px";
+        active_box.style.height = 1000 + "px";
         active_box.style.top = 200 + "px";
         active_box.style.left = 200 + "px";
         active_box.style.position = "absolute";
