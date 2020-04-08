@@ -108,8 +108,18 @@ BinPacker.prototype.insert = function (width, height) {
 
   BinPacker.pruneRectangles(this.freeRectangles);
 
+  /************************** take out middle box ************************/
+  // if (r.x == 0 || r.y == 0) {
+  //   console.log("left top box");
+  //   this.positionedRectangles.push(r);
+  // } else if (r.x + r.width == width || r.y + r.height == height) {
+  //   console.log("right bottom box");
+  //   this.positionedRectangles.push(r);
+  // } else {
+  //   console.log("Middle box");
+  //   this.unpositionedRectangles.push(r);
+  // }
   this.positionedRectangles.push(r);
-
   return { positioned: true, rectangle: r };
 };
 
@@ -128,7 +138,19 @@ BinPacker.findPosition = function (width, height, F) {
   // the rectangle inside of it)
   for (var i = 0; i < F.length; i++) {
     var f = F[i]; // the current free rectangle
-
+    // console.log(i, "f rect", "x", f.x, "y", f.y, "w", f.width, "h", f.height);
+    // if (
+    //   f.x == 0 ||
+    //   f.y == 0 ||
+    //   f.x + f.width == width ||
+    //   f.y + f.height == height
+    // ) {
+    // if (
+    //   f.x == 0 ||
+    //   f.y == 0
+    // f.x + f.width == width ||
+    // f.y + f.height == height
+    // ) {
     // Does the rectangle we are positioning fit inside the free rectangle?
     if (f.width >= width && f.height >= height) {
       var leftoverHorizontal = Math.abs(f.width - width),
@@ -153,6 +175,7 @@ BinPacker.findPosition = function (width, height, F) {
     }
   }
 
+  // console.log("break");
   return bestRectangle;
 };
 
@@ -330,9 +353,6 @@ function BinPack(binWidth, binHeight) {
 
   return pack;
 }
-
-// module.exports.Rect = Rect;
-// module.exports.BinPack = BinPack;
 
 function Area(width, height) {
   let area = width * height;

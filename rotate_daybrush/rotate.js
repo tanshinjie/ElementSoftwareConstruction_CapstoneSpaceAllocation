@@ -1,4 +1,4 @@
-function initMoveable(moveableObject, bin, binsinboxes) {
+function initMoveable(moveableObject, bin, binsinboxes, index) {
   if (moveableObject.moveable == null) {
     console.log("new");
     console.log("parentNode", bin.parentNode);
@@ -39,9 +39,9 @@ function initMoveable(moveableObject, bin, binsinboxes) {
   } else {
     moveableObject.moveable.scalable = true;
   }
-  if (moveableObject.frame.rotate != 0) {
-    moveableObject.moveable.scalable = false;
-  }
+  // if (moveableObject.frame.rotate != 0) {
+  //   moveableObject.moveable.scalable = false;
+  // }
   moveableObject.moveable
     .on("rotateStart", ({ set }) => {
       frame = moveableObject.frame;
@@ -68,6 +68,13 @@ function initMoveable(moveableObject, bin, binsinboxes) {
     .on("scale", ({ target, drag, scale }) => {
       frame.scale = scale;
       frame.translate = drag.beforeTranslate;
+
+      let binTxt = document.getElementById("bin-" + index + "Txt")
+      let width = Math.round(200 * scale[0])
+      let height = Math.round(200 * scale[1])
+      binTxt.setAttribute("fontSize", "12px")
+      binTxt.innerText = "Height: " + height + "px\nWidth: " + width + "px"
+
       editor(target);
     });
   function editor(target) {
