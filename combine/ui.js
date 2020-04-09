@@ -18,11 +18,13 @@ function resize() {
   //   .removeEventListener("mousemomve", drawMouseMove);
   btn = document.getElementById("editBtn");
   if (editing) {
-
-    if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
+    if (
+      $("#container").data("ui-draggable") &&
+      $("#container2").data("ui-draggable")
+    ) {
       $("#container").draggable("enable");
       $("#container2").draggable("enable");
-    } else if($("#container").data('ui-draggable')){
+    } else if ($("#container").data("ui-draggable")) {
       $("#container").draggable("enable");
     } else {
       $("#container2").draggable("enable");
@@ -37,7 +39,7 @@ function resize() {
     //   element.style.backgroundColor = null;
     //   element.style.opacity = null;
     // }
-    
+
     for (let index = 0; index < boxes.length; index++) {
       var element = boxes[index];
       let div = document.createElement("div");
@@ -51,7 +53,7 @@ function resize() {
       }
       // div.style.position = element.style.position;
       div.className = element.className;
-      div.style.border = "2px solid black";
+      div.style.border = "5px solid black";
       div.style.zIndex = element.style.zIndex;
       div.setAttribute("name", element.getAttribute("name"));
       element.parentNode.appendChild(div);
@@ -66,18 +68,21 @@ function resize() {
       const element = controlBoxes[index];
       element.parentNode.removeChild(element);
     }
+    // stopEdit();
     // resizables = document.querySelectorAll(".resizable");
     // for (let index = 0; index < resizables.length; index++) {
     //   resizables[index].className = "box";
     // }
   } else {
-
-    if($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')){
+    if (
+      $("#container").data("ui-draggable") &&
+      $("#container2").data("ui-draggable")
+    ) {
       $("#container").draggable("disable");
       $("#container2").draggable("disable");
-    } else if($("#container").data('ui-draggable')){
+    } else if ($("#container").data("ui-draggable")) {
       $("#container").draggable("disable");
-    }else {
+    } else {
       $("#container2").draggable("disable");
     }
 
@@ -87,9 +92,9 @@ function resize() {
     btn.innerHTML = "Editing...";
     boxes = document.querySelectorAll(".box");
 
-    var zone1 = document.getElementById("drawZone")
-    zone1_width = zone1.offsetWidth
-    zone1_height = zone1.offsetHeight
+    var zone1 = document.getElementById("drawZone");
+    zone1_width = zone1.offsetWidth;
+    zone1_height = zone1.offsetHeight;
 
     for (let index = 0; index < boxes.length; index++) {
       const element = boxes[index];
@@ -104,23 +109,24 @@ function resize() {
 
       // var width = Math.round()
 
-      console.log(element.offsetWidth)
-
       // var width = Math.round(element.offsetWidth * 25.4/1000)
       // var height = Math.round(element.offsetHeight * 26.1/ 1000)
 
-      let bin_txt = document.createElement('p');
-      bin_txt.className = "boxTxt"
-      bin_txt.setAttribute("align", "center")
-      bin_txt.setAttribute("vertical-align", "middle")
+      let bin_txt = document.createElement("p");
+      bin_txt.className = "boxTxt";
+      bin_txt.setAttribute("align", "center");
+      bin_txt.setAttribute("vertical-align", "middle");
       // bin_txt.setAttribute("position", "static")
-      bin_txt.setAttribute("marginTop", "50%")
-      bin_txt.setAttribute("fontSize", "12px")
-      bin_txt.setAttribute("textAlign", "center")
-      bin_txt.setAttribute("id", "bin-" + index + "Txt")
+      bin_txt.setAttribute("marginTop", "50%");
+      bin_txt.setAttribute("fontSize", "12px");
+      bin_txt.setAttribute("textAlign", "center");
+      bin_txt.setAttribute("id", "bin-" + index + "Txt");
+      bin_txt.style.zIndex = 200;
       // bin_txt.innerText = "Height: " + height + "m\nWidth: " + width + "m"
-      element.appendChild(bin_txt)
+      element.appendChild(bin_txt);
+      console.log(bin_txt);
 
+      // startEdit();
       initMoveable(moveableObjectList[index], element, boxesinbins, index);
 
       // Rotate(element, boxesinbins);
@@ -288,17 +294,31 @@ function draw() {
   btn = document.getElementById("drawBtn");
   if (drawing) {
     $("#container").draggable("enable");
+    $("#container2").draggable("enable");
     document.getElementById("editBtn").disabled = false;
     drawing = 0;
     btn.innerHTML = "Draw";
     document
       .getElementById("drawZone")
-      .removeEventListener("mousedown", drawMouseDown);
+      .removeEventListener("mousedown", function (e) {
+        drawMouseDown(e);
+      });
     document
       .getElementById("drawZone")
       .removeEventListener("mousemove", drawMouseMove);
     document
       .getElementById("drawZone")
+      .removeEventListener("mouseup", drawMouseUp);
+    document
+      .getElementById("drawZone2")
+      .removeEventListener("mousedown", function (e) {
+        drawMouseDown(e);
+      });
+    document
+      .getElementById("drawZone2")
+      .removeEventListener("mousemove", drawMouseMove);
+    document
+      .getElementById("drawZone2")
       .removeEventListener("mouseup", drawMouseUp);
     // $("#our-canvas").draggable(true);
 
@@ -312,6 +332,7 @@ function draw() {
     // }
   } else {
     $("#container").draggable("disable");
+    $("#container2").draggable("disable");
     document.getElementById("editBtn").disabled = true;
     drawing = 1;
     btn.innerHTML = "Drawing...";
@@ -323,6 +344,15 @@ function draw() {
       .addEventListener("mousemove", drawMouseMove);
     document
       .getElementById("drawZone")
+      .addEventListener("mouseup", drawMouseUp);
+    document
+      .getElementById("drawZone2")
+      .addEventListener("mousedown", drawMouseDown);
+    document
+      .getElementById("drawZone2")
+      .addEventListener("mousemove", drawMouseMove);
+    document
+      .getElementById("drawZone2")
       .addEventListener("mouseup", drawMouseUp);
     // $("#our-canvas").draggable(false);
 
@@ -337,7 +367,11 @@ function draw() {
   }
 }
 function drawMouseDown(e) {
-  rect = document.getElementById("container").getBoundingClientRect();
+  console.log(e.target.id);
+  let parentContainer = document.getElementById(e.target.id).parentElement;
+  console.log(parentContainer);
+
+  rect = document.getElementById(e.target.id).getBoundingClientRect();
   // console.log(rect);
 
   startX = e.pageX - rect.x;
@@ -366,8 +400,10 @@ function drawMouseDown(e) {
     active_box.style.left = startX + "px";
     active_box.style.position = "absolute";
     active_box.style.zIndex = 1000;
-    document.getElementById("container").appendChild(active_box);
-    active_box = null;
+
+    parentContainer.appendChild(active_box);
+    // document.getElementById("container").appendChild(active_box);
+    container.active_box = null;
   }
 }
 function drawMouseMove(e) {
@@ -416,7 +452,9 @@ function drawMouseUp(e) {
     name = "bin-" + numberOfBin;
     numberOfBin++;
     // if height and weight less than 5px remove box
-    if (ab.offsetWidth < 5 || ab.offsetHeight < 5) {
+    console.log(ab);
+
+    if (ab.offsetWidth < 15 || ab.offsetHeight < 15) {
       numberOfBin--;
       document.getElementById("container").removeChild(ab);
     }

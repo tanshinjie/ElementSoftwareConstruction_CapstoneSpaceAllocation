@@ -10,7 +10,6 @@
     <script src="jquery.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="../bin-pack.js"></script>
-    <!-- <script src="../../../bin-pack.js"></script> -->
     <script src="../datacleaner.js"></script>
     <script src="../combine/ui.js"></script>
     <script src="html2canvas.min.js"></script>
@@ -19,6 +18,12 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <script src="https://daybrush.com/moveable/release/latest/dist/moveable.min.js"></script>
     <script src="https://daybrush.com/scenejs/release/latest/dist/scene.js"></script>
+    <script src="./jQueryEdit.js"></script>
+    <script src='https://code.jquery.com/jquery-1.11.3.js'></script>
+    <script src='https://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
+    <script src='http://cdn.jsdelivr.net/jquery.ui.rotatable/1.0.1/jquery.ui.rotatable.min.js'></script>
+    <link rel='stylesheet prefetch' href='https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css'>
+    <link rel='stylesheet prefetch' href='http://cdn.jsdelivr.net/jquery.ui.rotatable/1.0.1/jquery.ui.rotatable.css'>
 </head>
 
 
@@ -31,33 +36,48 @@
     <header>Capstone Allocation</header>
 
     <section>
-        <nav>
-            <input type="file" id="uploaded-file" class="hidden" accept="image/*">
-            <label for="uploaded-file">Upload Image (Top)</label>
-            <br>
-            <input type="file" id="uploaded-file2" class="hidden" accept="image/*">
-            <label for="uploaded-file2">Upload Image (Bottom)</label>
-            <br>
-            <input type="file" id="uploaded-excel" class="hidden"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
-            <label for="uploaded-excel" id="upload">Upload Excel</label>
-            <div id="excel-name"></div>
-            <br>
-            <div class="btn-group">
-                <!-- <button id="drawBtn" onclick="draw()">Draw</button> -->
-                <!-- <button id="drawBtn" onclick="createNewBin()">Draw</button> -->
-                <button id="drawBtn" onclick="drawMode()">Draw</button>
+        <div style="position: static;">
+            <nav>
+                <input type="file" id="uploaded-file" class="hidden" accept="image/*">
+                <label for="uploaded-file">Upload Image (Top)</label>
                 <br>
-                <button id="editBtn" onclick="resize()">Edit</button>
+                <input type="file" id="uploaded-file2" class="hidden" accept="image/*">
+                <label for="uploaded-file2">Upload Image (Bottom)</label>
                 <br>
-                <button id="runBtn" onclick="Run()">Run</button>
+                <input type="file" id="uploaded-excel" class="hidden"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
+                <label for="uploaded-excel" id="upload">Upload Excel</label>
+                <div id="excel-name"></div>
                 <br>
-                <button id="save-button">Save Image<br />(Top)</button>
-                <br>
-                <button id="save-button2">Save Image (Bottom)</button>
-            </div>
-            <p id='error-message'></p>
-        </nav>
+                <div class="btn-group">
+                    <!-- <button id="drawBtn" onclick="draw()">Draw</button> -->
+                    <!-- <button id="drawBtn" onclick="createNewBin()">Draw</button> -->
+                    <button id="drawBtn" onclick="drawMode()">Draw</button>
+                    <br>
+                    <button id="editBtn" onclick="resize()">Edit</button>
+                    <br>
+                    <button id="runBtn" onclick="Run()">Run</button>
+                    <br>
+                    <button id="save-button">Save Image<br />(Top)</button>
+                    <br>
+                    <button id="save-button2">Save Image (Bottom)</button>
+                </div>
+                <p id='error-message'></p>
+            </nav>
+        </div>
+        <div>
+            Bin ratio
+            <input type="text" id="widthRatio" placeholder="width">
+            <span>:</span>
+            <input type="text" id="heightRatio" placeholder="height">
+
+        </div>
+        <div>
+            Bin size (in meter)
+            <input type="text" id="binSize" placeholder="100 <= size < 500">
+            <button onclick="set()">Set</button>
+        </div>
+
 
         <article id="drawZone">
             <div id="buttonContainer" style="position: absolute; right: 0;">
@@ -442,7 +462,7 @@
                 $("#container2").draggable("enable");
                 document.getElementById("drawZone2").removeEventListener("click", createTwo);
             }
-
+            // initEditable();
         } else {
 
             document.getElementById("editBtn").disabled = true;
@@ -468,22 +488,58 @@
 
         }
     }
-
+    let wRatio;
+    let hRatio;
+    let size;
     //intermediate functions to createNewBin function
     function createOne() {
-        createNewBin("container");
+        console.log("createOne called");
+        if (wRatio == undefined || hRatio == undefined || size == undefined) {
+            alert("Please specify your bin dimension first")
+        } else {
+            createNewBin("container");
+        }
+        // drawWithjQuery("container")
     }
 
     function createTwo() {
-        createNewBin("container2");
+        if (wRatio == undefined || hRatio == undefined || size == undefined) {
+            alert("Please specify your bin dimension first")
+        } else {
+            console.log("createTwo called");
+            createNewBin("container2");
+            // drawWithjQuery("container2")
+        }
     }
 
+    function set() {
+        console.log("set called");
+        let inputWidthRatio = document.getElementById("widthRatio").value;
+        let inputHeightRatio = document.getElementById("heightRatio").value;
+        let inputBinSize = document.getElementById("binSize").value;
+        if (inputBinSize < 100 || inputBinSize > 500) {
+            alert("Size has to be in range 100 - 500")
+            size = 100
+        } else {
+            size = inputBinSize
+        }
+        wRatio = inputWidthRatio;
+        hRatio = inputHeightRatio
+        console.log(wRatio);
+        console.log(hRatio);
+        console.log(size);
+
+    }
     //Upon clicking on
     function createNewBin(containerID) {
+        console.log("createNewBin");
+        console.log(wRatio);
+        console.log(hRatio);
+        console.log(size);
         let active_box = document.createElement("div");
         active_box.className = "box";
-        active_box.style.width = 1000 + "px";
-        active_box.style.height = 1000 + "px";
+        active_box.style.width = wRatio * size + "px";
+        active_box.style.height = hRatio * size + "px";
         active_box.style.top = 200 + "px";
         active_box.style.left = 200 + "px";
         active_box.style.position = "absolute";
@@ -499,6 +555,28 @@
         };
         moveableObjectList.push(moveableObject);
     }
+
+    function drawWithjQuery(containerID) {
+        console.log("drawWithjQuery called", containerID);
+        let active_box = document.createElement("div");
+        active_box.className = "box";
+        active_box.style.width = 1000 + "px";
+        active_box.style.height = 1000 + "px";
+        active_box.style.top = 200 + "px";
+        active_box.style.left = 200 + "px";
+        active_box.style.position = "absolute";
+        active_box.style.zIndex = 999;
+        active_box.setAttribute("name", "bin-" + numOfBox)
+        active_box.id = "bin-" + numOfBox;
+        document.getElementById(containerID).appendChild(active_box);
+        initEditable(numOfBox)
+        numOfBox++;
+
+    }
+
+    document.getElementById("widthRatio").value = ""
+    document.getElementById("heightRatio").value = ""
+    document.getElementById("binSize").value = ""
 </script>
 
 </html>

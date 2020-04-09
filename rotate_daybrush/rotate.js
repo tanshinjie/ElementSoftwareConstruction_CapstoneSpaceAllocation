@@ -17,7 +17,7 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
     rotatable: true,
     draggable: true,
     scalable: true,
-    keepRatio: false,
+    keepRatio: true,
     throttleScale: 0,
     throttleDrag: 0,
     throttleRotate: 0,
@@ -28,8 +28,8 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
     bounds: {
       left: 0,
       top: 0,
-      bottom: document.getElementById("container").offsetHeight,
-      right: document.getElementById("container").offsetWidth,
+      bottom: bin.parentNode.offsetHeight,
+      right: bin.parentNode.offsetWidth,
     },
   });
   if (binsinboxes) {
@@ -37,9 +37,9 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
   } else {
     moveableObject.moveable.scalable = true;
   }
-  if (moveableObject.frame.rotate != 0) {
-    moveableObject.moveable.scalable = false;
-  }
+  // if (moveableObject.frame.rotate != 0) {
+  //   moveableObject.moveable.scalable = false;
+  // }
   moveableObject.moveable
     .on("rotateStart", ({ set }) => {
       frame = moveableObject.frame;
@@ -67,11 +67,12 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
       frame.scale = scale;
       frame.translate = drag.beforeTranslate;
 
-      let binTxt = document.getElementById("bin-" + index + "Txt")
-      let width = Math.round(200 * scale[0] * 127/1000)
-      let height = Math.round(200 * scale[1] * 125.9/1000)
+      let binTxt = document.getElementById("bin-" + index + "Txt");
+      binRect = bin.getBoundingClientRect();
+      let width = Math.round((binRect.width * scale[0] * 127) / 1000);
+      let height = Math.round((binRect.height * scale[1] * 125.9) / 1000);
       // binTxt.setAttribute("fontSize", "12px")
-      binTxt.innerText = "Height: " + height + "m\nWidth: " + width + "m"
+      binTxt.innerText = "Height: " + height + "m\nWidth: " + width + "m";
 
       editor(target);
     });

@@ -251,12 +251,15 @@ function Run() {
     containers.push(bin);
   }
   containers.forEach((container) => {
+    console.log(container);
+
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
     // packer = new BinPack(cWidth / scale, cHeight / scale);
     // console.log(unpositioned);
     // packer.addAll(unpositioned);
     // unpositioned = packer.unpositioned;
+
     packer = new BinPack(cWidth / scale, cHeight / scale);
     let values = packer.addAll(updatedList);
     updatedList = values[1];
