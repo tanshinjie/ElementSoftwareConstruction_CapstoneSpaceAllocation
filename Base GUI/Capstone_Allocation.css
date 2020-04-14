@@ -52,6 +52,24 @@ nav {
   border-radius: 22px;
   padding-top: 17px;
   background:rgba(255,255,255, 0.8);
+  position: fixed;
+  margin-top: 110px;
+}
+
+.setRatio {
+  background: rgba(0,128,0,0.7);
+  color: white; /* White text */
+  font-size: 14px;
+  text-align: center;
+}
+
+.disabledSetRatio {
+  background: lightgrey;
+  color: white; /* White text */
+  font-size: 14px;
+  text-align: center;
+  cursor: not-allowed;
+  border: none;
 }
 
 #emptySpace {

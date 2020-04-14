@@ -47,7 +47,7 @@
                 <input type="file" id="uploaded-excel" class="hidden"
                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
                 <label for="uploaded-excel" id="upload">Upload Excel</label>
-                <div id="excel-name"></div>
+                <div id="excel-name" style="font-size: 7px;"></div>
                 <br>
                 <div class="btn-group">
                     <!-- <button id="drawBtn" onclick="draw()">Draw</button> -->
@@ -61,22 +61,26 @@
                     <button id="save-button">Save Image<br />(Top)</button>
                     <br>
                     <button id="save-button2">Save Image (Bottom)</button>
+                    <br>
                 </div>
+                <div class="setRatio" id="binRatio">
+                        Bin Ratio
+                        <br>
+                        <input type="text" id="widthRatio" placeholder="width" style="width: 40%;">
+                        <span>:</span>
+                        <input type="text" id="heightRatio" placeholder="height" style="width: 40%">
+
+                    </div>
+                    <div class="setRatio" id="sizeBin">
+                        Bin Size (in metres)
+                        <input type="text" id="binSize" placeholder="100 to 500" style="width: 50%;">
+                        <button id="ratioButton" onclick="set()" style="width: 30%;">Set</button>
+                    </div>
                 <p id='error-message'></p>
             </nav>
         </div>
-        <div>
-            Bin ratio
-            <input type="text" id="widthRatio" placeholder="width">
-            <span>:</span>
-            <input type="text" id="heightRatio" placeholder="height">
 
-        </div>
-        <div>
-            Bin size (in meter)
-            <input type="text" id="binSize" placeholder="100 <= size < 500">
-            <button onclick="set()">Set</button>
-        </div>
+        <div id ="emptySpace"></div>
 
 
         <article id="drawZone">
@@ -107,9 +111,9 @@
         </div>
     </article>
     <div id="emptySpace"></div>
+
     <div id="dvExcel" innerHTML="dvExcel">
-        <div class="table-scroll" id="table-scroll">
-        </div>
+        <div class="table-scroll" id="table-scroll"></div>
     </div>
 
 </body>
@@ -122,6 +126,12 @@
     document.getElementById("drawBtn").disabled = true;
     document.getElementById("editBtn").disabled = true;
     document.getElementById("runBtn").disabled = true;
+    document.getElementById("widthRatio").disabled = true;
+    document.getElementById("heightRatio").disabled = true;
+    document.getElementById("binSize").disabled = true;
+    document.getElementById("ratioButton").disabled = true;
+    document.getElementById("binRatio").className = "disabledSetRatio"
+    document.getElementById("sizeBin").className = "disabledSetRatio"
 
     //Boolean to check whether both image and excel have been uploaded
     var checkImage = false;
@@ -276,6 +286,12 @@
                     document.getElementById("editBtn").disabled = false;
                     document.getElementById("runBtn").disabled = false;
                     document.getElementById("save-button2").disabled = false;
+                    document.getElementById("widthRatio").disabled = false;
+                    document.getElementById("heightRatio").disabled = false;
+                    document.getElementById("binSize").disabled = false;
+                    document.getElementById("ratioButton").disabled = false;
+                    document.getElementById("binRatio").className = "setRatio"
+                    document.getElementById("sizeBin").className = "setRatio"
                 }
             }
             reader.readAsDataURL(file);
@@ -342,6 +358,12 @@
                     document.getElementById("editBtn").disabled = false;
                     document.getElementById("runBtn").disabled = false;
                     document.getElementById("save-button2").disabled = false;
+                    document.getElementById("widthRatio").disabled = false;
+                    document.getElementById("heightRatio").disabled = false;
+                    document.getElementById("binSize").disabled = false;
+                    document.getElementById("ratioButton").disabled = false;
+                    document.getElementById("binRatio").className = "setRatio"
+                    document.getElementById("sizeBin").className = "setRatio"
                 }
             }
             reader.readAsDataURL(file);
@@ -371,6 +393,12 @@
             document.getElementById("editBtn").disabled = false;
             document.getElementById("runBtn").disabled = false;
             document.getElementById("save-button2").disabled = false;
+            document.getElementById("widthRatio").disabled = false;
+            document.getElementById("heightRatio").disabled = false;
+            document.getElementById("binSize").disabled = false;
+            document.getElementById("ratioButton").disabled = false;
+            document.getElementById("binRatio").className = "setRatio"
+            document.getElementById("sizeBin").className = "setRatio"
         }
 
     }
