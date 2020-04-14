@@ -58,7 +58,7 @@
                     <br>
                     <button id="runBtn" onclick="Run()">Run</button>
                     <br>
-                    <button id="save-button">Save Image<br />(Top)</button>
+                    <button id="save-button">Save Image (Top)</button>
                     <br>
                     <button id="save-button2">Save Image (Bottom)</button>
                     <br>
@@ -82,7 +82,6 @@
 
         <div id ="emptySpace"></div>
 
-
         <article id="drawZone">
             <div id="buttonContainer" style="position: absolute; right: 0;">
                 <button type=" button" class="zoomBtnIn" onclick="zoomin()" id="zoomIn"><i
@@ -90,7 +89,7 @@
                 <button type="button" class="zoomBtnOut" onclick="zoomout()" id="zoomOut"><i
                         class="fas fa-search-minus"></i></button>
             </div>
-            <div id="container" style="width: 100%; height: 100%; overflow: visible;">
+            <div id="container" style="width: 100%; height: 100%; overflow: visible">
                 <canvas id="our-canvas" z-index="1"></canvas>
             </div>
             <script src="../rotate_daybrush/rotate.js"></script>
@@ -130,6 +129,10 @@
     document.getElementById("heightRatio").disabled = true;
     document.getElementById("binSize").disabled = true;
     document.getElementById("ratioButton").disabled = true;
+    document.getElementById("zoomIn").disabled = true;
+    document.getElementById("zoomOut").disabled = true;
+    document.getElementById("zoomIn2").disabled = true;
+    document.getElementById("zoomOut2").disabled = true;
     document.getElementById("binRatio").className = "disabledSetRatio"
     document.getElementById("sizeBin").className = "disabledSetRatio"
 
@@ -276,6 +279,13 @@
 
                 }
                 tempImageStore.src = event.target.result;
+
+                document.getElementById("container").style.opacity = 1;
+                document.getElementById("container").style.background = 'none';
+
+                document.getElementById("zoomIn").disabled = false;
+                document.getElementById("zoomOut").disabled = false;
+
                 // script to enable drag-moving of canvas
                 $("#container").draggable();
                 checkImage = true;
@@ -348,6 +358,13 @@
 
                 }
                 tempImageStore.src = event.target.result;
+
+                document.getElementById("container2").style.opacity = 1;
+                document.getElementById("container2").style.background = 'none';
+
+                document.getElementById("zoomIn2").disabled = false;
+                document.getElementById("zoomOut2").disabled = false;
+                
                 // script to enable drag-moving of canvas
                 $("#container2").draggable();
                 checkImage = true;

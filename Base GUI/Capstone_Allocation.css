@@ -158,6 +158,23 @@ nav {
   position: relative;
 }
 
+#container {
+  background-image: url("canvas_image.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6;
+}
+#container2 {
+  background-image: url("canvas_image.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6;
+}
+
+
+
 /*clears floats after the columns*/
 section:after {
   content: "";
