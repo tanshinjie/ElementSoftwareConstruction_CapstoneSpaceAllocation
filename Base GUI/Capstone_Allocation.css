@@ -59,14 +59,14 @@ nav {
 .setRatio {
   background: rgba(0,128,0,0.7);
   color: white; /* White text */
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
 }
 
 .disabledSetRatio {
   background: lightgrey;
   color: white; /* White text */
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
   cursor: not-allowed;
   border: none;
@@ -90,7 +90,7 @@ nav {
   width: 100%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /*style the list of buttons inside navigation bar*/
@@ -101,7 +101,7 @@ nav {
   cursor: pointer; /* Pointer/hand icon */
   width: 100%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
-  font-size: 14px;
+  font-size: 12px;
   border: none;
   
 }
@@ -122,7 +122,7 @@ nav {
   cursor: not-allowed; /* Pointer/hand icon */
   width: 100%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
-  font-size: 14px;
+  font-size: 12px;
   border: none;
   
 }
@@ -187,7 +187,7 @@ label {
   cursor: pointer; /* Pointer/hand icon */
   width: 100%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
 }
 
