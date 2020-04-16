@@ -274,6 +274,15 @@ function BinPack(binWidth, binHeight) {
     let values = ArrayMaker(array, binWidth, binHeight);
     let readyToPack = values[0];
     let updatedList = values[1];
+    for(let i=0; i<updatedList.length; i++){
+      if(updatedList[i].projID == 1){
+        console.log("found the fella")
+      }
+      if(updatedList[i].projID == 3){
+        console.log("found his bro")
+      }
+    }
+    console.log("I AM FINDING 1:", updatedList);
     let z = values[2];
 
     // for(let i = 0; i < bins.length; i++){
@@ -755,15 +764,15 @@ function ArrayMaker(rlist, width, height) {
   let counter = 0;
   let c = 0;
 
-  rlist.forEach((element) => {
-    if (element.tag >= max) {
-      max = element.tag;
-    }
-  });
+  // rlist.forEach((element) => {
+  //   if (element.tag >= max) {
+  //     max = element.tag;
+  //   }
+  // });
 
   //console.log(max)
 
-
+  //console.log("rlistMostUpadated:",rlist);
   for(let i=0; i < rlist.length; i++){
     if(rlist[i].width == 2 && rlist[i].height == 2){
       console.log("found atleast 1 2x2")
@@ -772,7 +781,20 @@ function ArrayMaker(rlist, width, height) {
   }
 
 
-  if(y=1){
+  if(y==1){
+    let thwalkkk = []
+
+    for(let i = 0; i < rlist.length; i++){
+      thwalkkk.push(rlist[i].projID);
+    }
+
+    console.log(thwalkkk);
+      rlist.forEach((element) => {
+    if (element.tag >= max) {
+      max = element.tag;
+    }
+  });
+
    console.log("i am here because i have atleast one 2x2") 
    //console.log(max)
   for (let i = 0; i < 6; i++) {
@@ -794,6 +816,8 @@ function ArrayMaker(rlist, width, height) {
       twoTwoList.push(rlist[i])
   }
   }
+
+  console.log(twoTwoList.length);
 
   for(let i=0; i < twoTwoList.length; i++){
     smallerList[twoTwoList[i].tag - 1].push(twoTwoList[i]);
@@ -832,11 +856,13 @@ function ArrayMaker(rlist, width, height) {
   let j2 = -1;
   let k = 0;
   let b = 0;
-  let lengthRemaining = copyList.length;
+  //let lengthRemaining = copyList.length;
+  let debugCopy = [...rlist];
 
   
   while (tempArea <= Area(width, height) * 0.9) {
       if (counter == totalLength) {
+        console.log("I am a survivor:", rlist)
         return [toBePacked, rlist, z];
       }
   if(c == 0){
@@ -869,11 +895,14 @@ function ArrayMaker(rlist, width, height) {
           //console.log("accepting:", bigList[0][i][j]);
           toBePacked.push(bigList[0][i][j]);
           tempArea += Area(bigList[0][i][j].width, bigList[0][i][j].height);
-          for (let z = 0; z < rlist.length; z++) {
-            if (rlist[z] == bigList[i][j]) {
-              rlist.splice(z, 1);
-            }
-          }
+          //console.log(rlist);
+          //for (let z = 0; z < debug.length; z++) {
+            //if (debug[z] == bigList[i][j]) {
+              rlist.filter(function(index){return rlist[index] != bigList[0][i][j]});
+              console.log("debug",rlist.filter(function(index){return rlist[index] != bigList[0][i][j]}))
+              //console.log(rlist);
+            //}
+          //}
         }
       }
      
@@ -883,14 +912,14 @@ function ArrayMaker(rlist, width, height) {
     //}
     c = 1
     console.log("tobePacked22:", toBePacked)
-    //console.log(counter);
+    console.log("after rm 2x2:", rlist);
     console.log("Temparea after allocating 2x2:",tempArea);
-    
+    console.log("finished allocating 2*2, now trying to allocate the rest")
   }
      
       
-    console.log("finished allocating 2*2, now trying to allocate the rest")
-    console.log("copyList length:",lengthRemaining);
+    
+    //console.log("copyList length:",lengthRemaining);
 
     //while(b < lengthRemaining){
       if (i2 == 6) {
@@ -912,10 +941,9 @@ function ArrayMaker(rlist, width, height) {
       if (j2 < bigList[i2].length) {
 
         //if(typeof bigList[i2][j2].width !== "undefined" ){
-          console.log("where are you")
-          console.log(bigList[i2][j2])
+          console.log("Trying to allocate",bigList[i2][j2])
         if (
-          tempArea + Area(bigList[i2][j2].width, bigList[i2][j2].height) <= Area(width, height) * 0.9
+           tempArea + Area(bigList[i2][j2].width, bigList[i2][j2].height) <= Area(width, height) * 0.9
         ) {
           console.log("allocate this one:",bigList[i2][j2] )
           toBePacked.push(bigList[i2][j2]);
@@ -923,15 +951,18 @@ function ArrayMaker(rlist, width, height) {
           for (let z2 = 0; z2 < rlist.length; z2++) {
             if (rlist[z2] == bigList[i2][j2]) {
               rlist.splice(z2, 1);
+              console.log("trying to find 1:", rlist)
             }
           }
         }
       }
     //}
+      
       i2++;  
       counter++;
       //console.log(counter);
       console.log(toBePacked)
+      console.log("final area used up:", tempArea)
     }
   //}
 
@@ -941,77 +972,116 @@ function ArrayMaker(rlist, width, height) {
 }
 
   else{
-    // for (let i = 0; i < max; i++) {
-    //       bigList[i] = [];
-       
-    //     }
-      
-    //     for (let i = 0; i < rlist.length; i++) {
-    //       bigList[rlist[i].tag - 1].push(rlist[i]);
-    //       splicedBigList[rlist[i].tag - 1].push(rlist[i]);
-    //     }
+    console.log("FULLAREA:",Area(width,height));
+    console.log("NO MORE 2x2");
+    let thwalk = []
 
-    //     let i = 0;
-    //     let j = -1;
-    //     let z;
-      
-    //     while (tempArea <= Area(width, height) * 0.9) {
-    //       if (counter == totalLength) {
-    //         return [toBePacked, rlist, z];
-    //       }
-    //       if (bigList.length != 1) {
-    //         z = "if";
-    //         if (i == max - 1) {
-    //           i = 0;
-    //         }
-    //         if (i == 0) {
-    //           j++;
-    //         }
-    //         if (j < bigList[i].length) {
-    //           if (
-    //             tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
-    //             Area(width, height) * 0.9
-    //           ) {
-    //             toBePacked.push(bigList[i][j]);
-    //             tempArea += Area(bigList[i][j].width, bigList[i][j].height);
-    //             for (let z = 0; z < rlist.length; z++) {
-    //               if (rlist[z] == bigList[i][j]) {
-    //                 rlist.splice(z, 1);
-    //               }
-    //             }
-    //           }
-    //         }
-    //         i++;
-    //         counter++;
-    //       } else {
-   
-    //         z = "else";
-    //         if (i == 0) {
-    //           j++;
-    //         }
- 
-      
-    //         if (j < bigList[i].length) {
-    //           if (
-    //             tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
-    //             Area(width, height) * 0.9
-    //           ) {
-    //             toBePacked.push(bigList[i][j]);
-      
-    //             tempArea += Area(bigList[i][j].width, bigList[i][j].height);
-    //             for (let z = 0; z < rlist.length; z++) {
-    //               if (rlist[z] == bigList[i][j]) {
-    //                 rlist.splice(z, 1);
-    //               }
-    //             }
-    //           }
-    //         }
- 
-    //         counter++;
-    //       }
-    //     }
+    for(let i = 0; i < rlist.length; i++){
+      thwalk.push(rlist[i].projID);
+    }
+    console.log("debugRlist:",rlist);
+    console.log("unallocated:",thwalk);
 
+    rlist.forEach((element) => {
+      if (element.tag >= max) {
+        max = element.tag;
+      }
+    });
 
+    //console.log("max as it changes:",max)
     
+     
+    for (let i = 0; i < max; i++) {
+      bigList[i] = [];
   }
+
+  console.log("length of bigList at start:", bigList.length);
+
+  for (let i = 0; i < rlist.length; i++) {
+    bigList[rlist[i].tag - 1].push(rlist[i]);
+  }
+  console.log("pushBigList:",bigList)
+
+  let i = 0;
+  let j = -1;
+  let z;
+
+
+  while (tempArea <= Area(width, height) * 0.9) {
+    if (counter == totalLength) {
+      console.log("remaining:",rlist);
+      console.log("finalPack:",toBePacked);
+      return [toBePacked, rlist, z];
+    }
+    
+    if (bigList.length != 1) {
+      z = "if";
+      if (i == max) {
+        i = 0;
+      }
+      if (i == 0) {
+        j++;
+      }
+      if(typeof  bigList[i][j] !== "undefined"){
+        //k += 1;
+        counter++;
+      }
+      if (j < bigList[i].length) {
+        if (
+          tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
+          Area(width, height) * 0.9
+        ) {
+          toBePacked.push(bigList[i][j]);
+          tempArea += Area(bigList[i][j].width, bigList[i][j].height);
+          console.log("i am allocating smth so")
+          for (let z = 0; z < rlist.length; z++) {
+            if (rlist[z] == bigList[i][j]) {
+              rlist.splice(z, 1);
+              //rlist.filter(function(index){return rlist[index] != bigList[i][j]});
+              console.log("I should end up here everytime")
+              
+            }
+          }
+        }
+      }
+      i++;
+      //counter++;
+    } else {
+
+      console.log("i am the last one left")
+      // if (i == max - 1) {
+      //   i = 0;
+      // }
+      z = "else";
+      //if (i == 0) {
+        j += 1;
+      //}
+      // console.log("j", j);
+      // console.log(bigList[i][j]);
+
+      if (j < bigList[0].length) {
+        if (
+          tempArea + Area(bigList[0][j].width, bigList[0][j].height) <=
+          Area(width, height) * 0.9
+        ) {
+          toBePacked.push(bigList[0][j]);
+
+          tempArea += Area(bigList[0][j].width, bigList[0][j].height);
+          for (let z = 0; z < rlist.length; z++) {
+            if (rlist[z] == bigList[0][j]) {
+              rlist.splice(z, 1);
+
+            }
+          }
+        }
+      }
+      // i++;
+      counter++;
+    }
+  }
+  // console.log(rlist);
+  //console.log("tobepacked", toBePacked);
+
+  //return [toBePacked, rlist];
+}
 }

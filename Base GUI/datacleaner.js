@@ -155,10 +155,10 @@ function Run() {
     }
   }
   let containers = binsBottom.concat(binsTop);
-  console.log("debug", containers);
+  //console.log("debug", containers);
 
   containers.forEach((container) => {
-    console.log("debug", container.id);
+    //console.log("debug", container.id);
 
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
@@ -190,14 +190,14 @@ function Run() {
       parseFloat(initialDimension[0]) * parseFloat(initialDimension[1]) * scale;
     scaledHeight =
       parseFloat(initialDimension[0]) * parseFloat(initialDimension[2]) * scale;
-    console.log("debug Area=", scaledWidth * scaledHeight);
+    //console.log("debug Area=", scaledWidth * scaledHeight);
     packer = new BinPack(scaledWidth, scaledHeight);
     let values = packer.addAll(updatedList);
     updatedList = values[1];
-    console.log("debug unallocated", updatedList);
+    //console.log("debug unallocated", updatedList);
     let M_TO_PX = 41.3;
     positioned = packer.positioned;
-    console.log("debug positioned", positioned);
+    //console.log("debug positioned", positioned);
     packer.positioned.forEach((element) => {
       div = document.createElement("div");
       div.id = numberOfBox;
@@ -217,7 +217,7 @@ function Run() {
       numberOfBox++;
     });
     //getElementById("dv").innerHTML = "Allocated";
-    console.log("debug unallocated", updatedList);
+   // console.log("debug unallocated", updatedList);
   });
 }
 
