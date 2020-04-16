@@ -39,7 +39,7 @@
         <div style="position: static;">
             <nav>
                 <input type="file" id="uploaded-file" class="hidden" accept="image/*">
-                <label for="uploaded-file" style="margin-top: 2px;">Upload Image <br/> (Top)</label>
+                <label for="uploaded-file" style="margin-top: 2px;">Upload Image <br /> (Top)</label>
                 <br>
                 <input type="file" id="uploaded-file2" class="hidden" accept="image/*">
                 <label for="uploaded-file2">Upload Image (Bottom)</label>
@@ -64,23 +64,23 @@
                     <br>
                 </div>
                 <div class="setRatio" id="binRatio">
-                        Bin Ratio
-                        <br>
-                        <input type="text" id="widthRatio" placeholder="width" style="width: 40%;">
-                        <span>:</span>
-                        <input type="text" id="heightRatio" placeholder="height" style="width: 40%">
+                    Bin Ratio
+                    <br>
+                    <input type="text" id="widthRatio" placeholder="width" style="width: 40%;">
+                    <span>:</span>
+                    <input type="text" id="heightRatio" placeholder="height" style="width: 40%">
 
-                    </div>
-                    <div class="setRatio" id="sizeBin" style="margin-bottom: 20px">
-                        Bin Size (in metres)
-                        <input type="text" id="binSize" placeholder="100 to 500" style="width: 50%;">
-                        <button id="ratioButton" onclick="set()" style="width: 30%; font-size: 13px;">Set</button>
-                    </div>
+                </div>
+                <div class="setRatio" id="sizeBin" style="margin-bottom: 20px">
+                    Bin Size (in metres)
+                    <input type="text" id="binSize" style="width: 50%;">
+                    <button id="ratioButton" onclick="set()" style="width: 30%; font-size: 13px;">Set</button>
+                </div>
                 <p id='error-message'></p>
             </nav>
         </div>
 
-        <div id ="emptySpace"></div>
+        <div id="emptySpace"></div>
 
         <article id="drawZone">
             <div id="buttonContainer" style="position: absolute; right: 0;">
@@ -364,7 +364,7 @@
 
                 document.getElementById("zoomIn2").disabled = false;
                 document.getElementById("zoomOut2").disabled = false;
-                
+
                 // script to enable drag-moving of canvas
                 $("#container2").draggable();
                 checkImage = true;
@@ -562,9 +562,9 @@
         let inputWidthRatio = document.getElementById("widthRatio").value;
         let inputHeightRatio = document.getElementById("heightRatio").value;
         let inputBinSize = document.getElementById("binSize").value;
-        if (inputBinSize < 100 || inputBinSize > 500) {
-            alert("Size has to be in range 100 - 500")
-            size = 100
+        if (inputBinSize < 2) {
+            alert("Size has to be more than 2")
+            size = 2
         } else {
             size = inputBinSize
         }
@@ -576,20 +576,24 @@
 
     }
     //Upon clicking on
+    let M_TO_PX = 59 * 0.7
     function createNewBin(containerID) {
         console.log("createNewBin");
         console.log(wRatio);
         console.log(hRatio);
         console.log(size);
+        console.log(document.getElementById(containerID).style.transform)
+
         let active_box = document.createElement("div");
         active_box.className = "box";
-        active_box.style.width = wRatio * size + "px";
-        active_box.style.height = hRatio * size + "px";
+        active_box.style.width = wRatio * size * M_TO_PX + "px";
+        active_box.style.height = hRatio * size * M_TO_PX + "px";
         active_box.style.top = 200 + "px";
         active_box.style.left = 200 + "px";
         active_box.style.position = "absolute";
         active_box.style.zIndex = 999;
         active_box.setAttribute("name", "bin-" + numOfBox)
+        active_box.id = "bin" + numOfBox
         document.getElementById(containerID).appendChild(active_box);
         numOfBox++;
 

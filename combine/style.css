@@ -1,10 +1,12 @@
 .box {
-  border: 5px solid black;
+  /* border: 5px solid black; */
   width: 0px;
   height: 0px;
   position: absolute;
   opacity: 1;
   cursor: move;
+  background-color: aqua;
+  opacity: 0.5;
 }
 
 .resizable {

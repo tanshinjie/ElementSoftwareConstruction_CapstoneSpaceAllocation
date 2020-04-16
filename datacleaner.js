@@ -2,7 +2,7 @@
 let rlist = [];
 var positioned = [];
 var unpositioned = [];
-var scale = 50;
+let GLOBAL_SCALE = 0.835;
 var numberOfBox = 0;
 
 function Upload() {
@@ -203,36 +203,6 @@ function ProcessExcel(data) {
   // dvExcel.appendChild(table);
 }
 
-function List(group, positioned) {
-  divTable = document.createElement("div");
-
-  //Create a HTML Table element.
-  var table = document.createElement("table");
-  table.border = "1";
-
-  //Add the header row.
-  var row = table.insertRow(-1);
-
-  //Add the header cells.
-  var headerCell = document.createElement("TH");
-  headerCell.innerHTML = positioned ? "Positioned" : "Unpositioned";
-  row.appendChild(headerCell);
-
-  //Add the data rows from Excel file.
-  for (var i = 1; i < group.length; i++) {
-    //Add the data row.
-    var row = table.insertRow(-1);
-
-    //Add the data cells.
-    var cell = row.insertCell(-1);
-    cell.innerHTML = i;
-
-    divTable.innerHTML = "";
-    divTable.appendChild(table);
-    document.body.appendChild(divTable);
-  }
-}
-
 function Run() {
   // cWidth = 500;
   // cHeight = 500;
@@ -250,55 +220,82 @@ function Run() {
   for (const bin of bins) {
     bin.innerHTML = null;
     //containers.push(bin);
-    if(bin.parentElement.id == "container"){
+    if (bin.parentElement.id == "container") {
       binsTop.push(bin);
     }
-    if(bin.parentElement.id == "container2"){
+    if (bin.parentElement.id == "container2") {
       binsBottom.push(bin);
     }
     //console.log("Bins i have made:", bin)
   }
-  let containers = binsBottom.concat(binsTop);  
+  let containers = binsBottom.concat(binsTop);
 
   //console.log("Finding ID:",document.getElementById("container2"));
   containers.forEach((container) => {
-    //console.log(container.id);
-
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
     // packer = new BinPack(cWidth / scale, cHeight / scale);
     // console.log(unpositioned);
     // packer.addAll(unpositioned);
     // unpositioned = packer.unpositioned;
+    let el = document.getElementById(container.id);
+    let st = window.getComputedStyle(el, null);
+    let tr =
+      st.getPropertyValue("-webkit-transform") ||
+      st.getPropertyValue("-moz-transform") ||
+      st.getPropertyValue("-ms-transform") ||
+      st.getPropertyValue("-o-transform") ||
+      st.getPropertyValue("transform") ||
+      "fail...";
+    var values = tr.split("(")[1];
+    values = values.split(")")[0];
+    values = values.split(",");
+    var a = values[0];
+    var b = values[1];
+    var c = values[2];
+    var d = values[3];
 
-    packer = new BinPack(cWidth / scale, cHeight / scale);
-    let values = packer.addAll(updatedList);
-    updatedList = values[1];
-    console.log("updatedList inside", updatedList);
+    var scale = Math.sqrt(a * a + b * b);
+    console.log("Scale: " + scale);
+    console.log(zoomLevel);
 
-    positioned = packer.positioned;
-    // List(positioned, true);
-    // console.log("Positioned boxes\n", packer.positioned);
-    packer.positioned.forEach((element) => {
-      div = document.createElement("div");
-      div.id = numberOfBox;
-      div.style.left = element.x * scale + "px";
-      div.style.top = element.y * scale + "px";
-      div.style.width = element.width * scale + "px";
-      div.style.height = element.height * scale + "px";
-      div.style.position = "absolute";
-      div.style.backgroundColor = getColor(element.datum.tag);
-      div.style.opacity = "1";
-      div.style.border = "1px solid black";
-      div.innerHTML = element.datum.projID;
-      document.getElementById("assign" + element.datum.projID).innerHTML =
-        "Allocated";
-      container.appendChild(div);
-      numberOfBox++;
-    });
-    //getElementById("dv").innerHTML = "Allocated";
+    cWidth = document.getElementById(container.id).getBoundingClientRect()
+      .width;
+    cHeight = document.getElementById(container.id).getBoundingClientRect()
+      .height;
+    console.log(cWidth);
+    console.log(cHeight);
+
+    scaledWidth = cWidth / M_TO_PX / zoomLevel / scale;
+    scaledHeight = cHeight / M_TO_PX / zoomLevel / scale;
+    console.log("Area======================", scaledWidth * scaledHeight);
+    // packer = new BinPack(scaledWidth, scaledHeight);
+    // let values = packer.addAll(updatedList);
+    // updatedList = values[1];
+    // // console.log("updatedList inside", updatedList);
+
+    // positioned = packer.positioned;
+    // // List(positioned, true);
+    // console.log("Positioned boxes======================", packer.positioned);
+    // packer.positioned.forEach((element) => {
+    //   div = document.createElement("div");
+    //   div.id = numberOfBox;
+    //   div.style.left = element.x * M_TO_PX + "px";
+    //   div.style.top = element.y * M_TO_PX + "px";
+    //   div.style.width = element.width * M_TO_PX + "px";
+    //   div.style.height = element.height * M_TO_PX + "px";
+    //   div.style.position = "absolute";
+    //   div.style.backgroundColor = getColor(element.datum.tag);
+    //   div.style.opacity = "1";
+    //   div.style.border = "1px solid black";
+    //   div.innerHTML = element.datum.projID;
+    //   document.getElementById("assign" + element.datum.projID).innerHTML =
+    //     "Allocated";
+    //   container.appendChild(div);
+    //   numberOfBox++;
+    // });
+    // //getElementById("dv").innerHTML = "Allocated";
   });
-  // List(unpositioned, false);
 }
 
 function getRandomColor() {
@@ -323,7 +320,6 @@ function getColor(tag) {
       return "#DD33FF";
   }
 }
-
 // console.log("Unpositioned boxes\n", packer.unpositioned);
 // var rlist = [];
 // for (i = 0; i < 10; i++) {
@@ -345,6 +341,7 @@ function getColor(tag) {
 //   div.style.backgroundColor = getRandomColor();
 //   document.getElementById("container").appendChild(div);
 // });
+
 $(function () {
   $(".table-scroll").scroll(function () {
     $(".table-scroll table").width(

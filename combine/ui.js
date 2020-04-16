@@ -53,7 +53,8 @@ function resize() {
       }
       // div.style.position = element.style.position;
       div.className = element.className;
-      div.style.border = "5px solid black";
+      // div.style.border = "5px solid black";
+      div.id = element.id;
       div.style.zIndex = element.style.zIndex;
       div.setAttribute("name", element.getAttribute("name"));
       element.parentNode.appendChild(div);
