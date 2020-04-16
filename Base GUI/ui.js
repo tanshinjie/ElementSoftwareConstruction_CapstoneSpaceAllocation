@@ -71,8 +71,18 @@ function resize() {
       bin_txt.setAttribute("textAlign", "center");
       bin_txt.setAttribute("id", "bin-" + index + "Txt");
       bin_txt.style.zIndex = 1;
-      // bin_txt.innerText = "Height: " + height + "m\nWidth: " + width + "m"
-      element.appendChild(bin_txt);
+      var bin_vals = element.getAttribute("value");
+      var bin_dims = bin_vals.split(",");
+      var transform = element.style.transform;
+      var inner_str = transform.substring(transform.lastIndexOf("scale(") + 6, transform.length)
+      var scale_str = inner_str.substring(0, inner_str.indexOf(")"))
+      var scales = scale_str.split(",")
+      var scale = parseFloat(scales[0])
+
+      // bin_txt.style.fontSize = 25 + "px"
+      bin_txt.setAttribute("fontSize",  Math.round(12/scale) + "px");
+      bin_txt.innerText = "Height: " + Math.round(bin_dims[0]*bin_dims[2]*scale*100)/100 + "m\nWidth: " + Math.round(bin_dims[0]*bin_dims[1]*scale*100)/100 + "m";
+     element.appendChild(bin_txt);
       initMoveable(moveableObjectList[index], element, boxesinbins, index);
     }
     document

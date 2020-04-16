@@ -67,12 +67,13 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
       frame.scale = scale;
       frame.translate = drag.beforeTranslate;
 
+      let element = document.getElementById("bin" + index);
       let binTxt = document.getElementById("bin-" + index + "Txt");
       binRect = bin.getBoundingClientRect();
-      let width = Math.round((binRect.width * scale[0] * 127) / 1000);
-      let height = Math.round((binRect.height * scale[1] * 125.9) / 1000);
-      // binTxt.setAttribute("fontSize", "12px")
-      binTxt.innerText = "Height: " + height + "m\nWidth: " + width + "m";
+      var bin_vals = element.getAttribute("value");
+      var bin_dims = bin_vals.split(",");
+
+      binTxt.innerText = "Height: " + Math.round(bin_dims[0]*bin_dims[2]*scale[1]*100)/100 + "m\nWidth: " + Math.round(bin_dims[0]*bin_dims[1]*scale[0]*100)/100 + "m";
 
       editor(target);
     });
