@@ -247,15 +247,18 @@ function Run() {
       st.getPropertyValue("-o-transform") ||
       st.getPropertyValue("transform") ||
       "fail...";
-    var values = tr.split("(")[1];
-    values = values.split(")")[0];
-    values = values.split(",");
-    var a = values[0];
-    var b = values[1];
-    var c = values[2];
-    var d = values[3];
+    if (values != undefined) {
+      var values = tr.split("(")[1];
+      values = values.split(")")[0];
+      values = values.split(",");
+      var a = values[0];
+      var b = values[1];
+      var c = values[2];
+      var d = values[3];
+      var scale = Math.sqrt(a * a + b * b);
+    }
 
-    var scale = Math.sqrt(a * a + b * b);
+    scale = 1;
     console.log("Scale: " + scale);
     console.log(zoomLevel);
 
@@ -266,8 +269,8 @@ function Run() {
     console.log(cWidth);
     console.log(cHeight);
 
-    scaledWidth = cWidth / M_TO_PX / zoomLevel / scale;
-    scaledHeight = cHeight / M_TO_PX / zoomLevel / scale;
+    scaledWidth = cWidth / M_TO_PX / scale;
+    scaledHeight = cHeight / M_TO_PX / scale;
     console.log("Area======================", scaledWidth * scaledHeight);
     // packer = new BinPack(scaledWidth, scaledHeight);
     // let values = packer.addAll(updatedList);
