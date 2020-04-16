@@ -241,17 +241,28 @@ function Run() {
   // console.log(packer.positioned);
   // console.log(packer.unpositioned);
   let packer;
-  let containers = [];
+  //let containers = [];
   // unpositioned = rlist;
   let updatedList = [...rlist];
-
+  let binsTop = [];
+  let binsBottom = [];
   bins = document.getElementsByClassName("box");
   for (const bin of bins) {
     bin.innerHTML = null;
-    containers.push(bin);
+    //containers.push(bin);
+    if(bin.parentElement.id == "container"){
+      binsTop.push(bin);
+    }
+    if(bin.parentElement.id == "container2"){
+      binsBottom.push(bin);
+    }
+    //console.log("Bins i have made:", bin)
   }
+  let containers = binsBottom.concat(binsTop);  
+
+  //console.log("Finding ID:",document.getElementById("container2"));
   containers.forEach((container) => {
-    console.log(container);
+    //console.log(container.id);
 
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
