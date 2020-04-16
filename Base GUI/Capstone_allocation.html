@@ -20,8 +20,6 @@
     <script src="https://daybrush.com/scenejs/release/latest/dist/scene.js"></script>
 </head>
 
-
-
 <body>
     <div id="logoBox">
         <img src="resource/logo.png" id="sutdLogo">
@@ -501,7 +499,6 @@
                 $("#container2").draggable("enable");
                 document.getElementById("drawZone2").removeEventListener("click", createTwo);
             }
-            // initEditable();
         } else {
 
             document.getElementById("editBtn").disabled = true;
@@ -538,7 +535,6 @@
         } else {
             createNewBin("container");
         }
-        // drawWithjQuery("container")
     }
 
     function createTwo() {
@@ -547,7 +543,6 @@
         } else {
             console.log("createTwo called");
             createNewBin("container2");
-            // drawWithjQuery("container2")
         }
     }
 
@@ -579,7 +574,7 @@
         console.log(document.getElementById(containerID).style.transform)
 
         let active_box = document.createElement("div");
-        active_box.className = "box";
+        active_box.className = "bin";
         active_box.style.width = wRatio * size * M_TO_PX + "px";
         active_box.style.height = hRatio * size * M_TO_PX + "px";
         active_box.style.top = 200 + "px";
@@ -587,7 +582,9 @@
         active_box.style.position = "absolute";
         active_box.style.zIndex = 999;
         active_box.setAttribute("name", "bin-" + numOfBox)
+        active_box.setAttribute("value", size + "," + wRatio + "," + hRatio)
         active_box.id = "bin" + numOfBox
+        active_box.style.transform = "scale(1)"
         document.getElementById(containerID).appendChild(active_box);
         numOfBox++;
 
@@ -598,9 +595,9 @@
         };
         moveableObjectList.push(moveableObject);
     }
-    document.getElementById("widthRatio").value = ""
-    document.getElementById("heightRatio").value = ""
-    document.getElementById("binSize").value = ""
+    document.getElementById("widthRatio").value = "1"
+    document.getElementById("heightRatio").value = "1"
+    document.getElementById("binSize").value = "2"
 </script>
 
 </html>

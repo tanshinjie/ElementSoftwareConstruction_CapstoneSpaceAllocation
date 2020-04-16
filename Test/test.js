@@ -114,7 +114,7 @@ if (packer.positioned[0].x == 0 && packer.positioned[0].y == 0) {
 packer = new BinPack(200, 200);
 boxes = [
   new Rect(undefined, undefined, 10, 10, 1, 1),
-  new Rect(undefined, undefined, 10, 10, 1, 1)
+  new Rect(undefined, undefined, 10, 10, 1, 1),
 ];
 packer.addAll(boxes);
 if (packer.positioned[1].x == 0 && packer.positioned[1].y == 10) {
@@ -126,7 +126,7 @@ if (packer.positioned[1].x == 0 && packer.positioned[1].y == 10) {
 packer = new BinPack(200, 15);
 boxes = [
   new Rect(undefined, undefined, 10, 10, 1, 1),
-  new Rect(undefined, undefined, 10, 10, 1, 1)
+  new Rect(undefined, undefined, 10, 10, 1, 1),
 ];
 packer.addAll(boxes);
 if (packer.positioned[1].x == 10 && packer.positioned[1].y == 0) {
@@ -140,7 +140,7 @@ if (packer.positioned[1].x == 10 && packer.positioned[1].y == 0) {
 packer = new BinPack(200, 15);
 boxes = [
   new Rect(undefined, undefined, 10, 10, 1, 1),
-  new Rect(undefined, undefined, 10, 10, 1, 1)
+  new Rect(undefined, undefined, 10, 10, 1, 1),
 ];
 values = packer.addAll(boxes);
 if (values[2] == "else") {
@@ -152,7 +152,7 @@ if (values[2] == "else") {
 packer = new BinPack(200, 15);
 boxes = [
   new Rect(undefined, undefined, 10, 10, 1, 1),
-  new Rect(undefined, undefined, 10, 10, 2, 2)
+  new Rect(undefined, undefined, 10, 10, 2, 2),
 ];
 values = packer.addAll(boxes);
 if (values[2] == "if") {

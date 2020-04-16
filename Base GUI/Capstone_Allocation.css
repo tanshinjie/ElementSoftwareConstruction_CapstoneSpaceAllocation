@@ -41,8 +41,7 @@ header {
   margin-bottom: 20px;
   letter-spacing: 4px;
 }
-.box {
-  /* border: 5px solid black; */
+.bin {
   width: 0px;
   height: 0px;
   position: absolute;
