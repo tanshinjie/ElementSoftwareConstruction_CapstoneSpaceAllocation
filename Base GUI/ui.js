@@ -70,7 +70,7 @@ function resize() {
       bin_txt.setAttribute("fontSize", "12px");
       bin_txt.setAttribute("textAlign", "center");
       bin_txt.setAttribute("id", "bin-" + index + "Txt");
-      bin_txt.style.zIndex = 200;
+      bin_txt.style.zIndex = 1;
       // bin_txt.innerText = "Height: " + height + "m\nWidth: " + width + "m"
       element.appendChild(bin_txt);
       initMoveable(moveableObjectList[index], element, boxesinbins, index);
@@ -78,7 +78,7 @@ function resize() {
     document
       .getElementById("container")
       .addEventListener("mousedown", function (e) {
-        if (e.target.className == "box") {
+        if (e.target.className == "bin") {
           currentSelected = e.target;
           console.log("currentSelected", currentSelected);
         }
@@ -99,6 +99,33 @@ function resize() {
         moveableObjectList.splice(removeIndex, 1);
         // console.log(moveableObjectList);
         document.getElementById("container").removeChild(currentSelected);
+        currentSelected = null;
+      }
+    });
+    document
+      .getElementById("container2")
+      .addEventListener("mousedown", function (e) {
+        if (e.target.className == "bin") {
+          currentSelected = e.target;
+          console.log("currentSelected", currentSelected);
+        }
+      });
+    document.addEventListener("keydown", function (e) {
+      if (e.keyCode == 46 && currentSelected != null) {
+        console.log("delete", currentSelected.getAttribute("name"));
+        let removeIndex;
+        // console.log("moveableObject", moveableObjectList);
+        for (let index = 0; index < moveableObjectList.length; index++) {
+          const element = moveableObjectList[index];
+          // console.log(element.name);
+          if (element.name == currentSelected.getAttribute("name")) {
+            removeIndex = index;
+          }
+        }
+        // console.log(removeIndex);
+        moveableObjectList.splice(removeIndex, 1);
+        // console.log(moveableObjectList);
+        document.getElementById("container2").removeChild(currentSelected);
         currentSelected = null;
       }
     });
