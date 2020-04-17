@@ -22,6 +22,7 @@ function resize() {
       $("#container2").draggable("enable");
     }
     document.getElementById("drawBtn").disabled = false;
+    document.getElementById("runBtn").disabled = false;
     editing = 0;
     btn.innerHTML = "Edit";
     bins = document.querySelectorAll(".bin");
@@ -44,6 +45,7 @@ function resize() {
       $("#container2").draggable("disable");
     }
     document.getElementById("drawBtn").disabled = true;
+    document.getElementById("runBtn").disabled = true;
     editing = 1;
     btn.innerHTML = "Editing...";
     boxes = document.querySelectorAll(".bin");
@@ -74,15 +76,23 @@ function resize() {
       var bin_vals = element.getAttribute("value");
       var bin_dims = bin_vals.split(",");
       var transform = element.style.transform;
-      var inner_str = transform.substring(transform.lastIndexOf("scale(") + 6, transform.length)
-      var scale_str = inner_str.substring(0, inner_str.indexOf(")"))
-      var scales = scale_str.split(",")
-      var scale = parseFloat(scales[0])
+      var inner_str = transform.substring(
+        transform.lastIndexOf("scale(") + 6,
+        transform.length
+      );
+      var scale_str = inner_str.substring(0, inner_str.indexOf(")"));
+      var scales = scale_str.split(",");
+      var scale = parseFloat(scales[0]);
 
       // bin_txt.style.fontSize = 25 + "px"
-      bin_txt.setAttribute("fontSize",  Math.round(12/scale) + "px");
-      bin_txt.innerText = "Height: " + Math.round(bin_dims[0]*bin_dims[2]*scale*100)/100 + "m\nWidth: " + Math.round(bin_dims[0]*bin_dims[1]*scale*100)/100 + "m";
-     element.appendChild(bin_txt);
+      bin_txt.setAttribute("fontSize", Math.round(12 / scale) + "px");
+      bin_txt.innerText =
+        "Height: " +
+        Math.round(bin_dims[0] * bin_dims[2] * scale * 100) / 100 +
+        "m\nWidth: " +
+        Math.round(bin_dims[0] * bin_dims[1] * scale * 100) / 100 +
+        "m";
+      element.appendChild(bin_txt);
       initMoveable(moveableObjectList[index], element, boxesinbins, index);
     }
     document
