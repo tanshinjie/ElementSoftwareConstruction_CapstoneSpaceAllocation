@@ -47,11 +47,10 @@ header {
   position: absolute;
   opacity: 1;
   cursor: move;
-  background-color: aqua;
+  background-color: rgb(91, 91, 91);
   opacity: 0.5;
   font-size: 20%;
 }
-
 
 /* create navigation bar (containing buttons) that will float to the left of the canvas */
 nav {

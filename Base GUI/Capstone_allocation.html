@@ -41,6 +41,19 @@
                 <label for="uploaded-excel" id="upload">Upload Excel</label>
                 <div id="excel-name" style="font-size: 10px;"></div>
                 <br>
+                <div class="setRatio" id="binRatio">
+                    Bin Ratio
+                    <br>
+                    <input type="text" id="widthRatio" placeholder="width" style="width: 40%;">
+                    <span>:</span>
+                    <input type="text" id="heightRatio" placeholder="height" style="width: 40%">
+
+                </div>
+                <div class="setRatio" id="sizeBin" style="margin-bottom: 20px">
+                    Bin Size (in metres)
+                    <input type="text" id="binSize" style="width: 50%;">
+                    <button id="ratioButton" onclick="set()" style="width: 30%; font-size: 13px;">Set</button>
+                </div>
                 <div class="btn-group">
                     <!-- <button id="drawBtn" onclick="draw()">Draw</button> -->
                     <!-- <button id="drawBtn" onclick="createNewBin()">Draw</button> -->
@@ -54,19 +67,6 @@
                     <br>
                     <button id="save-button2">Save Image (Bottom)</button>
                     <br>
-                </div>
-                <div class="setRatio" id="binRatio">
-                    Bin Ratio
-                    <br>
-                    <input type="text" id="widthRatio" placeholder="width" style="width: 40%;">
-                    <span>:</span>
-                    <input type="text" id="heightRatio" placeholder="height" style="width: 40%">
-
-                </div>
-                <div class="setRatio" id="sizeBin" style="margin-bottom: 20px">
-                    Bin Size (in metres)
-                    <input type="text" id="binSize" style="width: 50%;">
-                    <button id="ratioButton" onclick="set()" style="width: 30%; font-size: 13px;">Set</button>
                 </div>
                 <p id='error-message'></p>
             </nav>
@@ -235,19 +235,19 @@
 
     function initImageLoader() {
         uploadedFile.addEventListener('change', handleManualUploadedFiles);
-
-
-
         function handleManualUploadedFiles(ev) {
             var file = ev.target.files[0];
-            let boxes = document.querySelectorAll(".box")
-            for (let index = 0; index < boxes.length; index++) {
-                const box = boxes[index];
-                box.parentNode.removeChild(box)
-            }
             handleFile(file);
             document.getElementById("container").style.transform = "scale(0.5)"
             document.getElementById("container").style.transformOrigin = "0 0 0"
+            let container = document.getElementById("container")
+            container.childNodes.forEach(element => {
+                if (element.className == "bin") {
+                    container.removeChild(element)
+                }
+            });
+            setBtnState()
+            zoomLevel = 0.5
         }
     }
 
@@ -284,9 +284,9 @@
 
                 if (checkExcel) {
                     document.getElementById("save-button").disabled = false;
-                    document.getElementById("drawBtn").disabled = false;
-                    document.getElementById("editBtn").disabled = false;
-                    document.getElementById("runBtn").disabled = false;
+                    // document.getElementById("drawBtn").disabled = false;
+                    // document.getElementById("editBtn").disabled = false;
+                    // document.getElementById("runBtn").disabled = false;
                     document.getElementById("save-button2").disabled = false;
                     document.getElementById("widthRatio").disabled = false;
                     document.getElementById("heightRatio").disabled = false;
@@ -314,19 +314,19 @@
 
     function initImageLoader2() {
         uploadedFile2.addEventListener('change', handleManualUploadedFiles2);
-
-
-
         function handleManualUploadedFiles2(ev) {
             var file = ev.target.files[0];
-            let boxes = document.querySelectorAll(".box")
-            for (let index = 0; index < boxes.length; index++) {
-                const box = boxes[index];
-                box.parentNode.removeChild(box)
-            }
             handleFile2(file);
             document.getElementById("container2").style.transform = "scale(0.5)"
             document.getElementById("container2").style.transformOrigin = "0 0 0"
+            let container = document.getElementById("container2")
+            setBtnState()
+            zoomLevel2 = 0.5
+            container.childNodes.forEach(element => {
+                if (element.className == "bin") {
+                    container.removeChild(element)
+                }
+            });
         }
     }
 
@@ -363,9 +363,9 @@
 
                 if (checkExcel) {
                     document.getElementById("save-button").disabled = false;
-                    document.getElementById("drawBtn").disabled = false;
-                    document.getElementById("editBtn").disabled = false;
-                    document.getElementById("runBtn").disabled = false;
+                    // document.getElementById("drawBtn").disabled = false;
+                    // document.getElementById("editBtn").disabled = false;
+                    // document.getElementById("runBtn").disabled = false;
                     document.getElementById("save-button2").disabled = false;
                     document.getElementById("widthRatio").disabled = false;
                     document.getElementById("heightRatio").disabled = false;
@@ -398,9 +398,9 @@
 
         if (checkImage) {
             document.getElementById("save-button").disabled = false;
-            document.getElementById("drawBtn").disabled = false;
-            document.getElementById("editBtn").disabled = false;
-            document.getElementById("runBtn").disabled = false;
+            document.getElementById("drawBtn").disabled = true;
+            document.getElementById("editBtn").disabled = true;
+            document.getElementById("runBtn").disabled = true;
             document.getElementById("save-button2").disabled = false;
             document.getElementById("widthRatio").disabled = false;
             document.getElementById("heightRatio").disabled = false;
@@ -440,6 +440,8 @@
             }
         });
 
+        $('#container').css({ transform: 'scale(' + zoomLevel + ')' });
+
     });
 
     //script to handle saving of overall container2
@@ -470,8 +472,9 @@
                 a.click();
                 document.body.removeChild(a);
             }
-        });
 
+        });
+        $('#container2').css({ transform: 'scale(' + zoomLevel2 + ')' });
     });
 
     let numOfBox = 0
@@ -484,7 +487,7 @@
             document.getElementById("editBtn").disabled = false;
             drawing = 0;
             btn.innerHTML = "Draw";
-
+            setBtnState()
             if ($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')) {
                 $("#container").draggable("enable");
                 $("#container2").draggable("enable");
@@ -500,7 +503,6 @@
                 document.getElementById("drawZone2").removeEventListener("click", createTwo);
             }
         } else {
-
             document.getElementById("editBtn").disabled = true;
             drawing = 1;
             btn.innerHTML = "Drawing...";
@@ -521,7 +523,7 @@
 
                 document.getElementById("drawZone2").addEventListener("click", createTwo);
             }
-
+            setBtnState()
         }
     }
     let wRatio;
@@ -551,18 +553,27 @@
         let inputWidthRatio = document.getElementById("widthRatio").value;
         let inputHeightRatio = document.getElementById("heightRatio").value;
         let inputBinSize = document.getElementById("binSize").value;
+        if (inputWidthRatio < 1 || inputHeightRatio < 1) {
+            alert("Width or Height dimension has to be at least 1");
+            document.getElementById("drawBtn").disabled = true;
+            if (drawing) {
+                drawMode()
+            }
+            return;
+        }
         if (inputBinSize < 2) {
             alert("Size has to be more than 2")
-            size = 2
+            document.getElementById("drawBtn").disabled = true;
+            if (drawing) {
+                drawMode()
+            }
+            return;
         } else {
             size = inputBinSize
         }
+        document.getElementById("drawBtn").disabled = false;
         wRatio = inputWidthRatio;
         hRatio = inputHeightRatio
-        console.log(wRatio);
-        console.log(hRatio);
-        console.log(size);
-
     }
     //Upon clicking on
     let M_TO_PX = 59 * 0.7
@@ -598,6 +609,19 @@
     document.getElementById("widthRatio").value = "1"
     document.getElementById("heightRatio").value = "1"
     document.getElementById("binSize").value = "2"
+
+    function setBtnState() {
+        let bins = document.getElementsByClassName("bin")
+        console.log("debug", bins);
+
+        if (bins.length > 0) {
+            document.getElementById("editBtn").disabled = false
+            document.getElementById("runBtn").disabled = false
+        } else {
+            document.getElementById("editBtn").disabled = true
+            document.getElementById("runBtn").disabled = true
+        }
+    }
 </script>
 
 </html>

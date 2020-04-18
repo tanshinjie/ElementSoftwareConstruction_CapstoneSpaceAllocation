@@ -27,11 +27,14 @@ function resize() {
     btn.innerHTML = "Edit";
     bins = document.querySelectorAll(".bin");
     recreateBin(bins);
+    console.log("debug", "exit editing");
+
     controlBoxes = document.querySelectorAll(".moveable-control-box");
     for (let index = 0; index < controlBoxes.length; index++) {
       const element = controlBoxes[index];
       element.parentNode.removeChild(element);
     }
+    setBtnState();
   } else {
     if (
       $("#container").data("ui-draggable") &&
@@ -53,7 +56,7 @@ function resize() {
     var zone1 = document.getElementById("drawZone");
     zone1_width = zone1.offsetWidth;
     zone1_height = zone1.offsetHeight;
-
+    console.log("debug", "enter editing");
     for (let index = 0; index < boxes.length; index++) {
       const element = boxes[index];
       element.style.backgroundColor = "#0C97C9";
@@ -115,10 +118,9 @@ function resize() {
             removeIndex = index;
           }
         }
-        // console.log(removeIndex);
         moveableObjectList.splice(removeIndex, 1);
-        // console.log(moveableObjectList);
-        document.getElementById("container").removeChild(currentSelected);
+        console.log("debug", currentSelected.parentNode);
+        currentSelected.parentNode.removeChild(currentSelected);
         currentSelected = null;
       }
     });
@@ -130,25 +132,25 @@ function resize() {
           console.log("currentSelected", currentSelected);
         }
       });
-    document.addEventListener("keydown", function (e) {
-      if (e.keyCode == 46 && currentSelected != null) {
-        console.log("delete", currentSelected.getAttribute("name"));
-        let removeIndex;
-        // console.log("moveableObject", moveableObjectList);
-        for (let index = 0; index < moveableObjectList.length; index++) {
-          const element = moveableObjectList[index];
-          // console.log(element.name);
-          if (element.name == currentSelected.getAttribute("name")) {
-            removeIndex = index;
-          }
-        }
-        // console.log(removeIndex);
-        moveableObjectList.splice(removeIndex, 1);
-        // console.log(moveableObjectList);
-        document.getElementById("container2").removeChild(currentSelected);
-        currentSelected = null;
-      }
-    });
+    // document.addEventListener("keydown", function (e) {
+    //   if (e.keyCode == 46 && currentSelected != null) {
+    //     console.log("delete", currentSelected.getAttribute("name"));
+    //     let removeIndex;
+    //     // console.log("moveableObject", moveableObjectList);
+    //     for (let index = 0; index < moveableObjectList.length; index++) {
+    //       const element = moveableObjectList[index];
+    //       // console.log(element.name);
+    //       if (element.name == currentSelected.getAttribute("name")) {
+    //         removeIndex = index;
+    //       }
+    //     }
+    //     // console.log(removeIndex);
+    //     moveableObjectList.splice(removeIndex, 1);
+    //     // console.log(moveableObjectList);
+    //     document.getElementById("container2").removeChild(currentSelected);
+    //     currentSelected = null;
+    //   }
+    // });
   }
 }
 function recreateBin(bins) {

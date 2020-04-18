@@ -10,6 +10,10 @@ function Upload() {
 
   //Validate whether File is valid Excel file.
   var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+  console.log(fileUpload);
+  console.log(fileUpload.value);
+  console.log(fileUpload.value.toLowerCase());
+  console.log(regex.test(fileUpload.value.toLowerCase()));
   if (regex.test(fileUpload.value.toLowerCase())) {
     if (typeof FileReader != "undefined") {
       var reader = new FileReader();
@@ -217,7 +221,7 @@ function Run() {
       numberOfBox++;
     });
     //getElementById("dv").innerHTML = "Allocated";
-   // console.log("debug unallocated", updatedList);
+    // console.log("debug unallocated", updatedList);
   });
 }
 
