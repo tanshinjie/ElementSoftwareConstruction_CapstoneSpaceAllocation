@@ -845,9 +845,9 @@ function ArrayMaker(rlist, width, height) {
 
 
   console.log("Final Biglist Before:", bigList);
-  console.log("does 5 exist", bigList[0][4][1]);
-  console.log("checking width:", bigList[0][0][0]);
-  console.log("checking length of emptyness:", bigList[0][0].length);
+  //console.log("does 5 exist", bigList[0][4][1]);
+  //console.log("checking width:", bigList[0][0][0]);
+  //console.log("checking length of emptyness:", bigList[0][0].length);
   console.log("FULL AREA:",Area(width,height));
   let i = 0;
   let j = -1;
@@ -862,6 +862,11 @@ function ArrayMaker(rlist, width, height) {
   
   while (tempArea <= Area(width, height) * 0.9) {
       if (counter == totalLength) {
+        for(let i = 0; i < rlist.length; i++){
+          if(rlist[i].projID == 3){
+              console.log("SCUMBAG", rlist[i].projID);
+          }
+        }
         console.log("I am a survivor:", rlist)
         return [toBePacked, rlist, z];
       }
@@ -899,7 +904,7 @@ function ArrayMaker(rlist, width, height) {
           //for (let z = 0; z < debug.length; z++) {
             //if (debug[z] == bigList[i][j]) {
               rlist.filter(function(index){return rlist[index] != bigList[0][i][j]});
-              console.log("debug",rlist.filter(function(index){return rlist[index] != bigList[0][i][j]}))
+              //console.log("debug",rlist.filter(function(index){return rlist[index] != bigList[0][i][j]}))
               //console.log(rlist);
             //}
           //}
@@ -950,6 +955,7 @@ function ArrayMaker(rlist, width, height) {
           tempArea += Area(bigList[i2][j2].width, bigList[i2][j2].height);
           for (let z2 = 0; z2 < rlist.length; z2++) {
             if (rlist[z2] == bigList[i2][j2]) {
+              //if()
               rlist.splice(z2, 1);
               console.log("trying to find 1:", rlist)
             }
@@ -1009,6 +1015,20 @@ function ArrayMaker(rlist, width, height) {
 
   while (tempArea <= Area(width, height) * 0.9) {
     if (counter == totalLength) {
+      for(let i = 0; i < rlist.length; i++){
+
+        if(rlist[i].projID == 3){
+            console.log("SCUMBAG", rlist[i].projID);
+        }
+      }
+
+      for(let i = 0; i<toBePacked.length; i++){
+        if(toBePacked[i].projID == 3){
+          console.log("3 is gonna get packed", toBePacked[i].projID);
+      }
+      }
+
+      console.log("BIN-2-ONWARDS-SIZE-TAKEN-UP",tempArea)
       console.log("remaining:",rlist);
       console.log("finalPack:",toBePacked);
       return [toBePacked, rlist, z];

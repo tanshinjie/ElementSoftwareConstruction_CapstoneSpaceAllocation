@@ -201,8 +201,37 @@ function Run() {
     //console.log("debug unallocated", updatedList);
     let M_TO_PX = 41.3;
     positioned = packer.positioned;
+    console.log("unpositioned", packer.unpositioned);
+
+    let fixUnpositioned = [];
+
+    // if(packer.unpositioned.length > 0){
+    //   for(let i = 0; i < packer.unpositioned.length; i++){
+    //      packer.unpositioned[i].tag = packer.unpositioned[i].datum.tag;
+    //      packer.unpositioned[i].projID = packer.unpositioned[i].datum.projID;
+
+    //   }
+      //updatedList = updatedList.concat(packer.unpositioned);
+      //console.log("unpositioned not empty")
+
+
+    //}
+    // updatedList.push(packer.unpositioned[i]);
+    // console.log("after merging:",updatedList);
+
+    // for(let i = 0; i < positioned.length; i++){
+    //   for(let j = 0; j < values[0].length; j++){
+    //     if(positioned[i] != values[0][j]){
+    //       updatedList.push(values[0][j]);
+    //       console.log("found mismatch");
+    //     }
+    //   }
+    // }
     //console.log("debug positioned", positioned);
     packer.positioned.forEach((element) => {
+      if(element.projID == 3){
+        console.log("hello i am 3");
+      }  
       div = document.createElement("div");
       div.id = numberOfBox;
       div.style.left = (element.x * M_TO_PX) / scale + "px";
