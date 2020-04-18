@@ -104,6 +104,7 @@ function ProcessExcel(data) {
 
     cell = row.insertCell(-1);
     cell.id = "assign" + i;
+    cell.className = "allocation";
     cell.innerHTML = "Unallocated";
 
     // cell = row.insertCell(-1);
@@ -144,6 +145,12 @@ function ProcessExcel(data) {
   tablescroll.appendChild(table);
 }
 function Run() {
+  let count = 0;
+  //reset allocation
+  var resetallocat = document.getElementsByClassName("allocation");
+  for (var i = 0, len = resetallocat.length | 0; i < len; i = (i + 1) | 0) {
+    resetallocat[i].innerHTML = "Unallocated";
+  }
   let packer;
   let updatedList = [...rlist];
   let binsTop = [];
@@ -162,7 +169,7 @@ function Run() {
   //console.log("debug", containers);
 
   containers.forEach((container) => {
-    //console.log("debug", container.id);
+    console.log("debug", container.id);
 
     cWidth = parseInt(container.style.width.replace(/[^0-9\.]/g, ""), 10);
     cHeight = parseInt(container.style.height.replace(/[^0-9\.]/g, ""), 10);
@@ -201,33 +208,16 @@ function Run() {
     //console.log("debug unallocated", updatedList);
     let M_TO_PX = 41.3;
     positioned = packer.positioned;
-    console.log("unpositioned", packer.unpositioned);
-
-    let fixUnpositioned = [];
-
-    // if(packer.unpositioned.length > 0){
-    //   for(let i = 0; i < packer.unpositioned.length; i++){
-    //      packer.unpositioned[i].tag = packer.unpositioned[i].datum.tag;
-    //      packer.unpositioned[i].projID = packer.unpositioned[i].datum.projID;
-
-    //   }
-      //updatedList = updatedList.concat(packer.unpositioned);
-      //console.log("unpositioned not empty")
-
-
-    //}
-    // updatedList.push(packer.unpositioned[i]);
-    // console.log("after merging:",updatedList);
-
-    // for(let i = 0; i < positioned.length; i++){
-    //   for(let j = 0; j < values[0].length; j++){
-    //     if(positioned[i] != values[0][j]){
-    //       updatedList.push(values[0][j]);
-    //       console.log("found mismatch");
-    //     }
-    //   }
-    // }
-    //console.log("debug positioned", positioned);
+    if (packer.unpositioned.length > 0) {
+      let temparray = [];
+      for (let index = 0; index < packer.unpositioned.length; index++) {
+        const element = packer.unpositioned[index];
+        element.projID = element.datum.projID;
+        element.tag = element.datum.tag;
+        temparray.push(element);
+      }
+      updatedList = updatedList.concat(temparray);
+    }
     packer.positioned.forEach((element) => {
       if(element.projID == 3){
         console.log("hello i am 3");
@@ -248,7 +238,10 @@ function Run() {
         "Allocated";
       container.appendChild(div);
       numberOfBox++;
+      count++;
     });
+    console.log("debug count", count);
+
     //getElementById("dv").innerHTML = "Allocated";
     // console.log("debug unallocated", updatedList);
   });
