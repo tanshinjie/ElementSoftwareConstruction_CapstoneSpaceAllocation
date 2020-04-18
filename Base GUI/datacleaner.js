@@ -104,6 +104,7 @@ function ProcessExcel(data) {
 
     cell = row.insertCell(-1);
     cell.id = "assign" + i;
+    cell.className = "allocation";
     cell.innerHTML = "Unallocated";
 
     // cell = row.insertCell(-1);
@@ -145,6 +146,11 @@ function ProcessExcel(data) {
 }
 function Run() {
   let count = 0;
+  //reset allocation
+  var resetallocat = document.getElementsByClassName("allocation");
+  for (var i = 0, len = resetallocat.length | 0; i < len; i = (i + 1) | 0) {
+    resetallocat[i].innerHTML = "Unallocated";
+  }
   let packer;
   let updatedList = [...rlist];
   let binsTop = [];
