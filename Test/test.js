@@ -2,7 +2,34 @@ let margin = 0.9;
 
 widths = [100, 500, 1000];
 heights = [200, 400, 5000];
+
+beforeRegex = [, 3x3, 7x5];
+let afterRegex = [];
+correctAnswer = [[2,2],[3,3],[7.5]]
+
 let packer, boxes;
+//----------checking if the area function works properly--------//
+for(let i = 0; i < widths.length; i++){
+  if(Area(widths[i], heights[i])==(widths[i]*heights[i])){
+    console.log(true);
+  }
+}
+
+//-------checking if the regex function wirks properly---------//
+for(let i = 0; i < beforeRegex.length; i++){
+if (beforeRegex[i] != undefined) {
+  d = beforeRegex[i].split("x");
+  for (let index = 0; index < d.length; index++) {
+    // d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
+    d[index] = parseFloat(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
+  }
+  console.log("this is what it looks like after cleaning",d);
+  afterRegex.push(d);
+}
+}
+
+
+
 
 for (let index = 0; index < widths.length; index++) {
   let test = [];

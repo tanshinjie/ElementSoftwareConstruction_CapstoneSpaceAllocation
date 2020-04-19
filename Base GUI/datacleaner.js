@@ -113,6 +113,7 @@ function ProcessExcel(data) {
     spaceNeeded = "Showcase Space Needed: L x W x H";
     var dimension = excelRows[i][spaceNeeded];
     if (dimension != undefined) {
+      console.log("this is what the dimension is supposed to look like")
       d = dimension.split("x");
       for (let index = 0; index < d.length; index++) {
         // d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);

@@ -759,7 +759,7 @@ function ArrayMaker(rlist, width, height) {
   let twoTwoList = [];
   let smallerList = [];
   let y = 0;
-  let copyList = rlist;
+  let copyList = [...rlist];
   let max = 0;
   let totalLength = rlist.length;
   let counter = 0;
@@ -788,7 +788,8 @@ function ArrayMaker(rlist, width, height) {
       thwalkkk.push(rlist[i].projID);
     }
 
-    console.log(thwalkkk);
+    console.log("projIDs before going into the 2x2:",thwalkkk);
+    
     rlist.forEach((element) => {
       if (element.tag >= max) {
         max = element.tag;
@@ -797,7 +798,7 @@ function ArrayMaker(rlist, width, height) {
 
     console.log("i am here because i have atleast one 2x2");
     //console.log(max)
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < (parseInt(max)+parseInt(1)); i++) {
       bigList[i] = [];
       console.log("making empty arrays");
       console.log(bigList);
@@ -840,9 +841,9 @@ function ArrayMaker(rlist, width, height) {
     }
 
     console.log("Final Biglist Before:", bigList);
-    console.log("does 5 exist", bigList[0][4][1]);
-    console.log("checking width:", bigList[0][0][0]);
-    console.log("checking length of emptyness:", bigList[0][0].length);
+    //console.log("does 5 exist", bigList[0][4][1]);
+    //console.log("checking width:", bigList[0][0][0]);
+    //console.log("checking length of emptyness:", bigList[0][0].length);
     console.log("FULL AREA:", Area(width, height));
     let i = 0;
     let j = -1;
@@ -856,6 +857,18 @@ function ArrayMaker(rlist, width, height) {
 
     while (tempArea <= Area(width, height) * 0.9) {
       if (counter == totalLength) {
+        let remaining = []
+
+        for(let i = 0; i < rlist.length; i++){
+          remaining.push(rlist[i].projID);
+        }
+
+        for(let i = 0; i < rlist.length; i++){
+          if(rlist[i].projID == 24){
+            console.log("found 24")
+          }
+        }        
+        console.log("remaining projIDs after running initial:", remaining)
         console.log("I am a survivor:", rlist);
         return [toBePacked, rlist, z];
       }
@@ -880,10 +893,25 @@ function ArrayMaker(rlist, width, height) {
             k += 1;
             counter++;
           }
+
+          console.log("before splicing", rlist.length);
+
+          let beforeGoing = []
+
+          for(let i = 0; i < rlist.length; i++){
+              beforeGoing.push(rlist[i].projID);
+          }
+
+          console.log("checking projIDs before going in", beforeGoing)
+
+
+
+
           if (j < bigList[0][i].length) {
+            console.log("Trying to allocate this 2x2:", bigList[0][i][j]);
             if (
               tempArea +
-                Area(bigList[0][i][j].width, bigList[0][i][j].height) <=
+              Area(bigList[0][i][j].width, bigList[0][i][j].height) <=
               Area(width, height) * 0.9
             ) {
               //console.log("testing:", tempArea + 4)
@@ -894,9 +922,35 @@ function ArrayMaker(rlist, width, height) {
               //console.log(rlist);
               //for (let z = 0; z < debug.length; z++) {
               //if (debug[z] == bigList[i][j]) {
-              rlist.filter(function (index) {
-                return rlist[index] != bigList[0][i][j];
-              });
+              // console.log("Allocate this 2x2", bigList[0][i][j])
+              console.log("splicing...")
+
+              
+              rlist = rlist.filter(function (element) {
+                return element != bigList[0][i][j];
+               });
+
+              //  for(let i = 0; i < rlist.length; i++){
+              //   if(rlist[i].projID == 24){
+              //     console.log("found 24")
+              //   }
+              // let remainingSpliced = []
+
+               //for(let i = 0; i < rlist.length; i++){
+                // remainingSpliced.push(rlist[i].projID);
+               //}
+
+               //console.log("right after splicing", remainingSpliced);
+              
+              // console.log("time to find the truth")
+              // for(let z = 0; z < rlist.length; z++){
+              //   console.log("id from biglist",bigList[0][i][j].projID)
+              //   console.log("this is from rlist", rlist[z].projID)
+              //  if (rlist[z].projID == bigList[0][i][j].projID) {
+              //     console.log("this is what i am splicing")
+              //       rlist.splice(z,1);
+              //      }
+              //  }
               // console.log(
               //   "debug",
               //   rlist.filter(function (index) {
@@ -907,12 +961,19 @@ function ArrayMaker(rlist, width, height) {
               //}
               //}
             }
+            console.log("after splicing", rlist.length);
           }
 
           i++;
         }
         //}
         c = 1;
+        for(let i = 0; i < rlist.length; i++){
+          let tempArray = []
+          tempArray.push(rlist[i])
+        }  
+
+
         console.log("tobePacked22:", toBePacked);
         console.log("after rm 2x2:", rlist);
         console.log("Temparea after allocating 2x2:", tempArea);
@@ -922,7 +983,7 @@ function ArrayMaker(rlist, width, height) {
       //console.log("copyList length:",lengthRemaining);
 
       //while(b < lengthRemaining){
-      if (i2 == 6) {
+      if (i2 == (parseInt(max) + parseInt(1)) ) {
         i2 = 1;
       }
 
@@ -931,10 +992,10 @@ function ArrayMaker(rlist, width, height) {
         j2++;
       }
 
-      /*if(typeof  bigList[i2][j2] !== "undefined"){
-        b += 1;
-        counter++;
-      }*/
+      // if(typeof  bigList[i2][j2] !== "undefined"){
+      //   //b += 1;
+      //   counter++;
+      // }
       //console.log("checking how far i2 goes", bigList[i2]);
 
       if (j2 < bigList[i2].length) {
@@ -947,13 +1008,18 @@ function ArrayMaker(rlist, width, height) {
           console.log("allocate this one:", bigList[i2][j2]);
           toBePacked.push(bigList[i2][j2]);
           tempArea += Area(bigList[i2][j2].width, bigList[i2][j2].height);
-          for (let z2 = 0; z2 < rlist.length; z2++) {
-            if (rlist[z2] == bigList[i2][j2]) {
-              //if()
-              rlist.splice(z2, 1);
-              console.log("trying to find 1:", rlist);
-            }
-          }
+          
+          rlist = rlist.filter(function (element) {
+            return element != bigList[i2][j2];
+           });
+
+          // for (let z2 = 0; z2 < rlist.length; z2++) {
+          //   if (rlist[z2] == bigList[i2][j2]) {
+          //     //if()
+          //     rlist.splice(z2, 1);
+          //     console.log("trying to find 1:", rlist);
+          //   }
+          // }
         }
       }
       //}
@@ -1001,6 +1067,14 @@ function ArrayMaker(rlist, width, height) {
 
     while (tempArea <= Area(width, height) * 0.9) {
       if (counter == totalLength) {
+
+        let remainingSecond = []
+
+        for(let i = 0; i < rlist.length; i++){
+          remainingSecond.push(rlist[i].projID);
+        }
+        console.log("remaining projIDs after running second algo:", remainingSecond)
+        console.log("I am a survivor:", rlist);
         console.log("remaining:", rlist);
         console.log("finalPack:", toBePacked);
         return [toBePacked, rlist, z];
@@ -1026,13 +1100,17 @@ function ArrayMaker(rlist, width, height) {
             toBePacked.push(bigList[i][j]);
             tempArea += Area(bigList[i][j].width, bigList[i][j].height);
             console.log("i am allocating smth so");
-            for (let z = 0; z < rlist.length; z++) {
-              if (rlist[z] == bigList[i][j]) {
-                rlist.splice(z, 1);
-                //rlist.filter(function(index){return rlist[index] != bigList[i][j]});
-                console.log("I should end up here everytime");
-              }
-            }
+            
+            rlist = rlist.filter(function (element) {
+              return element != bigList[i][j];
+             });
+            // for (let z = 0; z < rlist.length; z++) {
+            //   if (rlist[z] == bigList[i][j]) {
+            //     rlist.splice(z, 1);
+            //     //rlist.filter(function(index){return rlist[index] != bigList[i][j]});
+            //     console.log("I should end up here everytime");
+            //   }
+            // }
           }
         }
         i++;
@@ -1057,12 +1135,16 @@ function ArrayMaker(rlist, width, height) {
             toBePacked.push(bigList[0][j]);
 
             tempArea += Area(bigList[0][j].width, bigList[0][j].height);
-            for (let z = 0; z < rlist.length; z++) {
-              if (rlist[z] == bigList[0][j]) {
-                rlist.splice(z, 1);
-              }
-            }
-          }
+          
+            rlist = rlist.filter(function (element) {
+              return element != bigList[0][j];
+             });
+            //   for (let z = 0; z < rlist.length; z++) {
+          //     if (rlist[z] == bigList[0][j]) {
+          //       rlist.splice(z, 1);
+          //     }
+          //   }
+          // }
         }
         // i++;
         counter++;
@@ -1073,4 +1155,5 @@ function ArrayMaker(rlist, width, height) {
 
     //return [toBePacked, rlist];
   }
+}
 }
