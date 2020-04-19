@@ -1,11 +1,9 @@
 let margin = 0.9;
 
-widths = [100, 500, 1000];
-heights = [200, 400, 5000];
+let widths = [100, 500, 1000];
+let heights = [200, 400, 5000];
 
-beforeRegex = [, 3x3, 7x5];
-let afterRegex = [];
-correctAnswer = [[2,2],[3,3],[7.5]]
+
 
 let packer, boxes;
 //----------checking if the area function works properly--------//
@@ -15,22 +13,100 @@ for(let i = 0; i < widths.length; i++){
   }
 }
 
-//-------checking if the regex function wirks properly---------//
+//-------checking if the regex function works properly---------//
+let beforeRegex = ["2mx2mx2m", "3mx3mx3m", "7mx5mx6m"];
+let afterRegex = [];
+let correctAnswer = [[2,2,2],[3,3,3],[7,5,6]]
+
 for(let i = 0; i < beforeRegex.length; i++){
 if (beforeRegex[i] != undefined) {
+  console.log(typeof beforeRegex[i]);
   d = beforeRegex[i].split("x");
+  //console.log(d);
   for (let index = 0; index < d.length; index++) {
     // d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
+    //console.log(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
     d[index] = parseFloat(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
+    //console.log(d[index]);
   }
-  console.log("this is what it looks like after cleaning",d);
+  //console.log("this is what it looks like after cleaning",d);
   afterRegex.push(d);
 }
 }
 
+console.log(afterRegex);
+console.log(correctAnswer);
+
+for(let i = 0; i < afterRegex.length; i++){
+
+  console.log(typeof afterRegex[i])
+  console.log(typeof correctAnswer[i])
+  if(JSON.stringify(afterRegex[i]==JSON.stringify(correctAnswer[i]))){
+    console.log("regex works properly")
+  }
+}
+
+//-------checking if the intermediate functions in the arraymaker work properly------------//
+
+//if there is multiple tags in the input excel. Then the functionCheckerArray 
+let functionCheckerArray = []
+functionCheckerArray.push(new Rect(undefined, undefined, 8, 9, 2, 1))
+functionCheckerArray.push(new Rect(undefined, undefined, 4, 7, 1, 3))
+functionCheckerArray.push(new Rect(undefined, undefined, 3, 8, 3, 55))
+let correctFunctionCheckerArray = [[],[],[]]
+let correctMax = 3;
+let correctFillingUp = [[new Rect(undefined, undefined, 4, 7, 1, 3)],[new Rect(undefined, undefined, 8, 9, 2, 1)],[new Rect(undefined, undefined, 3, 8, 3, 55)]]
+
+function intializeEmptyListWithout2x2(list){
+  let List = [];
+  let maximum = 0;
+  list.forEach((element) => {
+    if (element.tag >= maximum) {
+      maximum = element.tag;
+    }
+  });
+  for (let i = 0; i < maximum; i++) {
+    List[i] = [];
+  }
+  return [List,maximum];
+}
+
+let values = intializeEmptyListWithout2x2(functionCheckerArray);
+
+if(JSON.stringify(values[0]) == JSON.stringify(correctFunctionCheckerArray)){
+  console.log("the number of empty arrays made for the allocation of tags is correct")
+}
+
+if(values[1]== correctMax){
+  console.log("found the largest tag number in the excel file correctly")
+}
+
+function fillUpBigList(List,list){
+  for (let i = 0; i < list.length; i++) {
+    List[list[i].tag - 1].push(list[i]);
+  }
+  return List;
+}
+
+let afterFillUpBigList = fillUpBigList(values[0],functionCheckerArray)
+if(JSON.stringify(afterFillUpBigList) == JSON.stringify(correctFillingUp)){
+  console.log("the array was filled up correctly according to tag");
+}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
 for (let index = 0; index < widths.length; index++) {
   let test = [];
   packer = new BinPack(widths[index], heights[index]);
