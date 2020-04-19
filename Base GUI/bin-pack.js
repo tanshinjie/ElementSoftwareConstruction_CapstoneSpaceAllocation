@@ -853,6 +853,36 @@ function ArrayMaker(rlist, width, height) {
         return [toBePacked, rlist, z];
       }
 
+    //   function packAndFilter(i, j, bigList, rlist,max){
+    //     if (bigList.length != 1) {
+    //       z = "if";
+    //       if (i == max) {
+    //         i = 0;
+    //       }
+    //       if (i == 0) {
+    //         j++;
+    //       }
+    //       if (typeof bigList[i][j] !== "undefined") {
+    //         //k += 1;
+    //         counter++;
+    //       }
+    //       if (j < bigList[i].length) {
+    //         if (
+    //           tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
+    //           Area(width, height) * 0.9
+    //         ) {
+    //           toBePacked.push(bigList[i][j]);
+    //           tempArea += Area(bigList[i][j].width, bigList[i][j].height);
+    //           console.log("i am allocating smth so");
+              
+    //           rlist = rlist.filter(function (element) {
+    //             return element != bigList[i][j];
+    //            });
+    //         }
+    //       }
+    //       i++;
+    //   }
+    // }
       if (bigList.length != 1) {
         z = "if";
         if (i == max) {
