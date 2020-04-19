@@ -819,9 +819,9 @@ function ArrayMaker(rlist, width, height) {
       if (i2 == parseInt(max) + parseInt(1)) {
         i2 = 1;
       }
-      if (typeof bigList[i2][j2] !== "undefined") {
-        counter++;
-      }
+      // if (typeof bigList[i2][j2] !== "undefined") {
+      //   counter++;
+      // }
       if (i2 == 1) {
         j2++;
       }
@@ -964,19 +964,19 @@ function separateListByTag(after, before) {
   }
   return after;
 }
-// Test: biglist[0] should be smallerlist, else should be separated by tag
+// Test: biglist[0] should be smallerlist, others should be separated by tag
 function fillEmptyList(rlist, bigList, smallerList, twoTwoList) {
   let copyList = [...rlist];
-  for (let i = 0; i < rlist.length; i++) {
-    for (let j = 0; j < twoTwoList.length; j++)
-      if (twoTwoList[j] == copyList[i]) {
-        copyList.splice(i, 1);
-      }
-  }
-  bigList[0] = smallerList;
+  for (let j = 0; j < twoTwoList.length; j++) {
+    copyList = copyList.filter(function (element) {
+      return element != twoTwoList[j];
+    });
 
-  for (let i = 0; i < copyList.length; i++) {
-    bigList[copyList[i].tag].push(copyList[i]);
+    bigList[0] = smallerList;
+
+    for (let i = 0; i < copyList.length; i++) {
+      bigList[copyList[i].tag].push(copyList[i]);
+    }
+    return bigList;
   }
-  return bigList;
 }
