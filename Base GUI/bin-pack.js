@@ -762,7 +762,7 @@ function ArrayMaker(rlist, width, height) {
   max = getMax(rlist);
   if (max == undefined) {
     console.error("tag in excel must be positive integer");
-    break;
+    return;
   }
   if (twoTwoList.length > 0) {
     console.log("debug hello");
