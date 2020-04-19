@@ -488,6 +488,7 @@
             drawing = 0;
             btn.innerHTML = "Draw";
             setBtnState()
+
             if ($("#container").data('ui-draggable') && $("#container2").data('ui-draggable')) {
                 $("#container").draggable("enable");
                 $("#container2").draggable("enable");
@@ -523,7 +524,8 @@
 
                 document.getElementById("drawZone2").addEventListener("click", createTwo);
             }
-            setBtnState()
+            document.getElementById("editBtn").disabled = true;
+            document.getElementById("editBtn").disabled = true;
         }
     }
     let wRatio;

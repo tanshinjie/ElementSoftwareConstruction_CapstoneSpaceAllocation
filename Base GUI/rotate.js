@@ -66,14 +66,21 @@ function initMoveable(moveableObject, bin, binsinboxes, index) {
     .on("scale", ({ target, drag, scale }) => {
       frame.scale = scale;
       frame.translate = drag.beforeTranslate;
+      console.log("debug", index);
+      console.log("debug", bin);
 
-      let element = document.getElementById("bin" + index);
-      let binTxt = document.getElementById("bin-" + index + "Txt");
+      // let element = document.getElementById("bin" + index);
+      let binTxt = document.getElementById(bin.getAttribute("name") + "Txt");
       binRect = bin.getBoundingClientRect();
-      var bin_vals = element.getAttribute("value");
+      var bin_vals = bin.getAttribute("value");
       var bin_dims = bin_vals.split(",");
 
-      binTxt.innerText = "Height: " + Math.round(bin_dims[0]*bin_dims[2]*scale[1]*100)/100 + "m\nWidth: " + Math.round(bin_dims[0]*bin_dims[1]*scale[0]*100)/100 + "m";
+      binTxt.innerText =
+        "Height: " +
+        Math.round(bin_dims[0] * bin_dims[2] * scale[1] * 100) / 100 +
+        "m\nWidth: " +
+        Math.round(bin_dims[0] * bin_dims[1] * scale[0] * 100) / 100 +
+        "m";
 
       editor(target);
     });

@@ -765,7 +765,6 @@ function ArrayMaker(rlist, width, height) {
     return;
   }
   if (twoTwoList.length > 0) {
-    console.log("debug hello");
     let emptyArrays = intializeEmptyListWith2x2(max);
     bigList = emptyArrays[0];
     smallerList = emptyArrays[1];
@@ -908,14 +907,17 @@ function ArrayMaker(rlist, width, height) {
 // Test: result from rlist with any tag non positive integer should be undefined
 function getMax(rlist) {
   let max = 0;
-  rlist.forEach((element) => {
-    if (element.tag <= 0 || !Number.isInteger(element.tag)) {
+  for (let index = 0; index < rlist.length; index++) {
+    const element = rlist[index];
+    let n = parseInt(element.tag);
+    if (n % 1 != 0 || n < 0) {
       return undefined;
+    } else {
+      if (n >= max) {
+        max = n;
+      }
     }
-    if (element.tag >= max) {
-      max = element.tag;
-    }
-  });
+  }
   return max;
 }
 // Test: result[0] is 2D array with max number of empty array, result[1] is 3D array with max + 1 number of empty array, result[1][0] is result[0]
@@ -927,9 +929,13 @@ function intializeEmptyListWith2x2(max) {
     bigList[i] = [];
   }
 
+  console.log("debug biglist", bigList);
   for (let i = 0; i < max; i++) {
     smallerList[i] = [];
   }
+  console.log("debug max", max);
+  console.log("debug", smallerList);
+
   return [bigList, smallerList];
 }
 // Test: rlist without 2by2 should return empty array

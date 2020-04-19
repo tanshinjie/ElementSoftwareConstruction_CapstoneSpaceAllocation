@@ -74,7 +74,7 @@ function resize() {
       bin_txt.setAttribute("marginTop", "50%");
       bin_txt.setAttribute("fontSize", "12px");
       bin_txt.setAttribute("textAlign", "center");
-      bin_txt.setAttribute("id", "bin-" + index + "Txt");
+      bin_txt.setAttribute("id", element.getAttribute("name") + "Txt");
       bin_txt.style.zIndex = 1;
       var bin_vals = element.getAttribute("value");
       var bin_dims = bin_vals.split(",");
@@ -119,7 +119,6 @@ function resize() {
           }
         }
         moveableObjectList.splice(removeIndex, 1);
-        console.log("debug", currentSelected.parentNode);
         currentSelected.parentNode.removeChild(currentSelected);
         currentSelected = null;
       }
@@ -154,6 +153,8 @@ function resize() {
   }
 }
 function recreateBin(bins) {
+  console.log("debug recreateBins", bins);
+
   for (let index = 0; index < bins.length; index++) {
     var element = bins[index];
     let div = document.createElement("div");
@@ -173,9 +174,12 @@ function recreateBin(bins) {
     div.setAttribute("value", element.getAttribute("value"));
     element.parentNode.appendChild(div);
     element.parentNode.removeChild(element);
-    element.style.backgroundColor = null;
-    element.style.opacity = null;
-    let bin_txt = document.getElementById("bin-" + index + "Txt");
+    console.log("debug bin_txt ID", div.getAttribute("name") + "Txt");
+
+    let bin_txt = document.getElementById(div.getAttribute("name") + "Txt");
+    // element.style.backgroundColor = null;
+    // element.style.opacity = null;
+    console.log("debug bin_txt", bin_txt);
     bin_txt.remove();
   }
 }
