@@ -17,6 +17,7 @@ for(let i = 0; i < widths.length; i++){
 let beforeRegex = ["2mx2mx2m", "3mx3mx3m", "7mx5mx6m"];
 let afterRegex = [];
 let correctAnswer = [[2,2,2],[3,3,3],[7,5,6]]
+//let throwNonsense = ["vsvsvsv", "2x2", "-2mx9m", "2mx2m"]
 
 for(let i = 0; i < beforeRegex.length; i++){
 if (beforeRegex[i] != undefined) {
@@ -24,15 +25,35 @@ if (beforeRegex[i] != undefined) {
   d = beforeRegex[i].split("x");
   //console.log(d);
   for (let index = 0; index < d.length; index++) {
-    // d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
+    //d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
     //console.log(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
     d[index] = parseFloat(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
-    //console.log(d[index]);
+    console.log(d[index]);
   }
   //console.log("this is what it looks like after cleaning",d);
   afterRegex.push(d);
 }
 }
+
+// for(let i = 0; i < throwNonsense.length; i++){
+//   if (throwNonsense[i] != undefined) {
+//     //console.log(typeof beforeRegex[i]);
+//     d = throwNonsense[i].split("x");
+//     //console.log(d);
+//     for (let index = 0; index < d.length; index++) {
+//       // d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
+//       console.log(typeof d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
+//       d[index] = parseFloat(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
+//       console.log(typeof d[index])
+//       // if(typeof d[index] != Float){
+//       //   console.log("Invalid dimension at index:", i)
+//       // }
+//       //console.log(d[index]);
+//     }
+//     //console.log("this is what it looks like after cleaning",d);
+//     afterRegex.push(d);
+//   }
+//   }
 
 //console.log(afterRegex);
 //console.log(correctAnswer);
@@ -231,36 +252,38 @@ if(JSON.stringify(afterFillUpSmallList) == JSON.stringify(correctFillingUp)){
 
 //SHINJIE
 
-// function fillEmptyList(rlist, bigList, smallerList, twoTwoList) {
-//   console.log("twoTwoList",twoTwoList)
-//   let copyList = [...rlist];
-//   for (let i = 0; i < rlist.length; i++) {
-//     for (let j = 0; j < twoTwoList.length; j++)
-//       if (JSON.stringify(twoTwoList[j]) == JSON.stringify(copyList[i])) {
-//         console.log("I come here")
-//         copyList = copyList.filter(function (element) {
-//           return element != twoTwoList[j];
-//         });
-//         //copyList.splice(i, 1);
-//       }
-//   }
-//   console.log("copyList",copyList)
-//   bigList[0] = smallerList;
+function fillEmptyList(rlist, bigList, smallerList, twoTwoList) {
+  //console.log("twoTwoList",twoTwoList)
+  let copyList = [...rlist];
+  for (let i = 0; i < rlist.length; i++) {
+    for (let j = 0; j < twoTwoList.length; j++)
+      if (JSON.stringify(twoTwoList[j]) == JSON.stringify(copyList[i])) {
+        //console.log("I come here")
+        copyList = copyList.filter(function (element) {
+          return element != copyList[i];
+        });
+        //copyList.splice(i, 1);
+      }
+  }
+  //console.log("copyList",copyList)
+  bigList[0] = smallerList;
 
-//   for (let i = 0; i < copyList.length; i++) {
-//     bigList[copyList[i].tag].push(copyList[i]);
-//   }
-//   console.log(bigList);
-//   return bigList;
-// }
+  for (let i = 0; i < copyList.length; i++) {
+    bigList[copyList[i].tag].push(copyList[i]);
+  }
+  //console.log("this is what it looks like",bigList);
+  return bigList;
+}
 
 
 
-// let preppedBigListContaining2x2 = fillEmptyList(rlistWith2x2, correctBigListWith2x2, correctSmallerList, correctTwoTwoList)
+let preppedBigListContaining2x2 = fillEmptyList(rlistWith2x2, correctBigListWith2x2, correctSmallerList, correctTwoTwoList)
 
-// if(JSON.stringify(preppedBigListContaining2x2) == JSON.stringify(correctPreppedBigListWith2x2)){
-//   console.log("rlist containing 2x2 was prepped properly into bigList")
-// }
+if(JSON.stringify(preppedBigListContaining2x2) == JSON.stringify(correctPreppedBigListWith2x2)){
+  console.log("rlist containing 2x2 was prepped properly into bigList")
+}
+
+
 
 
 
