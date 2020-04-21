@@ -5,16 +5,14 @@ let heights = [200, 400, 5000];
 
 let packer, boxes;
 console.log("--- Testing Area function ---");
-
 for (let i = 0; i < widths.length; i++) {
   if (Area(widths[i], heights[i]) == widths[i] * heights[i]) {
-    console.log("Test 1:");
+    console.log(`Test ${i + 1}:`);
     console.log(true);
   }
 }
 
 console.log("--- Testing regular expression ---");
-console.log("Test 1:");
 let beforeRegex = ["2mx2mx2m", "3mx3mx3m", "7mx5mx6m"];
 let afterRegex = [];
 let correctAnswer = [
@@ -38,6 +36,7 @@ for (let i = 0; i < beforeRegex.length; i++) {
 
 for (let i = 0; i < afterRegex.length; i++) {
   if (JSON.stringify(afterRegex[i] == JSON.stringify(correctAnswer[i]))) {
+    console.log(`Test ${i + 1}:`);
     console.log(true);
   }
 }
@@ -87,46 +86,8 @@ let correctTwoTwoList = [
   new Rect(undefined, undefined, 2, 2, 3, 55),
 ];
 let correctEmptyTwoTwoList = [];
-// function intializeEmptyListWithout2x2(list){
-//   let List = [];
-//   let maximum = 0;
-//   list.forEach((element) => {
-//     if (element.tag >= maximum) {
-//       maximum = element.tag;
-//     }
-//   });
-//   for (let i = 0; i < maximum; i++) {
-//     List[i] = [];
-//   }
-//   return [List,maximum];
-// }
 
-// let values = intializeEmptyListWithout2x2(functionCheckerArray);
-
-// if(JSON.stringify(values[0]) == JSON.stringify(correctFunctionCheckerArray)){
-//   console.log("the number of empty arrays made for the allocation of tags is correct")
-// }
-
-// if(values[1]== correctMax){
-//   console.log("found the largest tag number in the excel file correctly")
-// }
-
-// function fillUpBigList(List,list){
-//   for (let i = 0; i < list.length; i++) {
-//     List[list[i].tag - 1].push(list[i]);
-//   }
-//   return List;
-// }
-
-// let afterFillUpBigList = fillUpBigList(values[0],functionCheckerArray)
-// if(JSON.stringify(afterFillUpBigList) == JSON.stringify(correctFillingUp)){
-//   console.log("the array was filled up correctly according to tag");
-//}
-
-// Test: result from rlist with highest tag x should be x
-// Test: result from rlist with any tag non positive integer should be undefined
 console.log("--- Testing getMax function ---");
-console.log("Test 1:");
 function getMax(rlist) {
   let max = 0;
   for (let index = 0; index < rlist.length; index++) {
@@ -142,19 +103,16 @@ function getMax(rlist) {
   }
   return max;
 }
-
 let getmax = getMax(functionCheckerArray);
 
 if (getmax == correctMax) {
-  console.log("found the largest tag number in the excel file correctly");
   console.log(true);
 }
-
+console.log("Test 2:");
 let catchError = getMax(throwError);
 
 if (catchError == undefined) {
-  console.log("caught error");
-  console.log(false);
+  console.log(true);
 }
 
 // Test: result[0] is 2D array with max number of empty array, result[1] is 3D array with max + 1 number of empty array, result[1][0] is result[0]
@@ -168,12 +126,9 @@ function intializeEmptyListWith2x2(max) {
     bigList[i] = [];
   }
 
-  //console.log("debug biglist", bigList);
   for (let i = 0; i < max; i++) {
     smallerList[i] = [];
   }
-  //console.log("debug max", max);
-  //console.log("debug", smallerList);
 
   return [bigList, smallerList];
 }
@@ -183,9 +138,6 @@ if (
   JSON.stringify(tempOutputFromIntializationWith2x2[0]) ==
   JSON.stringify(correctBigListWith2x2)
 ) {
-  // console.log(
-  //   "the number of empty arrays made for the allocation of both 2x2 and other tags is correct"
-  // );
   console.log(true);
 }
 
@@ -193,9 +145,6 @@ if (
   JSON.stringify(tempOutputFromIntializationWith2x2[1]) ==
   JSON.stringify(correctSmallerList)
 ) {
-  // console.log(
-  //   "the number of empty arrays made for the allocation of 2x2 without other tags is correct"
-  // );
   console.log(true);
 }
 
