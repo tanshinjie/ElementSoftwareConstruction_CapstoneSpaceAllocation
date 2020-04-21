@@ -39,8 +39,10 @@ function Upload() {
     } else {
       alert("This browser does not support HTML5.");
     }
+    return true;
   } else {
     alert("Please upload a valid Excel file.");
+    return false;
   }
 }
 function ProcessExcel(data) {
@@ -76,6 +78,10 @@ function ProcessExcel(data) {
   row.appendChild(headerCell);
 
   headerCell = document.createElement("TH");
+  headerCell.innerHTML = "Dimension";
+  row.appendChild(headerCell);
+
+  headerCell = document.createElement("TH");
   headerCell.innerHTML = "Tag";
   row.appendChild(headerCell);
 
@@ -92,34 +98,48 @@ function ProcessExcel(data) {
     var row = table.insertRow(-1);
 
     //Add the data cells.
-    var cell = row.insertCell(-1);
-    cell.innerHTML = excelRows[i].Exhibit;
-
+    if (excelRows[i].Exhibit != undefined) {
+      var cell = row.insertCell(-1);
+      cell.innerHTML = excelRows[i].Exhibit;
+    }
     var projName = "__EMPTY";
-    cell = row.insertCell(-1);
-    cell.innerHTML = excelRows[i][projName];
-
-    cell = row.insertCell(-1);
-    cell.innerHTML = excelRows[i].Tag;
-
-    cell = row.insertCell(-1);
-    cell.id = "assign" + i;
-    cell.className = "allocation";
-    cell.innerHTML = "Unallocated";
-
-    // cell = row.insertCell(-1);
-    // cell.innerHTML = excelRows[i][projID];
+    if (excelRows[i][projName] != undefined) {
+      var cell = row.insertCell(-1);
+      cell.innerHTML = excelRows[i][projName];
+    }
 
     spaceNeeded = "Showcase Space Needed: L x W x H";
     var dimension = excelRows[i][spaceNeeded];
     if (dimension != undefined) {
-      console.log("this is what the dimension is supposed to look like", dimension)
+      // console.log(
+      //   "this is what the dimension is supposed to look like",
+      //   dimension
+      // );
       d = dimension.split("x");
       for (let index = 0; index < d.length; index++) {
         // d[index] = parseInt(d[index].replace(/[^0-9\.]/g, ""), 10);
         d[index] = parseFloat(d[index].replace(/^[+-]?\d+(\.\d+)?$/g, ""));
       }
       dimensions.push(d);
+      cell = row.insertCell(-1);
+      let str = "";
+      for (let i = 0; i < d.length; i++) {
+        str = str + d[i] + " x ";
+      }
+      str = str.substring(0, str.length - 3);
+      cell.innerHTML = str;
+    }
+
+    if (excelRows[i].Tag != undefined) {
+      var cell = row.insertCell(-1);
+      cell.innerHTML = excelRows[i].Tag;
+    }
+
+    if (i != excelRows.length - 1) {
+      cell = row.insertCell(-1);
+      cell.id = "assign" + i;
+      cell.className = "allocation";
+      cell.innerHTML = "Unallocated";
     }
 
     var tag = excelRows[i].Tag;
@@ -220,9 +240,9 @@ function Run() {
       updatedList = updatedList.concat(temparray);
     }
     packer.positioned.forEach((element) => {
-      if(element.projID == 3){
+      if (element.projID == 3) {
         console.log("hello i am 3");
-      }  
+      }
       div = document.createElement("div");
       div.id = numberOfBox;
       div.style.left = (element.x * M_TO_PX) / scale + "px";

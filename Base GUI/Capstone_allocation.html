@@ -51,10 +51,10 @@
                 </div>
                 <div class="setRatio" id="sizeBin" style="margin-bottom: 20px">
                     Bin Size (in metres)
-                    <input type="text" id="binSize" style="width: 50%;">
+                    <input type="text" id="binSize" style="width: 53%;">
                     <button id="ratioButton" onclick="set()" style="width: 30%; font-size: 13px;">Set</button>
                 </div>
-                <div class="btn-group">
+                <div class="btn-group" style="padding-bottom: 2px;">
                     <!-- <button id="drawBtn" onclick="draw()">Draw</button> -->
                     <!-- <button id="drawBtn" onclick="createNewBin()">Draw</button> -->
                     <button id="drawBtn" onclick="drawMode()">Draw</button>
@@ -66,7 +66,6 @@
                     <button id="save-button">Save Image (Top)</button>
                     <br>
                     <button id="save-button2">Save Image (Bottom)</button>
-                    <br>
                 </div>
                 <p id='error-message'></p>
             </nav>
@@ -390,12 +389,12 @@
     input.addEventListener('change', showFileName);
 
     function showFileName(event) {
-        Upload();
-        var input = event.srcElement;
-        var fileName = input.files[0].name;
-        infoArea.textContent = fileName;
-        checkExcel = true;
-
+        if (Upload()) {
+            var input = event.srcElement;
+            var fileName = input.files[0].name;
+            infoArea.textContent = fileName;
+            checkExcel = true;
+        }
         if (checkImage) {
             document.getElementById("save-button").disabled = false;
             document.getElementById("drawBtn").disabled = true;

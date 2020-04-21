@@ -105,7 +105,7 @@ BinPacker.prototype.insert = function (width, height) {
       --n;
     }
   }
-  console.log("binpack");
+  // console.log("binpack");
 
   BinPacker.pruneRectangles(this.freeRectangles);
 
@@ -275,15 +275,15 @@ function BinPack(binWidth, binHeight) {
     let values = ArrayMaker(array, binWidth, binHeight);
     let readyToPack = values[0];
     let updatedList = values[1];
-    for (let i = 0; i < updatedList.length; i++) {
-      if (updatedList[i].projID == 1) {
-        console.log("found the fella");
-      }
-      if (updatedList[i].projID == 3) {
-        console.log("found his bro");
-      }
-    }
-    console.log("I AM FINDING 1:", updatedList);
+    // for (let i = 0; i < updatedList.length; i++) {
+    //   if (updatedList[i].projID == 1) {
+    //     console.log("found the fella");
+    //   }
+    //   if (updatedList[i].projID == 3) {
+    //     console.log("found his bro");
+    //   }
+    // }
+    // console.log("I AM FINDING 1:", updatedList);
     let z = values[2];
 
     // for(let i = 0; i < bins.length; i++){
@@ -341,10 +341,6 @@ function BinPack(binWidth, binHeight) {
   return pack;
 }
 
-function Area(width, height) {
-  let area = width * height;
-  return area;
-}
 ///////////////////////////////////////////////// working ArrayMaker, dun remove
 // function ArrayMaker(rlist, width, height) {
 //   this.z = 0;
@@ -853,36 +849,36 @@ function ArrayMaker(rlist, width, height) {
         return [toBePacked, rlist, z];
       }
 
-    //   function packAndFilter(i, j, bigList, rlist,max){
-    //     if (bigList.length != 1) {
-    //       z = "if";
-    //       if (i == max) {
-    //         i = 0;
-    //       }
-    //       if (i == 0) {
-    //         j++;
-    //       }
-    //       if (typeof bigList[i][j] !== "undefined") {
-    //         //k += 1;
-    //         counter++;
-    //       }
-    //       if (j < bigList[i].length) {
-    //         if (
-    //           tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
-    //           Area(width, height) * 0.9
-    //         ) {
-    //           toBePacked.push(bigList[i][j]);
-    //           tempArea += Area(bigList[i][j].width, bigList[i][j].height);
-    //           console.log("i am allocating smth so");
-              
-    //           rlist = rlist.filter(function (element) {
-    //             return element != bigList[i][j];
-    //            });
-    //         }
-    //       }
-    //       i++;
-    //   }
-    // }
+      //   function packAndFilter(i, j, bigList, rlist,max){
+      //     if (bigList.length != 1) {
+      //       z = "if";
+      //       if (i == max) {
+      //         i = 0;
+      //       }
+      //       if (i == 0) {
+      //         j++;
+      //       }
+      //       if (typeof bigList[i][j] !== "undefined") {
+      //         //k += 1;
+      //         counter++;
+      //       }
+      //       if (j < bigList[i].length) {
+      //         if (
+      //           tempArea + Area(bigList[i][j].width, bigList[i][j].height) <=
+      //           Area(width, height) * 0.9
+      //         ) {
+      //           toBePacked.push(bigList[i][j]);
+      //           tempArea += Area(bigList[i][j].width, bigList[i][j].height);
+      //           console.log("i am allocating smth so");
+
+      //           rlist = rlist.filter(function (element) {
+      //             return element != bigList[i][j];
+      //            });
+      //         }
+      //       }
+      //       i++;
+      //   }
+      // }
       if (bigList.length != 1) {
         z = "if";
         if (i == max) {
@@ -932,7 +928,6 @@ function ArrayMaker(rlist, width, height) {
     }
   }
 }
-
 // Test: result from rlist with highest tag x should be x
 // Test: result from rlist with any tag non positive integer should be undefined
 function getMax(rlist) {
@@ -1009,4 +1004,8 @@ function fillEmptyList(rlist, bigList, smallerList, twoTwoList) {
     }
     return bigList;
   }
+}
+function Area(width, height) {
+  let area = width * height;
+  return area;
 }

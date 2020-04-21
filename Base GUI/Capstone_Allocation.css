@@ -49,7 +49,7 @@ header {
   cursor: move;
   background-color: rgb(91, 91, 91);
   opacity: 0.5;
-  font-size: 20%;
+  font-size: 100%;
 }
 
 /* create navigation bar (containing buttons) that will float to the left of the canvas */
