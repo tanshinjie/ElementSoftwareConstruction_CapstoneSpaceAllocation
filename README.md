@@ -1,4 +1,4 @@
-#Overview 
+##Overview
 
  A huge part of SUTD’s multidisciplinary curriculum is the Capstone Project, a final year project which brings together students from different pillars to work in teams, where they can contribute their accumulated expertise and skills to solve real-world challenges. Students will spend their last two terms in SUTD planning, crafting, and refining their solutions to the problem posed to them for the project.  
  
